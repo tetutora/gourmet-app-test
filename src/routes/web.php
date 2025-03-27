@@ -15,8 +15,11 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/logout', 'logout');
 });
 
+// 飲食店一覧ページ
+Route::get('/', [ShopController::class, 'index'])->name('index')->name('index');
+Route::get('/restaurants/{restaurant}', [RestaurantController::class, 'showDetail'])->name('restaurants.detail');
+
 // 認証後画面
 Route::middleware('auth')->group(function () {
-    // 飲食店一覧ページ
-    Route::get('/', [ShopController::class, 'index'])->name('index');
+
 });
