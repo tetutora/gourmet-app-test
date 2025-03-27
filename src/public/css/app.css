@@ -1,3 +1,18 @@
+.header {
+    width: 100%;
+    padding: 10px 0;
+}
+
+.header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 15px;
+}
 
 #menu-toggle i {
     font-size: 28px;
@@ -9,4 +24,18 @@
     font-size: 25px;
     font-weight: bold;
     color: blue;
+}
+
+@media (max-width: 767px) {
+    .header__inner {
+        padding: 0 10px;
+    }
+
+    #menu-toggle i {
+        font-size: 24px;
+    }
+
+    .header__inner span {
+        font-size: 20px;
+    }
 }

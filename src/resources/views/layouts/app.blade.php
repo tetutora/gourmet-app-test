@@ -16,6 +16,11 @@
             </a>
             <span>Rese</span>
         </div>
+        @if(request()->routeIs('index'))
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="検索">
+        </div>
+        @endif
     </header>
     <ul class="header-nav">
         @if (Auth::check())

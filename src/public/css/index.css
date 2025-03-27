@@ -5,18 +5,23 @@ body {
 .card-img-top {
     height: 200px;
     object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .card-title {
     font-weight: bold;
-    padding: 0 10px;
+    padding: 0 20px;
     font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 0;
 }
 
 .card-text {
+    margin: 5px 0;
     font-size: 0.9rem;
     color: #666;
-    padding: 0 10px;
+    padding: 0 20px;
 }
 
 .badge {
@@ -25,20 +30,36 @@ body {
 }
 
 .btn-detail {
-    display: block;
+    display: inline-block;
+    margin-top: 0;
+    margin-left: 20px;
     margin-top: 10px;
-    text-align: center;
+    text-align: left;
+    padding: 8px 15px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-detail:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 .card {
     border: none;
     width: 100%;
     max-width: 400px;
-    /* 横幅を広げる */
     margin: 3px auto;
     background-color: white;
     border-radius: 10px;
-    height: 350px;
+    height: 340px;
+    position: relative;
+    /* これを追加して位置調整 */
 }
 
 .shadow-custom {
@@ -55,17 +76,51 @@ body {
 
 .col {
     flex: 1 1 auto;
-    /* 幅が自動調整されるように変更 */
     max-width: 400px;
-    /* 最大幅を設定 */
     margin-bottom: 20px;
 }
 
 @media (max-width: 767px) {
     .col {
         flex: 1 1 100%;
-        /* スマホサイズでは1列にする */
         max-width: 100%;
-        /* スマホでも最大幅に設定 */
     }
+}
+
+/* お気に入りボタンのスタイル */
+.btn-favorite {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background-color: transparent;
+    border: none;
+    color: #e74c3c;
+    /* 赤色に設定 */
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.btn-favorite:hover {
+    transform: scale(1.2);
+    /* ホバー時に少し拡大 */
+}
+
+.btn-favorite i {
+    margin: 0;
+}
+
+/* 検索欄のスタイル */
+.search-container {
+    margin: 20px auto;
+    max-width: 600px;
+    width: 100%;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }

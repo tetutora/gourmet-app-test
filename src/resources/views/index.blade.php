@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-<div class="container"> {{-- container-fluidをcontainerに変更 --}}
+<div class="container">
     <div class="row">
         @foreach($restaurants as $restaurant)
         <div class="col-12 col-md-3 mb-4">
@@ -20,6 +20,10 @@
                     </p>
                     <a href="{{ route('restaurants.detail', $restaurant->id) }}" class="btn btn-primary btn-sm btn-detail">詳しく見る</a>
                 </div>
+                <!-- お気に入りボタン -->
+                <button class="btn-favorite">
+                    <i class="fas fa-heart"></i>
+                </button>
             </div>
         </div>
         @endforeach
