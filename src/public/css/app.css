@@ -1,0 +1,12 @@
+
+#menu-toggle i {
+    font-size: 28px;
+    margin-right: 20px;
+    padding: 10px;
+}
+
+.header__inner span {
+    font-size: 25px;
+    font-weight: bold;
+    color: blue;
+}
