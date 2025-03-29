@@ -9,6 +9,48 @@
 
 @section('content')
 <div class="container">
+    <div class="row mb-4">
+        <!-- 検索フォーム -->
+        <div class="col-12">
+            <form action="{{ route('index') }}" method="GET">
+                <div class="row">
+                    <!-- 地域選択 -->
+                    <div class="col-md-4 mb-3">
+                        <select name="region_id" class="form-control">
+                            <option value="">地域を選択</option>
+                            @foreach($regions as $region)
+                                <option value="{{ $region->id }}" {{ request('region_id') == $region->id ? 'selected' : '' }}>
+                                    {{ $region->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- ジャンル選択 -->
+                    <div class="col-md-4 mb-3">
+                        <select name="genre_id" class="form-control">
+                            <option value="">ジャンルを選択</option>
+                            @foreach($genres as $genre)
+                                <option value="{{ $genre->id }}" {{ request('genre_id') == $genre->id ? 'selected' : '' }}>
+                                    {{ $genre->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- キーワード検索 -->
+                    <div class="col-md-4 mb-3">
+                        <input type="text" name="query" class="form-control" placeholder="店舗名で検索" value="{{ request('query') }}">
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary w-100">検索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="row">
         @foreach($restaurants as $restaurant)
         <div class="col-12 col-md-3 mb-4">
@@ -17,8 +59,8 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ $restaurant->name }}</h5>
                     <p class="card-text">
-                        <span class="badge bg-secondary">#{{ $restaurant->region }}</span>
-                        <span class="badge bg-secondary">#{{ $restaurant->genre }}</span>
+                        <span class="badge bg-secondary">#{{ $restaurant->region->name }}</span>
+                        <span class="badge bg-secondary">#{{ $restaurant->genre->name }}</span>
                     </p>
                     <a href="{{ route('restaurants.detail', $restaurant->id) }}" class="btn btn-primary btn-sm btn-detail">詳しく見る</a>
                 </div>
@@ -43,7 +85,7 @@
             button.addEventListener('click', function() {
                 const restaurantId = this.getAttribute('data-restaurant-id');
                 const icon = this.querySelector('i');
-                const isFavorite = icon.classList.contains('fas'); // 塗りつぶしならお気に入り
+                const isFavorite = icon.classList.contains('fas');
 
                 const url = isFavorite
                     ? `/favorites/remove/${restaurantId}`
@@ -60,9 +102,9 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        icon.classList.toggle('fas');  // 塗りつぶしハート
-                        icon.classList.toggle('far');  // 枠線ハート
-                        icon.classList.toggle('text-danger'); // 赤色の切り替え
+                        icon.classList.toggle('fas');
+                        icon.classList.toggle('far');
+                        icon.classList.toggle('text-danger');
                     }
                 })
                 .catch(error => console.error('Error:', error));

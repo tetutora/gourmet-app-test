@@ -17,13 +17,7 @@
             </a>
             <span>Rese</span>
         </div>
-        @if(request()->routeIs('index'))
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="検索">
-        </div>
-        @endif
     </header>
-
     <div id="popup" class="popup">
         <div class="popup-content">
             <button id="close-popup" class="close-btn">×</button>
