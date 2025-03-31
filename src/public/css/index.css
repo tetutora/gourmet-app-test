@@ -2,6 +2,25 @@ body {
     background-color: #f0f0f0;
 }
 
+#searchForm {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    display: flex;
+    justify-content: flex-end;
+    width: auto;
+}
+
+#searchForm .form-control {
+    width: auto;
+    max-width: 150px;
+    padding: 10px;
+    border-radius: 5px;
+    border: gainsboro;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
+    color: #666;
+}
+
 .card-img-top {
     height: 200px;
     object-fit: cover;
@@ -31,9 +50,8 @@ body {
 
 .btn-detail {
     display: inline-block;
-    margin-top: 0;
-    margin-left: 20px;
     margin-top: 10px;
+    margin-left: 20px;
     text-align: left;
     padding: 8px 15px;
     background-color: blue;
@@ -59,7 +77,6 @@ body {
     border-radius: 10px;
     height: 340px;
     position: relative;
-    /* これを追加して位置調整 */
 }
 
 .shadow-custom {
@@ -87,7 +104,6 @@ body {
     }
 }
 
-/* お気に入りボタンのスタイル */
 .btn-favorite {
     position: absolute;
     right: 10px;
@@ -95,7 +111,6 @@ body {
     background-color: transparent;
     border: none;
     color: #e74c3c;
-    /* 赤色に設定 */
     font-size: 24px;
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -103,24 +118,8 @@ body {
 
 .btn-favorite:hover {
     transform: scale(1.2);
-    /* ホバー時に少し拡大 */
 }
 
 .btn-favorite i {
     margin: 0;
-}
-
-/* 検索欄のスタイル */
-.search-container {
-    margin: 20px auto;
-    max-width: 600px;
-    width: 100%;
-}
-
-.search-input {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
 }
