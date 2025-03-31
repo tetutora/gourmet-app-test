@@ -48,4 +48,55 @@ class AuthTest extends TestCase
         $response->assertRedirect('/');
         $this->assertAuthenticatedAs($user);
     }
+
+    /**
+     *ログイン時にバリデーションメッセージが表示されるか
+     */
+    public function test_login_validation()
+    {
+        $response = $this->post('/login', [
+            'email' => '',
+            'password' => '',
+        ]);
+
+        $response->assertSessionHasErrors(['email', 'password']);
+        $response->assertSessionHasErrors(['email' => 'メールアドレスを入力してください。']);
+        $response->assertSessionHasErrors(['password' => 'パスワードを入力してください。']);
+    }
+
+    /**
+     *会員登録時にバリデーションメッセージが表示されるか
+     */
+    public function test_register_validation()
+    {
+        $response = $this->post('/register', [
+            'name' => '',
+            'email' => '',
+            'password' => '',
+        ]);
+
+        $response->assertSessionHasErrors(['name', 'email', 'password']);
+        $response->assertSessionHasErrors(['name' => '名前を入力してください。']);
+        $response->assertSessionHasErrors(['email' => 'メールアドレスを入力してください。']);
+        $response->assertSessionHasErrors(['password' => 'パスワードを入力してください。']);
+    }
+
+    /**
+     *認証が失敗した際にエラーメッセージが表示されるか
+     */
+    public function test_login_with_invalid_password()
+    {
+        $user = new \App\Models\User();
+        $user->name = 'Test User';
+        $user->email = 'testuser@example.com';
+        $user->password = \Illuminate\Support\Facades\Hash::make('password123');
+        $user->save();
+
+        $response = $this->post('/login', [
+            'email' => 'testuser@example.com',
+            'password' => 'wrongpassword',
+        ]);
+
+        $response->assertSessionHasErrors(['email' => '認証が失敗しました。']);
+    }
 }

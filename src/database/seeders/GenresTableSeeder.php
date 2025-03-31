@@ -14,15 +14,14 @@ class GenresTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('genres')->insert([
-            ['name' => '和食'],
-            ['name' => '洋食'],
-            ['name' => '中華'],
-            ['name' => 'イタリアン'],
-            ['name' => '寿司'],
-            ['name' => '焼肉'],
-            ['name' => '居酒屋'],
-            ['name' => 'ラーメン'],
+            ['id' => 1, 'name' => '和食'],
+            ['id' => 2, 'name' => '洋食'],
+            ['id' => 3, 'name' => '中華'],
+            ['id' => 4, 'name' => 'イタリアン'],
+            ['id' => 5, 'name' => '寿司'],
+            ['id' => 6, 'name' => '焼肉'],
+            ['id' => 7, 'name' => '居酒屋'],
+            ['id' => 8, 'name' => 'ラーメン'],
         ]);
-
     }
 }

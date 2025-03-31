@@ -14,14 +14,14 @@ class RegionsTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('regions')->insert([
-            ['name' => '東京都'],
-            ['name' => '大阪府'],
-            ['name' => '福岡県'],
-            ['name' => '愛知県'],
-            ['name' => '北海道'],
-            ['name' => '京都府'],
-            ['name' => '兵庫県'],
-            ['name' => '沖縄県'],
+            ['id' => 1, 'name' => '東京都'],
+            ['id' => 2, 'name' => '大阪府'],
+            ['id' => 3, 'name' => '福岡県'],
+            ['id' => 4, 'name' => '愛知県'],
+            ['id' => 5, 'name' => '北海道'],
+            ['id' => 6, 'name' => '京都府'],
+            ['id' => 7, 'name' => '兵庫県'],
+            ['id' => 8, 'name' => '沖縄県'],
         ]);
     }
 }
