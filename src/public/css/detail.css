@@ -1,0 +1,60 @@
+.restaurant-container {
+    display: flex;
+    height: 100vh;
+    /* 画面の高さを最大に */
+}
+
+.restaurant-left {
+    width: 50%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.restaurant-right {
+    width: 50%;
+    background-color: #f8f9fa;
+    /* 右側をとりあえず空白にする */
+}
+
+.restaurant-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.restaurant-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+}
+
+.restaurant-tags {
+    margin-top: 10px;
+}
+
+.restaurant-description {
+    margin-top: 15px;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    color: #333;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ddd;
+}
+
+.back-button:hover {
+    background-color: #f0f0f0;
+}

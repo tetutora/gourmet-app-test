@@ -17,7 +17,7 @@ Route::controller(AuthController::class)->group(function () {
 
 // 飲食店一覧ページ
 Route::get('/', [ShopController::class, 'index'])->name('index');
-Route::get('/restaurants/{restaurant}', [ShopController::class, 'showDetail'])->name('restaurants.detail');
+Route::get('/restaurants/{id}', [ShopController::class, 'showDetail'])->name('restaurants.detail');
 
 // 認証後画面
 Route::middleware('auth')->group(function () {

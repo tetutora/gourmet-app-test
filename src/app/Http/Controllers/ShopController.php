@@ -51,9 +51,10 @@ class ShopController extends Controller
     /**
      *飲食店詳細画面表示
      */
-    public function showDetail()
+    public function showDetail($id)
     {
-        return view('detail');
+        $restaurant = Restaurant::with(['region', 'genre'])->findOrFail($id);
+        return view('detail', compact('restaurant'));
     }
 
     /**
