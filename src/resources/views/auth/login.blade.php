@@ -20,6 +20,9 @@
                     <span>Email</span>
                 </label>
                 <input type="email" id="email" name="email" value="{{ old('email') }}">
+                @error('email')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="password">
@@ -27,6 +30,9 @@
                     <span>Password</span>
                 </label>
                 <input type="password" id="password" name="password">
+                @error('password')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
             <div class="login-button">
                 <button type="submit">ログイン</button>

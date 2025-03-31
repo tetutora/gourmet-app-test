@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\AuthController;
-use Laravel\Fortify\Fortify;
+use Illuminate\Support\Facades\Route;
 
-
-// 会員登録・ログイン・ログアウト
+/**
+ *会員登録・ログイン・ログアウト
+ */
 Route::controller(AuthController::class)->group(function () {
     Route::get('/register', 'showRegister')->name('register');
     Route::post('/register', 'register');

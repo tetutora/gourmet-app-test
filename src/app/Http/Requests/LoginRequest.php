@@ -22,21 +22,18 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8',
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string', 'min:8'],
         ];
     }
 
-    /**
-     * Get custom error messages for validation.
-     *
-     * @return array
-     */
-    public function messages()
+    public function messages(): array
     {
-        return [
+        return[
             'email.required' => 'メールアドレスを入力してください。',
+            'email.email' => '有効なメールアドレスを入力してください。',
             'password.required' => 'パスワードを入力してください。',
+            'password.min' => 'パスワードは8文字以上で入力してください。,'
         ];
     }
 }
