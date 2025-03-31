@@ -12,11 +12,11 @@
     <div class="row mb-4">
         <!-- 検索フォーム -->
         <div class="col-12">
-            <form action="{{ route('index') }}" method="GET">
+            <form action="{{ route('index') }}" method="GET" id="searchForm">
                 <div class="row">
                     <!-- 地域選択 -->
                     <div class="col-md-4 mb-3">
-                        <select name="region_id" class="form-control">
+                        <select name="region_id" class="form-control" id="regionSelect">
                             <option value="">地域を選択</option>
                             @foreach($regions as $region)
                                 <option value="{{ $region->id }}" {{ request('region_id') == $region->id ? 'selected' : '' }}>
@@ -28,7 +28,7 @@
 
                     <!-- ジャンル選択 -->
                     <div class="col-md-4 mb-3">
-                        <select name="genre_id" class="form-control">
+                        <select name="genre_id" class="form-control" id="genreSelect">
                             <option value="">ジャンルを選択</option>
                             @foreach($genres as $genre)
                                 <option value="{{ $genre->id }}" {{ request('genre_id') == $genre->id ? 'selected' : '' }}>
@@ -40,11 +40,7 @@
 
                     <!-- キーワード検索 -->
                     <div class="col-md-4 mb-3">
-                        <input type="text" name="query" class="form-control" placeholder="店舗名で検索" value="{{ request('query') }}">
-                    </div>
-
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary w-100">検索</button>
+                        <input type="text" name="query" class="form-control" placeholder="店舗名で検索" value="{{ request('query') }}" id="queryInput">
                     </div>
                 </div>
             </form>
@@ -80,6 +76,19 @@
 </div>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 入力変更時に自動でフォームを送信
+        function autoSubmitForm() {
+            document.getElementById('searchForm').submit();
+        }
+
+        // イベントリスナーを追加
+        document.getElementById('regionSelect').addEventListener('change', autoSubmitForm);
+        document.getElementById('genreSelect').addEventListener('change', autoSubmitForm);
+        document.getElementById('queryInput').addEventListener('input', autoSubmitForm);
+    });
+
+    // お気に入りボタンの処理
     document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll('.btn-favorite').forEach(button => {
             button.addEventListener('click', function() {
