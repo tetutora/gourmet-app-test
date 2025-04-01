@@ -1,8 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+<<<<<<< HEAD
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ShopController;
+=======
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\VerificationController;
+>>>>>>> feature/emailverification
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -22,9 +27,24 @@ Route::get('/restaurants/{id}', [ShopController::class, 'showDetail'])->name('re
 
 // 認証後画面
 Route::middleware('auth')->group(function () {
+<<<<<<< HEAD
     Route::get('/mypage', [ShopController::class, 'showMypage'])->name('mypage');
     Route::post('/favorites/add/{restaurantId}', [ShopController::class, 'addFavorite'])->name('favorites.add');
     Route::post('/favorites/remove/{restaurantId}', [ShopController::class, 'removeFavorite'])->name('favorites.remove');
     Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
     Route::get('/reservation', [ReservationController::class, 'reservationComplete'])->name('reservation.complete');
 });
+=======
+    // 飲食店一覧ページ
+    Route::get('/', [ShopController::class, 'index'])->name('index');
+});
+
+/**
+ * メール認証
+ */
+Route::get('/email/verify', [VerificationController::class, 'show'])->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
+Route::post('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
+>>>>>>> feature/emailverification
