@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Route;
 Route::controller(AuthController::class)->group(function () {
     Route::get('/register', 'showRegister');
     Route::post('/register', 'register');
+    Route::get('/thanks', function () {
+        return view('thanks');
+    })->name('thanks');
     Route::get('/login', 'showLogin');
     Route::post('/login', 'login')->name('login');
     Route::post('/logout', 'logout');
