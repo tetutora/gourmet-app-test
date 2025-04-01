@@ -10,7 +10,6 @@ class ReservationController extends Controller
 {
     public function store(Request $request)
     {
-        // dd($request->all());
         Reservation::create([
             'user_id' => auth()->id(),
             'restaurant_id' => $request->restaurant_id,
@@ -27,5 +26,14 @@ class ReservationController extends Controller
         $restaurant = Restaurant::first();
 
         return view('reservation', compact('restaurant'));
+    }
+
+    public function cancel($reservationId)
+    {
+        $reservation = Reservation::findOrFail($reservationId);
+
+        $reservation->delete();
+
+        return response()->json(['success' => true]);
     }
 }
