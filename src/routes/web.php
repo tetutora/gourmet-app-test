@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\ShopController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -24,4 +25,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/mypage', [ShopController::class, 'showMypage'])->name('mypage');
     Route::post('/favorites/add/{restaurantId}', [ShopController::class, 'addFavorite'])->name('favorites.add');
     Route::post('/favorites/remove/{restaurantId}', [ShopController::class, 'removeFavorite'])->name('favorites.remove');
+    Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
+    Route::get('/reservation', [ReservationController::class, 'reservationComplete'])->name('reservation.complete');
 });

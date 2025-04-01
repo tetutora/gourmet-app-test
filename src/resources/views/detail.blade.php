@@ -29,28 +29,26 @@
         <form action="{{ route('reservation.store') }}" method="POST" class="reservation-form">
             @csrf
             <!-- 日付入力 -->
-            <label for="date">日付</label>
-            <input type="date" id="date" name="date" required>
+            <input type="date" id="reservation_date" name="reservation_date" required>
 
             <!-- 時間入力 -->
-            <label for="time">時間</label>
-            <select id="time" name="time" required>
-                @for ($hour = 10; $hour <= 22; $hour++)
+            <select id="reservation_time" name="reservation_time" required>
+                @for ($hour = 9; $hour <= 23; $hour++)
                     <option value="{{ sprintf('%02d:00', $hour) }}">{{ sprintf('%02d:00', $hour) }}</option>
                     <option value="{{ sprintf('%02d:30', $hour) }}">{{ sprintf('%02d:30', $hour) }}</option>
                 @endfor
             </select>
 
             <!-- 予約人数 -->
-            <label for="people">人数</label>
-            <input type="number" id="people" name="people" min="1" max="10" required>
+            <input type="number" id="num_people" name="num_people" min="1" max="10" required>
 
             <!-- 予約情報表示 -->
             <div class="reservation-summary">
-                <p>店舗名: {{ $restaurant->name }}</p>
-                <p>予約日: <span id="selected-date"></span></p>
-                <p>予約時間: <span id="selected-time"></span></p>
-                <p>予約人数: <span id="selected-people"></span>人</p>
+                <p>Shop {{ $restaurant->name }}</p>
+                <p>Date <span id="selected-date"></span></p>
+                <p>Time <span id="selected-time"></span></p>
+                <p>Number <span id="selected-people"></span></p>
+                <input type="hidden" name="restaurant_id" value="{{ $restaurant->id }}">
             </div>
 
             <!-- 予約ボタン -->
@@ -58,4 +56,32 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dateInput = document.getElementById("reservation_date");
+        const timeInput = document.getElementById("reservation_time");
+        const peopleInput = document.getElementById("num_people");
+
+        const selectedDate = document.getElementById("selected-date");
+        const selectedTime = document.getElementById("selected-time");
+        const selectedPeople = document.getElementById("selected-people");
+
+        dateInput.addEventListener("change", function() {
+            selectedDate.textContent = dateInput.value || "未選択";
+        });
+
+        timeInput.addEventListener("change", function() {
+            selectedTime.textContent = timeInput.value || "未選択";
+        });
+
+        peopleInput.addEventListener("change", function() {
+            selectedPeople.textContent = peopleInput.value || "未選択";
+        });
+
+        selectedDate.textContent = dateInput.value || "未選択";
+        selectedTime.textContent = timeInput.value || "未選択";
+        selectedPeople.textContent = peopleInput.value || "未選択";
+    });
+</script>
 @endsection
