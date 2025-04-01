@@ -1,7 +1,6 @@
 .restaurant-container {
     display: flex;
-    height: 100vh;
-    /* 画面の高さを最大に */
+    height: 80vh;
 }
 
 .restaurant-left {
@@ -9,25 +8,27 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .restaurant-right {
     width: 50%;
-    background-color: #f8f9fa;
-    /* 右側をとりあえず空白にする */
+    background-color: #274de7;
+    border-radius: 10px;
+    margin-right: 20px;
 }
 
 .restaurant-header {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-top: 50px;
 }
 
 .restaurant-image {
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16 / 12;
     object-fit: cover;
     display: block;
 }
