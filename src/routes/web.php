@@ -6,6 +6,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
 
+
 /**
  *会員登録・ログイン・ログアウト
  */
@@ -13,7 +14,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/register', 'showRegister')->name('register');
     Route::post('/register', 'register');
     Route::get('/login', 'showLogin')->name('login');
-    Route::post('/login', 'login')->name('login');
+    Route::post('/login', 'login');
     Route::post('/logout', 'logout')->name('logout');
     Route::get('/thanks', function () {
         return view('thanks');
@@ -30,7 +31,6 @@ Route::get('/restaurants/{id}', [ShopController::class, 'showDetail'])->name('re
  * 認証後
  */
 Route::middleware('auth')->group(function () {
-
     Route::get('/mypage', [ShopController::class, 'showMypage'])->name('mypage');
     Route::post('/favorites/add/{restaurantId}', [ShopController::class, 'addFavorite'])->name('favorites.add');
     Route::post('/favorites/remove/{restaurantId}', [ShopController::class, 'removeFavorite'])->name('favorites.remove');

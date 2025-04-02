@@ -43,6 +43,7 @@ class RestaurantListTest extends TestCase
 
         return $user;
     }
+    
     /**
      * 飲食店一覧が表示されるか
      */
