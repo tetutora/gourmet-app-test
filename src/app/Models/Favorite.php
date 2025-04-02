@@ -20,4 +20,19 @@ class Favorite extends Model
     {
         return $this->belongsTo(Restaurant::class);
     }
+
+    public static function addFavorite($userId, $restaurantId)
+    {
+        if (!self::where('user_id', $userId)->where('restaurant_id', $restaurantId)->exists()) {
+            self::create([
+                'user_id' => $userId,
+                'restaurant_id' => $restaurantId,
+            ]);
+        }
+    }
+
+    public static function removeFavorite($userId, $restaurantId)
+    {
+        self::where('user_id', $userId)->where('restaurant_id', $restaurantId)->delete();
+    }
 }

@@ -2,10 +2,9 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
@@ -22,7 +21,7 @@ class AuthTest extends TestCase
             'password' => 'password123',
         ]);
 
-        $response->assertRedirect('/');
+        $response->assertRedirect('/thanks');
 
         $this->assertDatabaseHas('users', [
             'email' => 'testuser@example.com'
