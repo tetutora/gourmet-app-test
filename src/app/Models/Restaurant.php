@@ -18,5 +18,27 @@ class Restaurant extends Model
         return $this->belongsTo(Genre::class);
     }
 
+    public static function searchRestaurants($filters)
+    {
+        $query = self::with(['region', 'genre']);
 
+        if (!empty($filters['region_id'])){
+            $query->where('region_id', $filters['region_id']);
+        }
+        if (!empty($filters['genre_id'])){
+            $query->where('genre_id', $filters['genre_id']);
+        }
+        if (!empty($filters['query'])){
+            $query->where(function ($q) use ($filters) {
+                $q->where('name', 'like', "%{$filters['query']}%")
+                    ->orWhereHas('region', function ($q) use ($filters) {
+                        $q->where('name', 'like', "%{$filters['query']}%");
+                    })
+                    ->orWhereHas('genre', function ($q) use ($filters) {
+                        $q->where('name', 'like', "%{$filters['query']}%");
+                    });
+            });
+        }
+        return $query->get();
+    }
 }

@@ -16,32 +16,11 @@ class ShopController extends Controller
      */
     public function index(Request $request)
     {
-        $region_id = $request->input('region_id');
-        $genre_id = $request->input('genre_id');
-        $query = $request->input('query');
-        $restaurants = Restaurant::query();
-        $restaurants = $restaurants->with(['region', 'genre']);
-
-        if ($region_id) {
-            $restaurants->where('region_id', $region_id);
+        $restaurants = Restaurant::searchRestaurants($request->all());
+        $favorites = [];
+        if (auth()->check()) {
+            $favorites = auth()->user()->favorites->pluck('restaurant_id')->toArray();
         }
-
-        if ($genre_id) {
-            $restaurants->where('genre_id', $genre_id);
-        }
-
-        if ($query) {
-            $restaurants->where('name', 'like', "%$query%")
-                        ->orWhereHas('region', function($q) use ($query) {
-                            $q->where('name', 'like', "%$query%");
-                        })
-                        ->orWhereHas('genre', function($q) use ($query) {
-                            $q->where('name', 'like', "%$query%");
-                        });
-        }
-
-        $restaurants = $restaurants->get();
-        $favorites = auth()->check() ? auth()->user()->favorites->pluck('restaurant_id')->toArray() : [];
         $regions = Region::all();
         $genres = Genre::all();
 
@@ -70,14 +49,8 @@ class ShopController extends Controller
     public function addFavorite($restaurantId)
     {
         $user = Auth::user();
+        Favorite::addFavorite($user->id, $restaurantId);
 
-        if (!Favorite::where('user_id', $user->id)->where('restaurant_id', $restaurantId)->exists())
-        {
-            Favorite::create([
-                'user_id' => $user->id,
-                'restaurant_id' => $restaurantId,
-            ]);
-        }
         return response()->json(['success' => true]);
     }
 
@@ -87,8 +60,8 @@ class ShopController extends Controller
     public function removeFavorite($restaurantId)
     {
         $user = Auth::user();
+        Favorite::removeFavorite($user->id, $restaurantId);
 
-        Favorite::where('user_id', $user->id)->where('restaurant_id', $restaurantId)->delete();
         return response()->json(['success' => true]);
     }
 }

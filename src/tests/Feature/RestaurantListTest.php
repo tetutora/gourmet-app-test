@@ -37,7 +37,7 @@ class RestaurantListTest extends TestCase
     {
         $user = User::create([
             'name' => 'Test User',
-            'email' => 'testuser@example.com',
+            'email' => $email,
             'password' => bcrypt($password),
         ]);
         $this->actingAs($user);
@@ -47,7 +47,7 @@ class RestaurantListTest extends TestCase
     /**
      * 飲食店一覧が表示されるか
      */
-    public function test_can_desplay_restaurant_list()
+    public function test_can_display_restaurant_list()
     {
         $this->seedDatabase();
 
@@ -73,27 +73,39 @@ class RestaurantListTest extends TestCase
         $response = $this->get(route('restaurants.detail', $restaurant->id));
 
         $response->assertStatus(200);
-    //     $response->assertSee($restaurant->name);
-    //     $response->assertSee($restaurant->description);
+        $response->assertSee($restaurant->name);
+        $response->assertSee($restaurant->description);
     }
 
     /**
-     * お気に入り登録・解除ができるか
+     * お気に入り登録ができるか
      */
-    public function test_can_favorite_unfavolite_restaurant()
+    public function test_can_favorite_restaurant()
     {
         $this->seedDatabase();
 
         $user = $this->createUserLogin();
         $restaurant = Restaurant::first();
-        $response = $this->get('/');
 
         $response = $this->post(route('favorites.add', $restaurant->id));
         $response->assertStatus(200);
         $this->assertTrue($user->favorites()->where('restaurant_id', $restaurant->id)->exists());
+    }
 
+    /**
+     * お気に入り解除ができるか
+     */
+    public function test_can_unfavorite_restaurant()
+    {
+        $this->seedDatabase();
+
+        $user = $this->createUserLogin();
+        $restaurant = Restaurant::first();
+
+        $this->post(route('favorites.add', $restaurant->id));
         $response = $this->post(route('favorites.remove', $restaurant->id));
         $response->assertStatus(200);
+
         $this->assertFalse($user->favorites()->where('restaurant_id', $restaurant->id)->exists());
     }
 }

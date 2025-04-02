@@ -22,7 +22,7 @@ class AuthTest extends TestCase
             'password' => 'password123',
         ]);
 
-        $response->assertRedirect('/');
+        $response->assertRedirect('/thanks');
 
         $this->assertDatabaseHas('users', [
             'email' => 'testuser@example.com'
