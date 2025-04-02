@@ -13,8 +13,11 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/register', 'showRegister')->name('register');
     Route::post('/register', 'register');
     Route::get('/login', 'showLogin')->name('login');
-    Route::post('/login', 'login');
+    Route::post('/login', 'login')->name('login');
     Route::post('/logout', 'logout')->name('logout');
+    Route::get('/thanks', function () {
+        return view('thanks');
+    })->name('thanks');
 });
 
 /**
