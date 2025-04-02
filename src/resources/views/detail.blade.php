@@ -1,15 +1,11 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
 <link rel="stylesheet" href="{{ asset('css/detail.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
 @section('content')
 <div class="restaurant-container">
-    <!-- 左側の店舗詳細 -->
     <div class="restaurant-left">
         <div class="restaurant-header">
             <a href="{{ route('index') }}" class="back-button">＜</a>
@@ -23,35 +19,34 @@
         <p class="restaurant-description">{{ $restaurant->description }}</p>
     </div>
 
-    <!-- 右側の予約画面 -->
     <div class="restaurant-right">
-        <h2 class="reservation-title">予約</h2>
+        <p class="reservation-title">予約</p>
         <form action="{{ route('reservation.store') }}" method="POST" class="reservation-form">
             @csrf
-            <!-- 日付入力 -->
-            <input type="date" id="reservation_date" name="reservation_date" required>
-
-            <!-- 時間入力 -->
-            <select id="reservation_time" name="reservation_time" required>
+            <input type="date" id="reservation_date" name="reservation_date">
+            @error('reservation_date')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
+            <select id="reservation_time" name="reservation_time">
                 @for ($hour = 9; $hour <= 23; $hour++)
                     <option value="{{ sprintf('%02d:00', $hour) }}">{{ sprintf('%02d:00', $hour) }}</option>
                     <option value="{{ sprintf('%02d:30', $hour) }}">{{ sprintf('%02d:30', $hour) }}</option>
                 @endfor
             </select>
-
-            <!-- 予約人数 -->
-            <input type="number" id="num_people" name="num_people" min="1" max="10" required>
-
-            <!-- 予約情報表示 -->
+            @error('reservation_time')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
+            <input type="number" id="num_people" name="num_people" min="1">
+            @error('num_people')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
             <div class="reservation-summary">
-                <p>Shop {{ $restaurant->name }}</p>
-                <p>Date <span id="selected-date"></span></p>
-                <p>Time <span id="selected-time"></span></p>
-                <p>Number <span id="selected-people"></span></p>
+                <p><strong>Shop</strong><span>{{ $restaurant->name }}</span></p>
+                <p><strong>Date</strong><span id="selected-date">未選択</span></p>
+                <p><strong>Time</strong><span id="selected-time">未選択</span></p>
+                <p><strong>Number</strong><span id="selected-people">未選択</span></p>
                 <input type="hidden" name="restaurant_id" value="{{ $restaurant->id }}">
             </div>
-
-            <!-- 予約ボタン -->
             <button type="submit" class="reservation-button">予約する</button>
         </form>
     </div>

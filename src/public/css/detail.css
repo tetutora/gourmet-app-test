@@ -11,13 +11,6 @@
     justify-content: center;
 }
 
-.restaurant-right {
-    width: 50%;
-    background-color: #274de7;
-    border-radius: 10px;
-    margin-right: 20px;
-}
-
 .restaurant-header {
     display: flex;
     align-items: center;
@@ -60,35 +53,30 @@
     background-color: #f0f0f0;
 }
 
-.restaurant-container {
-    display: flex;
-    height: 80vh;
-}
-
-.restaurant-left {
-    width: 50%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 .restaurant-right {
     width: 50%;
     background-color: #274de7;
     border-radius: 10px;
     margin-right: 20px;
-    padding: 20px;
     color: white;
-    /* 文字を白くする */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .reservation-form {
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    /* 左揃え */
     gap: 10px;
+    flex-grow: 1;
+}
+
+.reservation-title {
+    padding: 0 20px;
+    font-size: 30px;
+    font-weight: bold;
 }
 
 .reservation-form label {
@@ -104,39 +92,44 @@
     border: none;
 }
 
-.reservation-summary {
-    margin-top: 15px;
-}
-
 .reservation-button {
     background-color: white;
-    color: #274de7;
+    color: blue;
     font-size: 16px;
     padding: 10px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    width: 100%;
+    margin-top: auto;
 }
 
-.reservation-button:hover {
-    background-color: #ddd;
-}
-
-.back-button {
+.reservation-summary {
+    margin-top: 15px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    background-color: white;
-    color: #333;
-    font-size: 18px;
-    text-decoration: none;
-    border-radius: 5px;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
-    border: 1px solid #ddd;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
 }
 
-.back-button:hover {
-    background-color: #f0f0f0;
+.reservation-summary p {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.reservation-summary p strong {
+    width: 20%;
+    text-align: left;
+}
+
+.reservation-summary p span {
+    width: 70%;
+    text-align: left;
+}
+
+.error-message {
+    color: yellow;
+    font-size: 14px;
+    margin-top: 5px;
 }

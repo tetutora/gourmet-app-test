@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\reservation;
 use App\Models\restaurant;
+use App\Http\Requests\ReservationRequest;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
-    public function store(Request $request)
+    public function store(ReservationRequest $request)
     {
-        // dd($request->all());
         Reservation::create([
             'user_id' => auth()->id(),
             'restaurant_id' => $request->restaurant_id,
