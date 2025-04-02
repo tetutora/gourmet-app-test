@@ -110,6 +110,8 @@
     flex-direction: column;
     gap: 10px;
     width: 100%;
+    border-radius: 10px;
+    background-color: royalblue;
 }
 
 .reservation-summary p {
