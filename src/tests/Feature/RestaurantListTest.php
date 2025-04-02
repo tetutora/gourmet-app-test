@@ -11,7 +11,6 @@ use Database\Seeders\RegionsTableSeeder;
 use Database\Seeders\RestaurantSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class RestaurantListTest extends TestCase

@@ -24,12 +24,6 @@
     flex-grow: 1;
 }
 
-@media (max-width: 767px) {
-    .header__inner {
-        padding: 0 10px;
-    }
-}
-
 .popup {
     position: fixed;
     top: 0;
@@ -82,4 +76,10 @@
 
 body{
     background-color: gainsboro;
+}
+
+@media (max-width: 767px) {
+    .header__inner {
+        padding: 0 10px;
+    }
 }
