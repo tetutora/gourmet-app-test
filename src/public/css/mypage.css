@@ -9,21 +9,25 @@
     justify-content: space-between;
 }
 
-.mypage-left {
-    width: 35%;
+.mypage-left,
+.mypage-right {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
+}
+
+.mypage-left {
+    width: 35%;
 }
 
 .mypage-right {
     width: 65%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
 }
 
-.mypage-left h3,
+.left-title{
+    font-size: 24px;
+    font-weight: bold;
+}
 .mypage-right h3 {
     font-size: 1.5em;
     margin-bottom: 20px;
@@ -34,41 +38,104 @@
     color: white;
     padding: 20px;
     margin-bottom: 15px;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    /* 縦に並べる */
     position: relative;
+    border-left: 5px solid #007BFF;
+}
+
+.reservation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.cancel-reservation {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.cancel-reservation:hover {
+    transform: scale(1.2);
+}
+
+.reservation-item label {
+    font-weight: bold;
+    margin-top: 8px;
+    display: block;
+}
+
+.reservation-item input {
+    width: 60%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.input-group label {
+    min-width: 80px;
+    font-weight: bold;
+}
+
+.input-group input {
+    flex-grow: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.update-reservation {
+    margin: auto;
+    margin-top: 40px;
+    background-color: white;
+    color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .reservation-item p {
     display: flex;
     align-items: center;
-    /* 各項目を縦方向で揃える */
     margin-bottom: 10px;
     font-size: 1rem;
     line-height: 1.5;
 }
 
 .reservation-item p strong {
-    margin-right: 10px;
-    /* ラベルとデータの間隔 */
     min-width: 100px;
-    /* ラベルの幅を揃える */
 }
 
 .reservation-item p span {
     text-align: left;
-    /* データ部分を左揃え */
     flex-grow: 1;
-    /* データ部分を残りのスペースに広げる */
 }
 
 .favorite-item {
     background-color: #f8f9fa;
-    padding: 20px;
-    margin-bottom: 15px;
+    padding: 10px;
+    margin-bottom: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -77,12 +144,14 @@
     border: none;
     width: 100%;
     max-width: 400px;
-    margin: 3px auto;
+    margin: 15px auto;
     background-color: white;
     border-radius: 10px;
-    height: 340px;
+    height: auto;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -95,22 +164,26 @@
 }
 
 .card-body {
-    padding: 15px;
-    text-align: center;
+    padding: 0 10px;
+    text-align: left;
 }
 
 .card-title {
     font-weight: bold;
-    padding: 0 20px;
     font-size: 18px;
-    margin-top: 20px;
+    margin-top: 10px;
+    padding: 0 10px;
 }
 
 .card-text {
-    margin: 5px 0;
     font-size: 0.9rem;
     color: #666;
-    padding: 0 20px;
+}
+
+.mypage-left .reservation-item p.region-genre,
+.mypage-right .card .region-genre {
+    margin-top: -15px;
+    padding: 0 10px;
 }
 
 .card-text .badge {
@@ -122,20 +195,42 @@
     margin-right: 5px;
 }
 
-.mypage-left .reservations,
-.mypage-right .favorites {
-    display: flex;
-    flex-direction: column;
+.btn-detail {
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: left;
+    padding: 8px 10px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.mypage-left .reservation-item,
-.mypage-right .favorite-item {
-    flex: 1;
+.btn-detail:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
-.reservation-item p {
+.cancel-reservation {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    font-size: 1.2em;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
     display: flex;
+    justify-content: center;
     align-items: center;
+    transform: translate(20%, -20%);
+    cursor: pointer;
 }
 
 #cancelModal {
@@ -164,47 +259,15 @@ button {
     cursor: pointer;
 }
 
-.cancel-reservation {
-    background-color: transparent;
-    border: 2px solid white;
-    color: white;
-    font-size: 1.2em;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    right: 0;
+.mypage-left .reservations,
+.mypage-right .favorites {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: translate(20%, -20%);
-    cursor: pointer;
+    flex-direction: column;
 }
 
-.btn-detail {
-    display: inline-block;
-    margin-top: 10px;
-    margin-left: 20px;
-    text-align: left;
-    padding: 8px 15px;
-    background-color: blue;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 14px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.btn-detail:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
-}
-
-.shadow-custom {
-    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
-    transition: box-shadow 0.3s ease-in-out;
+.mypage-left .reservation-item,
+.mypage-right .favorite-item {
+    flex: 1;
 }
 
 .row {
@@ -217,7 +280,27 @@ button {
 .col {
     flex: 1 1 auto;
     max-width: 400px;
-    margin-bottom: 20px;
+    display: flex;
+}
+
+.btn-favorite {
+    position: absolute;
+    right: 5px;
+    bottom: 0;
+    background-color: transparent;
+    border: none;
+    color: #e74c3c;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.btn-favorite:hover {
+    transform: scale(1.2);
+}
+
+.shadow-custom {
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease-in-out;
 }
 
 @media (max-width: 767px) {
@@ -225,24 +308,4 @@ button {
         flex: 1 1 100%;
         max-width: 100%;
     }
-}
-
-.btn-favorite {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    background-color: transparent;
-    border: none;
-    color: #e74c3c;
-    font-size: 24px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.btn-favorite:hover {
-    transform: scale(1.2);
-}
-
-.btn-favorite i {
-    margin: 0;
 }

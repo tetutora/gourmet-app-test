@@ -97,13 +97,6 @@ body {
     margin-bottom: 20px;
 }
 
-@media (max-width: 767px) {
-    .col {
-        flex: 1 1 100%;
-        max-width: 100%;
-    }
-}
-
 .btn-favorite {
     position: absolute;
     right: 10px;
@@ -122,4 +115,11 @@ body {
 
 .btn-favorite i {
     margin: 0;
+}
+
+@media (max-width: 767px) {
+    .col {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
 }

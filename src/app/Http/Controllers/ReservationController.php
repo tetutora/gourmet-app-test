@@ -37,4 +37,23 @@ class ReservationController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function update(Request $request, $reservationId)
+    {
+        $reservation = Reservation::findOrFail($reservationId);
+
+        $request->validate([
+            'reservation_date' => 'required|date',
+            'reservation_time' => 'required',
+            'num_people' => 'required|integer|min:1',
+        ]);
+
+        $reservation->update([
+            'reservation_date' => $request->reservation_date,
+            'reservation_time' => $request->reservation_time,
+            'num_people' => $request->num_people,
+        ]);
+
+        return response()->json(['success' => true, 'message' => '予約を更新しました']);
+    }
 }
