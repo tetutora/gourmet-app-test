@@ -32,11 +32,10 @@
                             <input type="time" id="time-{{ $reservation->id }}" class="reservation-time"
                                 data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_time }}">
                         </div>
-
                         <div class="input-group">
                             <label for="num-{{ $reservation->id }}">Number</label>
                             <input type="number" id="num-{{ $reservation->id }}" class="reservation-num"
-                                data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}" min="1">
+                                data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}">
                         </div>
                         <button class="update-reservation" data-id="{{ $reservation->id }}">更新</button>
                     </div>
@@ -46,7 +45,7 @@
 
         <!-- お気に入り店舗 -->
         <div class="mypage-right">
-            <h3>お気に入り店舗</h3>
+            <p class="right-title">お気に入り店舗</p>
             <div class="row">
                 @foreach ($favorites as $favorite)
                     <div class="col favorite-card" data-restaurant-id="{{ $favorite->restaurant->id }}">
@@ -84,9 +83,21 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.update-reservation').forEach(button => {
         button.addEventListener('click', function() {
             const reservationId = this.getAttribute('data-id');
-            const dateInput = document.querySelector(`.reservation-date[data-id='${reservationId}']`).value;
-            const timeInput = document.querySelector(`.reservation-time[data-id='${reservationId}']`).value;
-            const numPeopleInput = document.querySelector(`.reservation-num[data-id='${reservationId}']`).value;
+            const dateField = document.querySelector(`.reservation-date[data-id='${reservationId}']`);
+            const timeField = document.querySelector(`.reservation-time[data-id='${reservationId}']`);
+            const numField = document.querySelector(`.reservation-num[data-id='${reservationId}']`);
+
+            const dateInput = dateField.value;
+            const timeInput = timeField.value;
+            const numPeopleInput = numField.value;
+
+            // 既存エラーメッセージ削除
+            [dateField, timeField, numField].forEach(field => {
+                const error = field.nextElementSibling;
+                if (error && error.classList.contains('error-message')) {
+                    error.remove();
+                }
+            });
 
             fetch(`/reservations/${reservationId}/update`, {
                 method: 'POST',
@@ -100,15 +111,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     num_people: numPeopleInput
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
+            .then(async response => {
+                const responseData = await response.json();
+
+                if (!response.ok) {
+                    if (response.status === 422 && responseData.errors) {
+                        const errorMap = {
+                            reservation_date: dateField,
+                            reservation_time: timeField,
+                            num_people: numField
+                        };
+
+                        for (let field in responseData.errors) {
+                            const targetInput = errorMap[field];
+                            if (targetInput) {
+                                const errorElement = document.createElement('p');
+                                errorElement.classList.add('error-message');
+                                errorElement.textContent = responseData.errors[field][0];
+                                targetInput.parentNode.insertBefore(errorElement, targetInput.nextSibling);
+                            }
+                        }
+                    } else {
+                        alert('更新に失敗しました');
+                    }
+                    return;
+                }
+
+                if (responseData.success) {
                     alert('予約を更新しました');
                 } else {
                     alert('更新に失敗しました');
                 }
             })
-            .catch(error => alert('エラーが発生しました'));
+            .catch(error => {
+                console.error(error);
+                alert('エラーが発生しました');
+            });
         });
     });
 });
@@ -180,7 +218,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-
 </script>
 @endsection

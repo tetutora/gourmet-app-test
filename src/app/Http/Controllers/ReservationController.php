@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\reservation;
 use App\Models\restaurant;
+use App\Http\Requests\UpdateReservationRequest;
 use App\Http\Requests\ReservationRequest;
 use Illuminate\Http\Request;
 
@@ -38,21 +39,12 @@ class ReservationController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function update(Request $request, $reservationId)
+    public function update(UpdateReservationRequest $request, $reservationId)
     {
+        // dd($request->all());
         $reservation = Reservation::findOrFail($reservationId);
 
-        $request->validate([
-            'reservation_date' => 'required|date',
-            'reservation_time' => 'required',
-            'num_people' => 'required|integer|min:1',
-        ]);
-
-        $reservation->update([
-            'reservation_date' => $request->reservation_date,
-            'reservation_time' => $request->reservation_time,
-            'num_people' => $request->num_people,
-        ]);
+        $reservation->update($request->validated());
 
         return response()->json(['success' => true, 'message' => '予約を更新しました']);
     }
