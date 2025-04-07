@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RoleMiddleware;
+
 
 
 /**
@@ -38,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/reservation', [ReservationController::class, 'reservationComplete'])->name('reservation.complete');
     Route::post('/reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('reservations.cancel');
     Route::post('/reservations/{reservation}/update', [ReservationController::class, 'update'])->name('reservations.update');
+    // Route::resource('representative', RepresentativeController::class)->middleware('role:店舗代表者');
+    // Route::resource('administrator', AdministratorController::class)->middleware('role:管理者');
 });
 
 /**

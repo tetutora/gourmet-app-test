@@ -5,7 +5,8 @@ services:
             - "80:80"
         volumes:
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-            - ./src:/var/www/
+            # - ./src:/var/www/docker-compose logs mysql
+            - ./src/public:/var/www/public
         depends_on:
             - php
 

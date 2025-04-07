@@ -6,7 +6,6 @@ use App\Models\reservation;
 use App\Models\restaurant;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Http\Requests\ReservationRequest;
-use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
@@ -25,9 +24,7 @@ class ReservationController extends Controller
 
     public function reservationComplete()
     {
-        $restaurant = Restaurant::first();
-
-        return view('reservation', compact('restaurant'));
+        return view('reservation');
     }
 
     public function cancel($reservationId)
@@ -41,7 +38,6 @@ class ReservationController extends Controller
 
     public function update(UpdateReservationRequest $request, $reservationId)
     {
-        // dd($request->all());
         $reservation = Reservation::findOrFail($reservationId);
 
         $reservation->update($request->validated());

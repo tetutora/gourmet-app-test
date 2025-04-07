@@ -40,7 +40,7 @@
             <div class="card h-100 shadow-custom">
                 <img src="{{ $restaurant->image_url }}" class="card-img-top" alt="{{ $restaurant->name }}">
                 <div class="card-body text-center">
-                    <p class="card-title">{{ $restaurant->name }}</p>
+                    <h5 class="card-title">{{ $restaurant->name }}</h5>
                     <p class="card-text">
                         <span class="badge bg-secondary">#{{ $restaurant->region->name }}</span>
                         <span class="badge bg-secondary">#{{ $restaurant->genre->name }}</span>

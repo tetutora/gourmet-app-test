@@ -36,7 +36,7 @@ class ReservationRequest extends FormRequest
             'reservation_time.required' => '予約時間を選択してください。',
             'num_people.required' => '予約人数を入力してください。',
             'num_people.integer' => '予約人数は整数で指定してください。',
-            'num_people.min' => '最低1人以上で予約してください。',
+            'num_people.min' => '最低 :min 人以上で予約してください。',
         ];
     }
 }

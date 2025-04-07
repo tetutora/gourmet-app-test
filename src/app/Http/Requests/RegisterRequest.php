@@ -34,8 +34,8 @@ class RegisterRequest extends FormRequest
             'name.required' => '名前を入力してください。',
             'email.required' => 'メールアドレスを入力してください。',
             'email.email' => '有効なメールアドレスを入力してください。',
-            'password.required' => 'パスワードを入力してください。',
-            'password.min' => 'パスワードは8文字以上で入力してください。,'
+            'password.min' => 'パスワードは :min 文字以上で入力してください。',
+            'password.string' => 'パスワードは文字列でなければなりません。',
         ];
     }
 }

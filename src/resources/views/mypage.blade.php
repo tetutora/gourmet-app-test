@@ -80,6 +80,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // 予約更新
     document.querySelectorAll('.update-reservation').forEach(button => {
         button.addEventListener('click', function() {
             const reservationId = this.getAttribute('data-id');
@@ -113,34 +114,25 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(async response => {
                 const responseData = await response.json();
-
-                if (!response.ok) {
-                    if (response.status === 422 && responseData.errors) {
+                if (response.ok && responseData.success) {
+                    alert('予約を更新しました');
+                } else {
+                    if (responseData.errors) {
                         const errorMap = {
                             reservation_date: dateField,
                             reservation_time: timeField,
                             num_people: numField
                         };
-
                         for (let field in responseData.errors) {
                             const targetInput = errorMap[field];
-                            if (targetInput) {
-                                const errorElement = document.createElement('p');
-                                errorElement.classList.add('error-message');
-                                errorElement.textContent = responseData.errors[field][0];
-                                targetInput.parentNode.insertBefore(errorElement, targetInput.nextSibling);
-                            }
+                            const errorElement = document.createElement('p');
+                            errorElement.classList.add('error-message');
+                            errorElement.textContent = responseData.errors[field][0];
+                            targetInput.parentNode.insertBefore(errorElement, targetInput.nextSibling);
                         }
                     } else {
                         alert('更新に失敗しました');
                     }
-                    return;
-                }
-
-                if (responseData.success) {
-                    alert('予約を更新しました');
-                } else {
-                    alert('更新に失敗しました');
                 }
             })
             .catch(error => {
@@ -149,9 +141,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
+    // お気に入り更新
     document.querySelectorAll('.btn-favorite').forEach(button => {
         button.addEventListener('click', function() {
             const restaurantId = this.getAttribute('data-restaurant-id');
@@ -172,10 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (isFavorite) {
                         icon.classList.remove('fas', 'text-danger');
                         icon.classList.add('far');
-
-                        if (card) {
-                            card.remove();
-                        }
+                        if (card) card.remove();
                     } else {
                         icon.classList.remove('far');
                         icon.classList.add('fas', 'text-danger');
@@ -187,16 +175,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => alert('エラーが発生しました'));
         });
     });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
+    // 予約キャンセル
     document.querySelectorAll('.cancel-reservation').forEach(button => {
         button.addEventListener('click', function() {
             const reservationId = this.getAttribute('data-id');
 
-            if (!confirm('本当にこの予約をキャンセルしますか？')) {
-                return;
-            }
+            if (!confirm('本当にこの予約をキャンセルしますか？')) return;
 
             fetch(`/reservations/${reservationId}/cancel`, {
                 method: 'POST',

@@ -59,16 +59,22 @@ class ShopController extends Controller
     public function addFavorite($restaurantId)
     {
         $user = Auth::user();
-        Favorite::addFavorite($user->id, $restaurantId);
 
+        if (!Favorite::where('user_id', $user->id)->where('restaurant_id', $restaurantId)->exists())
+        {
+            Favorite::create([
+                'user_id' => $user->id,
+                'restaurant_id' => $restaurantId,
+            ]);
+        }
         return response()->json(['success' => true]);
     }
 
     public function removeFavorite($restaurantId)
     {
         $user = Auth::user();
-        Favorite::removeFavorite($user->id, $restaurantId);
 
+        Favorite::where('user_id', $user->id)->where('restaurant_id', $restaurantId)->delete();
         return response()->json(['success' => true]);
     }
 }

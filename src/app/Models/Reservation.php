@@ -23,4 +23,22 @@ class Reservation extends Model
     {
         return $this->belongsTo(Restaurant::class);
     }
+
+    public static function getUpcomingReservations($userId)
+    {
+        $now = Carbon::now();
+
+        return self::where('user_id', $userId)
+            ->where('reservation_date', '>=', $now->toDateString())
+            ->where(function ($query) use ($now) {
+                $query->where('reservation_date', '>', $now->toDateString())
+                    ->orWhere(function ($query) use ($now) {
+                        $query->where('reservation_date', '=', $now->toDateString())
+                            ->where('reservation_time', '>=', $now->toTimeString());
+                    });
+            })
+            ->orderBy('reservation_date', 'asc')
+            ->orderBy('reservation_time', 'asc')
+            ->get();
+    }
 }
