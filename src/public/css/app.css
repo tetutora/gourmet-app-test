@@ -1,3 +1,15 @@
+.header {
+    width: 100%;
+    padding: 10px 0;
+}
+
+.header__inner {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 15px;
+}
 
 #menu-toggle i {
     font-size: 28px;
@@ -9,4 +21,65 @@
     font-size: 25px;
     font-weight: bold;
     color: blue;
+    flex-grow: 1;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 50px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 100%;
+    text-align: center;
+    position: relative;
+    min-height: 300px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 40px;
+    color: white;
+    background-color: blue;
+    border: none;
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 1100;
+}
+
+.popup-content a {
+    color: blue;
+    font-weight: bold;
+    font-size: 30px;
+    text-decoration: none;
+}
+
+body{
+    background-color: gainsboro;
+}
+
+@media (max-width: 767px) {
+    .header__inner {
+        padding: 0 10px;
+    }
 }
