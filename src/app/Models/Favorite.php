@@ -11,19 +11,18 @@ class Favorite extends Model
         'restaurant_id',
     ];
 
-    public function user()
+    public static function favoritesForUser($userId)
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function restaurant()
-    {
-        return $this->belongsTo(Restaurant::class);
+        return self::where('user_id', $userId)
+            ->with('restaurant')
+            ->get();
     }
 
     public static function addFavorite($userId, $restaurantId)
     {
-        if (!self::where('user_id', $userId)->where('restaurant_id', $restaurantId)->exists()) {
+        $exists = self::where('user_id', $userId)->where('restaurant_id', $restaurantId)->exists();
+
+        if (!$exists) {
             self::create([
                 'user_id' => $userId,
                 'restaurant_id' => $restaurantId,
@@ -34,5 +33,15 @@ class Favorite extends Model
     public static function removeFavorite($userId, $restaurantId)
     {
         self::where('user_id', $userId)->where('restaurant_id', $restaurantId)->delete();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
     }
 }

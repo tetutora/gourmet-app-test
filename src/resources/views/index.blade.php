@@ -2,7 +2,6 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 @endsection
 
 @section('content')
@@ -50,7 +49,7 @@
                 </div>
                 @auth
                 <button class="btn-favorite" data-restaurant-id="{{ $restaurant->id }}">
-                    <i class="{{ in_array($restaurant->id, $favorites) ? 'fas' : 'far' }} fa-heart {{ in_array($restaurant->id, $favorites) ? 'text-danger' : '' }}"></i>
+                    <i class="{{ $favorites->contains($restaurant->id) ? 'fas' : 'far' }} fa-heart {{ $favorites->contains($restaurant->id) ? 'text-danger' : '' }}"></i>
                 </button>
                 @else
                 <button class="btn-favorite" disabled>

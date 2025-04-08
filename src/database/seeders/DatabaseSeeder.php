@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             GenresTableSeeder::class,
             RegionsTableSeeder::class,
             RestaurantSeeder::class,
+            RoleSeeder::class,
             UsersTableSeeder::class,
         ]);
     }

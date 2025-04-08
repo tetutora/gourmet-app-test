@@ -9,6 +9,8 @@ use App\Models\User;
 use Database\Seeders\GenresTableSeeder;
 use Database\Seeders\RegionsTableSeeder;
 use Database\Seeders\RestaurantSeeder;
+use Database\Seeders\RoleSeeder;
+use Database\Seeders\UsersTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -23,6 +25,8 @@ class RestaurantListTest extends TestCase
     protected function seedDatabase()
     {
         $this->seed([
+            RoleSeeder::class,
+            UsersTableSeeder::class,
             RegionsTableSeeder::class,
             GenresTableSeeder::class,
             RestaurantSeeder::class,
@@ -38,6 +42,7 @@ class RestaurantListTest extends TestCase
             'name' => 'Test User',
             'email' => $email,
             'password' => bcrypt($password),
+            'role_id' => 3,
         ]);
         $this->actingAs($user);
 
@@ -69,6 +74,7 @@ class RestaurantListTest extends TestCase
         $this->seedDatabase();
 
         $restaurant = Restaurant::first();
+
         $response = $this->get(route('restaurants.detail', $restaurant->id));
 
         $response->assertStatus(200);

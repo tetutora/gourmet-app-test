@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Favorite;
 use App\Models\Genre;
 use App\Models\Region;
+use App\Models\Reservation;
 use App\Models\Restaurant;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,10 +19,7 @@ class ShopController extends Controller
     public function index(Request $request)
     {
         $restaurants = Restaurant::searchRestaurants($request->all());
-        $favorites = [];
-        if (auth()->check()) {
-            $favorites = auth()->user()->favorites->pluck('restaurant_id')->toArray();
-        }
+        $favorites = Favorite::favoritesForUser(Auth::id());
         $regions = Region::all();
         $genres = Genre::all();
 
@@ -30,9 +29,10 @@ class ShopController extends Controller
     /**
      *飲食店詳細画面表示
      */
-    public function showDetail()
+    public function showDetail($id)
     {
-        return view('detail');
+        $restaurant = Restaurant::with(['region', 'genre'])->findOrFail($id);
+        return view('detail', compact('restaurant'));
     }
 
     /**
@@ -40,7 +40,17 @@ class ShopController extends Controller
      */
     public function showMypage()
     {
-        return view('mypage');
+        $userId = Auth::id();
+        $now = Carbon::now();
+
+        $reservations = Reservation::getUpcomingReservationsForUser($userId);
+
+        $favorites = Favorite::favoritesForUser($userId);
+        $favoriteIds = $favorites->pluck('restaurant_id')->toArray();
+
+        $restaurants = Restaurant::with(['region', 'genre'])->get();
+
+        return view('mypage', compact('reservations', 'favorites', 'favoriteIds', 'restaurants'));
     }
 
     /**
@@ -48,9 +58,7 @@ class ShopController extends Controller
      */
     public function addFavorite($restaurantId)
     {
-        $user = Auth::user();
-        Favorite::addFavorite($user->id, $restaurantId);
-
+        Favorite::addFavorite(Auth::id(), $restaurantId);
         return response()->json(['success' => true]);
     }
 
@@ -59,9 +67,7 @@ class ShopController extends Controller
      */
     public function removeFavorite($restaurantId)
     {
-        $user = Auth::user();
-        Favorite::removeFavorite($user->id, $restaurantId);
-
+        Favorite::removeFavorite(Auth::id(), $restaurantId);
         return response()->json(['success' => true]);
     }
 }

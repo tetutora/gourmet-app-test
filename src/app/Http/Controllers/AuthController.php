@@ -23,13 +23,7 @@ class AuthController extends Controller
     */
     public function register(RegisterRequest $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
-
-        Auth::login($user);
+        $user = User::createAndLogin($request);
 
         return redirect()->route('thanks');
     }
@@ -47,8 +41,17 @@ class AuthController extends Controller
     */
     public function login(LoginRequest $request)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            return redirect()->route('index');
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = Auth::user();
+
+            switch ($user->role_id) {
+                case 1:
+                    return redirect()->route('administrator.dashboard');
+                case 2:
+                    return redirect()->route('representative.dashboard');
+                case 3:
+                    return redirect()->route('mypage');
+            }
         }
         return back()->withErrors(['email' => '認証が失敗しました。']);
     }

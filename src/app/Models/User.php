@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -46,8 +48,39 @@ class User extends Authenticatable
         ];
     }
 
+    public static function createAndLogin($request)
+    {
+        $user = self::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        Auth::login($user);
+        $user->sendEmailVerificationNotification();
+
+        return $user;
+    }
+
+    public static function verifyEmail($request)
+    {
+        $user = self::findOrFail($request->id);
+
+        if (hash_equals((string) $request->hash, sha1($user->email))) {
+            if (!$user->hasVerifiedEmail()) {
+                $user->markEmailAsVerified();
+                event(new Verified($user));
+            }
+        }
+    }
+
     public function favorites()
     {
         return $this->hasMany(Favorite::class, 'user_id');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }
