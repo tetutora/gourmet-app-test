@@ -23,13 +23,27 @@
     <div id="popup" class="popup">
         <div class="popup-content">
             <button id="close-popup" class="close-btn">×</button>
-            @if (Auth::check())
+            @if (Auth::check() && Auth::user()->role && Auth::user()->role->name === '利用者')
                 <p><a href="{{ url('/') }}">Home</a></p>
                 <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
                 <p><a href="{{ url('/mypage') }}">Mypage</a></p>
+
+            @elseif (Auth::check() && Auth::user()->role && Auth::user()->role->name === '店舗代表者')
+                <p><a href="{{ route('representative.dashboard') }}">予約情報確認</a></p>
+                <p><a href="{{ route('restaurants.create') }}">店舗情報作成</a></p>
+                <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            @elseif (Auth::check() && Auth::user()->role && Auth::user()->role->name === '管理者')
+                <p><a href="{{ route('admin.dashboard') }}">管理者ダッシュボード</a></p>
+                <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             @else
                 <p><a href="{{ url('/') }}">Home</a></p>
                 <p><a href="{{ route('register') }}">Registration</a></p>
@@ -37,7 +51,6 @@
             @endif
         </div>
     </div>
-
     <main>
         @yield('content')
     </main>

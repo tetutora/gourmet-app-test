@@ -49,7 +49,6 @@ Route::middleware(['auth', 'role:店舗代表者'])->group(function () {
     Route::post('/restaurants', [RestaurantController::class, 'store'])->name('restaurants.store');
     Route::get('/restaurants/{restaurant}/edit', [RestaurantController::class, 'edit'])->name('restaurants.edit');
     Route::put('/restaurants/{restaurant}', [RestaurantController::class, 'update'])->name('restaurants.update');
-    Route::get('/representative/reservations', [ReservationController::class, 'index'])->name('representative.reservations');
 });
 
 /**

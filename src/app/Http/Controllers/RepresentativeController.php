@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Controllers/RepresentativeController.php
-
 namespace App\Http\Controllers;
 
 use App\Models\Restaurant;
@@ -12,7 +10,13 @@ class RepresentativeController extends Controller
 {
     public function representativeDashboard()
     {
-        return view('representative.dashboard');
+        $user = auth()->user();
+
+        $reservations = Reservation::where('restaurant_id', $user->restaurant_id)
+        ->orderBy('reservation_date', 'asc')
+        ->get();
+
+        return view('representative.dashboard', ['reservations' => $reservations]);
     }
 
     public function create()
@@ -25,19 +29,19 @@ class RepresentativeController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'region_id' => 'required|exists:regions,id',
+            'genre_id' => 'required|exists:genres,id',
         ]);
 
-        Restaurant::create($request->all());
+        // 新しい店舗情報を作成
+        Restaurant::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'region_id' => $request->region_id,
+            'genre_id' => $request->genre_id,
+            'user_id' => auth()->id(), // 店舗代表者のIDを紐づけ
+        ]);
 
         return redirect()->route('representative.dashboard');
-    }
-
-    public function index()
-    {
-        $reservations = Reservation::where('restaurant_id', auth()->user()->restaurant_id)
-            ->orderBy('reservation_date', 'asc')
-            ->get();
-
-        return view('representative.reservations', compact('reservations'));
     }
 }
