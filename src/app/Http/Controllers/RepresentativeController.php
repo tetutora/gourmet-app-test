@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Genre;
+use App\Models\Region;
 use App\Models\Restaurant;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
@@ -21,7 +23,10 @@ class RepresentativeController extends Controller
 
     public function create()
     {
-        return view('representative.create');
+        $regions = Region::all();
+        $genres = Genre::all();
+
+        return view('representative.create', compact('regions', 'genres'));
     }
 
     public function store(Request $request)

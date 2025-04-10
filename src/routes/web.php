@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
  */
 Route::middleware(['auth', 'role:店舗代表者'])->group(function () {
     Route::get('/representative/dashboard', [RepresentativeController::class, 'representativeDashboard'])->name('representative.dashboard');
-    Route::get('/restaurants/create', [RepresentativeController::class, 'create'])->name('restaurants.create');
+    Route::get('/representative/create', [RepresentativeController::class, 'create'])->name('representative.create');
     Route::post('/restaurants', [RepresentativeController::class, 'store'])->name('restaurants.store');
     Route::get('/restaurants/{restaurant}/edit', [RepresentativeController::class, 'edit'])->name('restaurants.edit');
     Route::put('/restaurants/{restaurant}', [RepresentativeController::class, 'update'])->name('restaurants.update');

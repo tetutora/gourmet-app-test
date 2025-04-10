@@ -7,19 +7,19 @@
         @csrf
         <div>
             <label for="name">店舗名</label>
-            <input type="text" name="name" id="name" required>
+            <input type="text" id="name" name="name" required>
         </div>
 
         <div>
             <label for="description">店舗説明</label>
-            <textarea name="description" id="description"></textarea>
+            <textarea id="description" name="description"></textarea>
         </div>
 
         <div>
             <label for="region_id">地域</label>
-            <select name="region_id" id="region_id" required>
-                <option value="">選択してください</option>
-                @foreach($regions as $region)
+            <select id="region_id" name="region_id" required>
+                <!-- 地域の選択肢を表示 -->
+                @foreach ($regions as $region)
                     <option value="{{ $region->id }}">{{ $region->name }}</option>
                 @endforeach
             </select>
@@ -27,16 +27,16 @@
 
         <div>
             <label for="genre_id">ジャンル</label>
-            <select name="genre_id" id="genre_id" required>
-                <option value="">選択してください</option>
-                @foreach($genres as $genre)
+            <select id="genre_id" name="genre_id" required>
+                <!-- ジャンルの選択肢を表示 -->
+                @foreach ($genres as $genre)
                     <option value="{{ $genre->id }}">{{ $genre->name }}</option>
                 @endforeach
             </select>
         </div>
 
         <div>
-            <button type="submit">店舗情報を作成</button>
+            <button type="submit">店舗作成</button>
         </div>
     </form>
 @endsection
