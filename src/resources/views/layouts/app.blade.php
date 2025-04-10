@@ -32,14 +32,13 @@
                 <p><a href="{{ url('/mypage') }}">Mypage</a></p>
 
             @elseif (Auth::check() && Auth::user()->role && Auth::user()->role->name === '店舗代表者')
-                <p><a href="{{ route('representative.dashboard') }}">予約情報確認</a></p>
-                <p><a href="{{ route('restaurants.create') }}">店舗情報作成</a></p>
+                <p><a href="{{ route('representative.dashboard') }}">店舗代表者ダッシュボード</a></p>
                 <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             @elseif (Auth::check() && Auth::user()->role && Auth::user()->role->name === '管理者')
-                <p><a href="{{ route('admin.dashboard') }}">管理者ダッシュボード</a></p>
+                <p><a href="{{ route('administrator.dashboard') }}">管理者ダッシュボード</a></p>
                 <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf

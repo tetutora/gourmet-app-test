@@ -28,7 +28,7 @@ Route::get('/', [ShopController::class, 'index'])->name('index');
 Route::get('/restaurants/{restaurant}', [ShopController::class, 'showDetail'])->name('restaurants.detail');
 
 /**
- * 認証後
+ * 利用者
  */
 Route::middleware('auth')->group(function () {
     Route::get('/mypage', [ShopController::class, 'showMypage'])->name('mypage');
@@ -41,18 +41,18 @@ Route::middleware('auth')->group(function () {
 });
 
 /**
- * 店舗代表者・管理者用ダッシュボード
+ * 店舗代表者
  */
 Route::middleware(['auth', 'role:店舗代表者'])->group(function () {
     Route::get('/representative/dashboard', [RepresentativeController::class, 'representativeDashboard'])->name('representative.dashboard');
-    Route::get('/restaurants/create', [RestaurantController::class, 'create'])->name('restaurants.create');
-    Route::post('/restaurants', [RestaurantController::class, 'store'])->name('restaurants.store');
-    Route::get('/restaurants/{restaurant}/edit', [RestaurantController::class, 'edit'])->name('restaurants.edit');
-    Route::put('/restaurants/{restaurant}', [RestaurantController::class, 'update'])->name('restaurants.update');
+    Route::get('/restaurants/create', [RepresentativeController::class, 'create'])->name('restaurants.create');
+    Route::post('/restaurants', [RepresentativeController::class, 'store'])->name('restaurants.store');
+    Route::get('/restaurants/{restaurant}/edit', [RepresentativeController::class, 'edit'])->name('restaurants.edit');
+    Route::put('/restaurants/{restaurant}', [RepresentativeController::class, 'update'])->name('restaurants.update');
 });
 
 /**
- * 管理者用ダッシュボード
+ * 管理者
  */
 Route::middleware(['auth', 'role:管理者'])->group(function () {
     Route::get('/administrator/dashboard', [AdministratorController::class, 'dashboard'])->name('administrator.dashboard');
@@ -68,5 +68,3 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verification.verify');
 Route::post('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
-
-
