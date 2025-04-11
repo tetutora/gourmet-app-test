@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\reservation;
-use App\Models\restaurant;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Http\Requests\ReservationRequest;
+use App\Models\reservation;
 
 class ReservationController extends Controller
 {

@@ -2,23 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\Models\Favorite;
 use App\Models\Reservation;
 use App\Models\Restaurant;
 use App\Models\User;
-use Database\Seeders\GenresTableSeeder;
-use Database\Seeders\RegionsTableSeeder;
-use Database\Seeders\RestaurantSeeder;
-use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class MypageTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected $user;
-    protected $restaurant;
 
     protected function setUp(): void
     {
@@ -43,7 +35,7 @@ class MypageTest extends TestCase
      */
     public function test_reservation_status_is_displayed_correctly()
     {
-        $reservation = Reservation::create([
+        Reservation::create([
             'user_id' => $this->user->id,
             'restaurant_id' => $this->restaurant->id,
             'reservation_date' => now()->addDays(1)->toDateString(),
@@ -105,5 +97,4 @@ class MypageTest extends TestCase
 
         $response->assertSee($restaurant->name);
     }
-
 }

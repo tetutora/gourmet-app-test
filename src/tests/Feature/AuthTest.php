@@ -2,9 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use Database\Seeders\RoleSeeder;
-use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -20,8 +17,8 @@ class AuthTest extends TestCase
         parent::setUp();
 
         $this->seed([
-            RoleSeeder::class,
-            UsersTableSeeder::class,
+            \Database\Seeders\RoleSeeder::class,
+            \Database\Seeders\UsersTableSeeder::class,
         ]);
     }
 
@@ -37,7 +34,7 @@ class AuthTest extends TestCase
             'role_id' => 3,
         ]);
 
-        // $response->assertRedirect('/thanks');
+        $response->assertRedirect('/thanks');
 
         $this->assertDatabaseHas('users', [
             'email' => 'testuser@example.com'

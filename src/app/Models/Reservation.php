@@ -15,6 +15,16 @@ class Reservation extends Model
         'num_people',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
+
     public static function getUpcomingReservationsForUser($userId)
     {
         $now = Carbon::now();
@@ -31,7 +41,7 @@ class Reservation extends Model
             ->orderBy('reservation_date', 'asc')
             ->orderBy('reservation_time', 'asc')
             ->get();
-    }
+        }
 
     public static function createReservation($request)
     {
@@ -54,15 +64,5 @@ class Reservation extends Model
     {
         $reservation = self::findOrFail($reservationId);
         $reservation->delete();
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function restaurant()
-    {
-        return $this->belongsTo(Restaurant::class);
     }
 }

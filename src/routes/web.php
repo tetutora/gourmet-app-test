@@ -1,10 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservationController;
-use App\Http\Controllers\RestaurantController;
-use App\Http\Controllers\RepresentativeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;

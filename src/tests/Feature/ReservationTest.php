@@ -2,14 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Genre;
-use App\Models\Region;
 use App\Models\Restaurant;
 use App\Models\User;
-use Database\Seeders\GenresTableSeeder;
-use Database\Seeders\RegionsTableSeeder;
-use Database\Seeders\RestaurantSeeder;
-use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
