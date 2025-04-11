@@ -81,7 +81,7 @@ class RestaurantsCreateTest extends TestCase
             'image_url' => $image,
         ]);
 
-        $response->assertRedirect(route('index'));
+        $response->assertRedirect(route('representative.index'));
 
         $this->assertDatabaseHas('restaurants', [
             'name' => 'Test Restaurant',
@@ -108,7 +108,7 @@ class RestaurantsCreateTest extends TestCase
             'image_url' => $image,
         ]);
 
-        $response->assertRedirect(route('index'));
+        $response->assertRedirect(route('representative.index'));
 
         $this->assertDatabaseHas('genres', ['name' => 'カレー']);
         $this->assertDatabaseHas('genres', ['name' => 'バル']);

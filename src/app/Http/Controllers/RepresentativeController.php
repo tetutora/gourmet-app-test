@@ -61,6 +61,20 @@ class RepresentativeController extends Controller
             );
         });
 
-        return redirect()->route('index');
+        return redirect()->route('representative.index');
+    }
+
+    public function index()
+    {
+        $restaurants = \App\Models\Restaurant::where('user_id', auth()->id())->get();
+        return view('representative.index', compact('restaurants'));
+    }
+
+    public function edit(Restaurant $restaurant)
+    {
+        $regions = Region::all();
+        $genres = Genre::all();
+
+        return view('representative.edit', compact('restaurant', 'regions', 'genres'));
     }
 }
