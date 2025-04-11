@@ -11,10 +11,12 @@
             <a href="{{ route('index') }}" class="back-button">＜</a>
             <h2>{{ $restaurant->name }}</h2>
         </div>
-        <img src="{{ $restaurant->image_url }}" class="restaurant-image" alt="{{ $restaurant->name }}">
+        <img src="{{ Str::startsWith($restaurant->image_url, ['http://', 'https://']) ? $restaurant->image_url : asset('storage/' . $restaurant->image_url) }}" class="card-img-top" alt="{{ $restaurant->name }}">
         <div class="restaurant-tags">
             <span class="badge bg-secondary">#{{ $restaurant->region->name }}</span>
-            <span class="badge bg-secondary">#{{ $restaurant->genre->name }}</span>
+            @foreach($restaurant->genres as $genre)
+                <span class="badge bg-secondary">#{{ $genre->name }}</span>
+            @endforeach
         </div>
         <p class="restaurant-description">{{ $restaurant->description }}</p>
     </div>

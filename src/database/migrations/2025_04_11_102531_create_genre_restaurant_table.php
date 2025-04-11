@@ -11,15 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('restaurants', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->foreignId('region_id')->constrained()->onDelete('cascade');
-            $table->text('description');
-            $table->string('image_url')->nullable();
-            $table->timestamps();
-        });
-
         Schema::create('genre_restaurant', function (Blueprint $table) {
             $table->id();
             $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
@@ -33,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('restaurants');
+        Schema::dropIfExists('genre_restaurant');
     }
 };
