@@ -55,7 +55,11 @@
                                 <p class="card-title">{{ $favorite->restaurant->name }}</p>
                                 <p class="card-text">
                                     <span class="badge bg-secondary">#{{ $favorite->restaurant->region->name }}</span>
-                                    <span class="badge bg-secondary">#{{ $favorite->restaurant->genre->name }}</span>
+                                    <span class="badge bg-secondary">
+                                        @foreach($favorite->restaurant->genres as $genre)
+                                            #{{ $genre->name }}
+                                        @endforeach
+                                    </span>
                                 </p>
                                 <div class="btn-group">
                                     <a href="{{ route('restaurants.detail', $favorite->restaurant->id) }}" class="btn-detail">詳細を見る</a>

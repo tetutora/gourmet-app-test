@@ -19,13 +19,6 @@ return new class extends Migration
             $table->string('image_url')->nullable();
             $table->timestamps();
         });
-
-        Schema::create('genre_restaurant', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
-            $table->foreignId('genre_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
-        });
     }
 
     /**

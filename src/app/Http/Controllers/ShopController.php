@@ -31,7 +31,7 @@ class ShopController extends Controller
      */
     public function showDetail($id)
     {
-        $restaurant = Restaurant::with(['region', 'genre'])->findOrFail($id);
+        $restaurant = Restaurant::with(['region', 'genres'])->findOrFail($id);
         return view('detail', compact('restaurant'));
     }
 
@@ -48,7 +48,7 @@ class ShopController extends Controller
         $favorites = Favorite::favoritesForUser($userId);
         $favoriteIds = $favorites->pluck('restaurant_id')->toArray();
 
-        $restaurants = Restaurant::with(['region', 'genre'])->get();
+        $restaurants = Restaurant::with(['region', 'genres'])->get();
 
         return view('mypage', compact('reservations', 'favorites', 'favoriteIds', 'restaurants'));
     }

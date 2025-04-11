@@ -44,7 +44,9 @@ class ReservationTest extends TestCase
         $response->assertSee($this->restaurant->description);
         $response->assertSee($this->restaurant->image_url);
         $response->assertSee($this->restaurant->region->name);
-        $response->assertSee($this->restaurant->genre->name);
+        foreach ($this->restaurant->genres as $genre) {
+            $response->assertSee($genre->name);
+        }
     }
 
     /**
