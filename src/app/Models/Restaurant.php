@@ -13,11 +13,6 @@ class Restaurant extends Model
         return $this->belongsTo(Region::class);
     }
 
-    public function genre()
-    {
-        return $this->belongsToMany(Genre::class);
-    }
-
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'genre_restaurant');
@@ -25,25 +20,48 @@ class Restaurant extends Model
 
     public static function searchRestaurants($filters)
     {
-        $query = self::with(['region', 'genre']);
+        $query = self::with(['region', 'genres']);
 
-        if (!empty($filters['region_id'])){
+        if (!empty($filters['region_id'])) {
             $query->where('region_id', $filters['region_id']);
         }
-        if (!empty($filters['genre_id'])){
-            $query->where('genre_id', $filters['genre_id']);
-        }
-        if (!empty($filters['query'])){
-            $query->where(function ($q) use ($filters) {
-                $q->where('name', 'like', "%{$filters['query']}%")
-                    ->orWhereHas('region', function ($q) use ($filters) {
-                        $q->where('name', 'like', "%{$filters['query']}%");
-                    })
-                    ->orWhereHas('genre', function ($q) use ($filters) {
-                        $q->where('name', 'like', "%{$filters['query']}%");
-                    });
+
+        if (!empty($filters['genre_id'])) {
+            $query->whereHas('genres', function ($q) use ($filters) {
+                $q->where('genres.id', $filters['genre_id']);
             });
         }
+
+        if (!empty($filters['query'])) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('name', 'like', "%{$filters['query']}%")
+                ->orWhereHas('region', function ($q) use ($filters) {
+                    $q->where('name', 'like', "%{$filters['query']}%");
+                })
+                ->orWhereHas('genres', function ($q) use ($filters) {
+                    $q->where('name', 'like', "%{$filters['query']}%");
+                });
+            });
+        }
+
         return $query->get();
+    }
+
+    public function attachGenres(array $genreIds, ?string $newGenres = null): void
+    {
+        if (!empty($newGenres)) {
+            $newGenresArray = array_map('trim', explode(',', $newGenres));
+            foreach ($newGenresArray as $genreName) {
+                $genre = Genre::firstOrCreate(['name' => $genreName]);
+                $genreIds[] = $genre->id;
+            }
+        }
+
+        $this->genres()->sync($genreIds);
+    }
+
+    public static function uploadImage(?\Illuminate\Http\UploadedFile $image): ?string
+    {
+        return $image ? $image->store('restaurants', 'public') : null;
     }
 }

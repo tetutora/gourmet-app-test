@@ -3,8 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateReservationRequest extends FormRequest
 {
@@ -48,5 +46,4 @@ class UpdateReservationRequest extends FormRequest
             response()->json(['errors' => $validator->errors()], 422)
         );
     }
-
 }
