@@ -48,6 +48,16 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+        public function favorites()
+        {
+            return $this->hasMany(Favorite::class, 'user_id');
+        }
+
+        public function role()
+        {
+            return $this->belongsTo(Role::class);
+        }
+
     public static function createAndLogin($request)
     {
         $user = self::create([
@@ -72,15 +82,5 @@ class User extends Authenticatable implements MustVerifyEmail
                 event(new Verified($user));
             }
         }
-    }
-
-    public function favorites()
-    {
-        return $this->hasMany(Favorite::class, 'user_id');
-    }
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
     }
 }
