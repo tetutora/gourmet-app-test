@@ -77,4 +77,30 @@ class RepresentativeController extends Controller
 
         return view('representative.edit', compact('restaurant', 'regions', 'genres'));
     }
+
+    public function update(StoreRestaurantRequest $request, Restaurant $restaurant)
+    {
+        $validated = $request->validated();
+
+        DB::transaction(function () use ($request, $restaurant) {
+            if ($request->hasFile('image_url')) {
+                $imagePath = Restaurant::uploadImage($request->file('image_url'));
+                $restaurant->image_url = $imagePath;
+            }
+
+            $restaurant->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'region_id' => $request->region_id,
+            ]);
+
+            $restaurant->genres()->sync($request->input('genre_ids', []));
+            $restaurant->attachGenres(
+                $request->input('genre_ids', []),
+                $request->input('new_genres')
+            );
+        });
+
+        return redirect()->route('representative.index');
+    }
 }
