@@ -50,7 +50,7 @@
                 @foreach ($favorites as $favorite)
                     <div class="col favorite-card" data-restaurant-id="{{ $favorite->restaurant->id }}">
                         <div class="card shadow-custom">
-                            <img src="{{ $favorite->restaurant->image_url }}" class="card-img-top" alt="{{ $favorite->restaurant->name }}">
+                            <img src="{{ Str::startsWith($favorite->restaurant->image_url, ['http://', 'https://']) ? $favorite->restaurant->image_url : asset('storage/' . $favorite->restaurant->image_url) }}" class="card-img-top" alt="{{ $favorite->restaurant->name }}">
                             <div class="card-body">
                                 <p class="card-title">{{ $favorite->restaurant->name }}</p>
                                 <p class="card-text">

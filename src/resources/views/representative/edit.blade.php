@@ -9,8 +9,8 @@
 
     <form action="{{ route('restaurants.update', $restaurant->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @method('PUT') {{-- PUTメソッドを指定 --}}
-        
+        @method('PUT')
+
         <div>
             <label for="name">店舗名</label>
             <input type="text" id="name" name="name" value="{{ old('name', $restaurant->name) }}">

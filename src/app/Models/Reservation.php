@@ -25,6 +25,11 @@ class Reservation extends Model
         return $this->belongsTo(Restaurant::class);
     }
 
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
     public static function getUpcomingReservationsForUser($userId)
     {
         $now = Carbon::now();
@@ -51,6 +56,7 @@ class Reservation extends Model
             'reservation_date' => $request->reservation_date,
             'reservation_time' => $request->reservation_time,
             'num_people' => $request->num_people,
+            'status_id' => 1,
         ]);
     }
 

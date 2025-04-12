@@ -9,6 +9,7 @@ use App\Models\Restaurant;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class RepresentativeController extends Controller
 {
@@ -19,11 +20,26 @@ class RepresentativeController extends Controller
     {
         $user = auth()->user();
 
-        $reservations = Reservation::where('restaurant_id', $user->restaurant_id)
-            ->orderBy('reservation_date', 'asc')
-            ->get();
+        $restaurantIds = Restaurant::where('user_id', auth()->id())->pluck('id');
 
-        return view('representative.dashboard', ['reservations' => $reservations]);
+        $reservations = Reservation::whereIn('restaurant_id', $restaurantIds)
+            ->orderBy('reservation_date', 'asc')
+            ->orderBy('reservation_time', 'asc')
+            ->get()
+            ->groupBy(function ($reservation) {
+                return $reservation->restaurant->name;
+            });
+
+        foreach ($reservations as $restaurantReservations) {
+            foreach ($restaurantReservations as $reservation) {
+                if (\Carbon\Carbon::parse($reservation->reservation_date)->isPast()) {
+                    $reservation->status_id = 2;
+                    $reservation->save();
+                }
+            }
+        }
+
+        return view('representative.dashboard', ['reservationsByRestaurant' => $reservations]);
     }
 
     /**

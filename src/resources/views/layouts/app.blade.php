@@ -25,11 +25,11 @@
             <button id="close-popup" class="close-btn">×</button>
             @if (Auth::check() && Auth::user()->role && Auth::user()->role->name === '利用者')
                 <p><a href="{{ url('/') }}">Home</a></p>
+                <p><a href="{{ url('/mypage') }}">Mypage</a></p>
                 <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-                <p><a href="{{ url('/mypage') }}">Mypage</a></p>
 
             @elseif (Auth::check() && Auth::user()->role && Auth::user()->role->name === '店舗代表者')
                 <p><a href="{{ route('representative.dashboard') }}">店舗予約情報</a></p>
