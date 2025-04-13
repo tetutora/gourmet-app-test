@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Restaurant;
-use App\Models\Genre;
 use Illuminate\Database\Seeder;
 
 class RestaurantSeeder extends Seeder

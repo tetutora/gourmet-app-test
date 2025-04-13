@@ -7,7 +7,6 @@ use App\Models\Genre;
 use App\Models\Region;
 use App\Models\Restaurant;
 use App\Models\Reservation;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class RepresentativeController extends Controller
@@ -44,13 +43,13 @@ class RepresentativeController extends Controller
     {
         $validated = $request->validated();
 
-        DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($validated, $request) {
             $imagePath = Restaurant::uploadImage($request->file('image_url'));
 
             $restaurant = Restaurant::create([
-                'name' => $request->name,
-                'description' => $request->description,
-                'region_id' => $request->region_id,
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'region_id' => $validated['region_id'],
                 'user_id' => auth()->id(),
                 'image_url' => $imagePath,
             ]);
@@ -66,7 +65,7 @@ class RepresentativeController extends Controller
 
     public function index()
     {
-        $restaurants = \App\Models\Restaurant::where('user_id', auth()->id())->get();
+        $restaurants = Restaurant::where('user_id', auth()->id())->get();
         return view('representative.index', compact('restaurants'));
     }
 

@@ -36,7 +36,7 @@ class StoreRestaurantRequest extends FormRequest
         return [
             'name.required' => '店舗名は必須です。',
             'name.string' => '店舗名は文字列である必要があります。',
-            'name.max' => '店舗名は255文字以内で入力してください。',
+            'name.max' => '店舗名は:max文字以内で入力してください。',
             'description.required' => '店舗説明は必須です。',
             'region_id.required' => '地域を選択してください。',
             'new_genres.string' => '新しいジャンル名は文字列である必要があります。',
