@@ -31,7 +31,9 @@ class ShopController extends Controller
      */
     public function showDetail($id)
     {
-        $restaurant = Restaurant::with(['region', 'genres'])->findOrFail($id);
+        $restaurant = Restaurant::with(['region', 'genres', 'reviews.user'])->findOrFail($id);
+        $averageRating = round($restaurant->reviews->avg('stars'), 1);
+
         return view('detail', compact('restaurant'));
     }
 
@@ -44,6 +46,7 @@ class ShopController extends Controller
         $now = Carbon::now();
 
         $reservations = Reservation::getUpcomingReservationsForUser($userId);
+        Reservation::updateStatusIfReservationPassed();
 
         $favorites = Favorite::favoritesForUser($userId);
         $favoriteIds = $favorites->pluck('restaurant_id')->toArray();

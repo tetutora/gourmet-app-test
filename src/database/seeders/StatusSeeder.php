@@ -15,6 +15,7 @@ class StatusSeeder extends Seeder
         Status::insert([
             ['id' => 1, 'name' => '予約済み'],
             ['id' => 2, 'name' => '来店済み'],
+            ['id' => 3, 'name' => 'キャンセル'],
         ]);
     }
 }

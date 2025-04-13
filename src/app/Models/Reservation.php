@@ -13,6 +13,7 @@ class Reservation extends Model
         'reservation_date',
         'reservation_time',
         'num_people',
+        'status_id',
     ];
 
     public function user()
@@ -30,12 +31,17 @@ class Reservation extends Model
         return $this->belongsTo(Status::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public static function getUpcomingReservationsForUser($userId)
     {
         $now = Carbon::now();
 
         return self::where('user_id', $userId)
-            ->where('reservation_date', '>=', $now->toDateString())
+            ->where('status_id', '!=', 2)  // 来店済みを除外
             ->where(function ($query) use ($now) {
                 $query->where('reservation_date', '>', $now->toDateString())
                     ->orWhere(function ($query) use ($now) {
@@ -43,10 +49,37 @@ class Reservation extends Model
                             ->where('reservation_time', '>=', $now->toTimeString());
                     });
             })
+            ->orWhere(function ($query) use ($now) {
+                $query->where('reservation_date', '<', $now->toDateString()) // 過去の予約も表示
+                    ->orWhere(function ($query) use ($now) {
+                        $query->where('reservation_date', '=', $now->toDateString())
+                            ->where('reservation_time', '<', $now->toTimeString());
+                    });
+            })
             ->orderBy('reservation_date', 'asc')
             ->orderBy('reservation_time', 'asc')
             ->get();
+    }
+
+    public static function updateStatusIfReservationPassed()
+    {
+        $now = Carbon::now();
+
+        $reservations = self::where('status_id', '!=', 2)
+            ->where(function ($query) use ($now) {
+                $query->where('reservation_date', '<', $now->toDateString())
+                    ->orWhere(function ($query) use ($now) {
+                        $query->where('reservation_date', '=', $now->toDateString())
+                            ->where('reservation_time', '<', $now->toTimeString());
+                    });
+            })
+            ->get();
+
+        foreach ($reservations as $reservation) {
+            $reservation->status_id = 2;
+            $reservation->save();
         }
+    }
 
     public static function createReservation($request)
     {
@@ -69,6 +102,8 @@ class Reservation extends Model
     public static function cancelReservation($reservationId)
     {
         $reservation = self::findOrFail($reservationId);
-        $reservation->delete();
+        $reservation->update([
+            'status_id' => 3,
+        ]);
     }
 }

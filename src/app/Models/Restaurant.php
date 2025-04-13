@@ -18,6 +18,16 @@ class Restaurant extends Model
         return $this->belongsToMany(Genre::class, 'genre_restaurant');
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function averageRating()
+    {
+        return $this->reviews()->avg('stars');
+    }
+
     public static function searchRestaurants($filters)
     {
         $query = self::with(['region', 'genres']);
