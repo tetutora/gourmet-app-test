@@ -1,7 +1,10 @@
 <?php
 
+use App\Constants\RoleType;
+use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\RepresentativeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +28,7 @@ Route::get('/', [ShopController::class, 'index'])->name('index');
 Route::get('/restaurants/{restaurant}', [ShopController::class, 'showDetail'])->name('restaurants.detail');
 
 /**
- * 認証後
+ * 利用者
  */
 Route::middleware('auth')->group(function () {
     Route::get('/mypage', [ShopController::class, 'showMypage'])->name('mypage');
@@ -38,6 +41,27 @@ Route::middleware('auth')->group(function () {
 });
 
 /**
+ * 店舗代表者
+ */
+Route::middleware(['auth', "role:" . RoleType::REPRESENTATIVE])->group(function () {
+    Route::get('/representative/dashboard', [RepresentativeController::class, 'representativeDashboard'])->name('representative.dashboard');
+    Route::get('/representative/create', [RepresentativeController::class, 'create'])->name('representative.create');
+    Route::post('/restaurants', [RepresentativeController::class, 'store'])->name('restaurants.store');
+    Route::get('/representative/restaurants', [RepresentativeController::class, 'index'])->name('representative.index');
+    Route::get('/restaurants/{restaurant}/edit', [RepresentativeController::class, 'edit'])->name('restaurants.edit');
+    Route::put('/restaurants/{restaurant}', [RepresentativeController::class, 'update'])->name('restaurants.update');
+});
+
+/**
+ * 管理者
+ */
+Route::middleware(['auth', "role:" . RoleType::ADMIN])->group(function () {
+    Route::get('/administrator/dashboard', [AdministratorController::class, 'dashboard'])->name('administrator.dashboard');
+    Route::get('/administrator/users/create', [AdministratorController::class, 'createUser'])->name('administrator.users.create');
+    Route::post('/administrator/users', [AdministratorController::class, 'storeUser'])->name('administrator.users.store');
+});
+
+/**
  * メール認証
  */
 Route::get('/email/verify', [VerificationController::class, 'show'])->name('verification.notice');
@@ -45,5 +69,3 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verification.verify');
 Route::post('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
-
-

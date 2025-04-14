@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\RoleType;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
@@ -40,8 +41,19 @@ class AuthController extends Controller
     */
     public function login(LoginRequest $request)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            return redirect()->route('index');
+        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return back()->withErrors(['email' => '認証が失敗しました。']);
+        }
+
+        $user = Auth::user();
+
+        switch ($user->role->name) {
+            case RoleType::ADMIN:
+                return redirect()->route('administrator.dashboard');
+            case RoleType::REPRESENTATIVE:
+                return redirect()->route('representative.dashboard');
+            case RoleType::USER:
+                return redirect()->route('index');
         }
         return back()->withErrors(['email' => '認証が失敗しました。']);
     }

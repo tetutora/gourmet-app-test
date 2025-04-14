@@ -8,11 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -48,15 +50,15 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-        public function favorites()
-        {
-            return $this->hasMany(Favorite::class, 'user_id');
-        }
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'user_id');
+    }
 
-        public function role()
-        {
-            return $this->belongsTo(Role::class);
-        }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 
     public static function createAndLogin($request)
     {

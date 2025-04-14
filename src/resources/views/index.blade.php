@@ -4,6 +4,11 @@
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 @endsection
 
+@php
+    use Illuminate\Support\Str;
+@endphp
+
+
 @section('content')
 <div class="container">
     <div class="row mb-4">
@@ -38,12 +43,14 @@
         @foreach($restaurants as $restaurant)
         <div class="col-12 col-md-3 mb-4">
             <div class="card h-100 shadow-custom">
-                <img src="{{ $restaurant->image_url }}" class="card-img-top" alt="{{ $restaurant->name }}">
+                <img src="{{ Str::startsWith($restaurant->image_url, ['http://', 'https://']) ? $restaurant->image_url : asset('storage/' . $restaurant->image_url) }}" class="card-img-top" alt="{{ $restaurant->name }}">
                 <div class="card-body text-center">
                     <p class="card-title">{{ $restaurant->name }}</p>
                     <p class="card-text">
                         <span class="badge bg-secondary">#{{ $restaurant->region->name }}</span>
-                        <span class="badge bg-secondary">#{{ $restaurant->genre->name }}</span>
+                        @foreach($restaurant->genres as $genre)
+                            <span class="badge bg-secondary">#{{ $genre->name }}</span>
+                        @endforeach
                     </p>
                     <a href="{{ route('restaurants.detail', $restaurant->id) }}" class="btn btn-primary btn-sm btn-detail">詳しく見る</a>
                 </div>

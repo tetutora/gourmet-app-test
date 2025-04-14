@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\RoleType;
 use App\Models\Favorite;
 use App\Models\Genre;
 use App\Models\Region;
@@ -31,7 +32,7 @@ class ShopController extends Controller
      */
     public function showDetail($id)
     {
-        $restaurant = Restaurant::with(['region', 'genre'])->findOrFail($id);
+        $restaurant = Restaurant::with(['region', 'genres'])->findOrFail($id);
         return view('detail', compact('restaurant'));
     }
 
@@ -48,7 +49,7 @@ class ShopController extends Controller
         $favorites = Favorite::favoritesForUser($userId);
         $favoriteIds = $favorites->pluck('restaurant_id')->toArray();
 
-        $restaurants = Restaurant::with(['region', 'genre'])->get();
+        $restaurants = Restaurant::with(['region', 'genres'])->get();
 
         return view('mypage', compact('reservations', 'favorites', 'favoriteIds', 'restaurants'));
     }
@@ -69,5 +70,12 @@ class ShopController extends Controller
     {
         Favorite::removeFavorite(Auth::id(), $restaurantId);
         return response()->json(['success' => true]);
+    }
+
+    public function someFunction()
+    {
+        return view('your-view', [
+            'RoleType' => RoleType::class,
+        ]);
     }
 }
