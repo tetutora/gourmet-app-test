@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\RoleType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +14,9 @@ class AdministratorController extends Controller
      */
     public function dashboard()
     {
-        return view('administrator.dashboard');
+        $representatives = User::where('role_id', 2)->latest()->get();
+
+        return view('administrator.dashboard', compact('representatives'));
     }
     /**
      * 店舗代表者作成画面
@@ -35,8 +38,8 @@ class AdministratorController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => RoleType::REPRESENTATIVE,
-            'email_verified_at' => now(), // 管理者が作成するので即時認証
+            'role_id' => 2,
+            'email_verified_at' => now(),
         ]);
 
         return redirect()->route('administrator.dashboard')->with('success', '店舗代表者を作成しました');

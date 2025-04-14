@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/admin/create.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <h2>店舗代表者の作成</h2>
