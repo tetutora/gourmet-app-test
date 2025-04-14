@@ -52,7 +52,7 @@ class AuthController extends Controller
                 return redirect()->route('administrator.dashboard');
             case RoleType::REPRESENTATIVE:
                 return redirect()->route('representative.dashboard');
-            default:
+            case RoleType::USER:
                 return redirect()->route('index');
         }
         return back()->withErrors(['email' => '認証が失敗しました。']);
