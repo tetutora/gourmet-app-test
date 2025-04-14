@@ -5,6 +5,10 @@ namespace Tests\Feature;
 use App\Models\Genre;
 use App\Models\Region;
 use App\Models\User;
+use Database\Seeders\RoleSeeder;
+use Database\Seeders\RegionsTableSeeder;
+use Database\Seeders\GenresTableSeeder;
+use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -20,10 +24,10 @@ class RestaurantsCreateTest extends TestCase
         parent::setUp();
 
         $this->seed([
-            \Database\Seeders\RoleSeeder::class,
-            \Database\Seeders\RegionsTableSeeder::class,
-            \Database\Seeders\GenresTableSeeder::class,
-            \Database\Seeders\UsersTableSeeder::class,
+            RoleSeeder::class,
+            RegionsTableSeeder::class,
+            GenresTableSeeder::class,
+            UsersTableSeeder::class,
         ]);
 
         $this->user = User::where('role_id', 2)->first();

@@ -9,7 +9,7 @@
     <div class="restaurant-left">
         <div class="restaurant-header">
             <a href="{{ route('index') }}" class="back-button">＜</a>
-            <h2>{{ $restaurant->name }}</h2>
+            <p class="restaurant-name">{{ $restaurant->name }}</p>
         </div>
         <img src="{{ Str::startsWith($restaurant->image_url, ['http://', 'https://']) ? $restaurant->image_url : asset('storage/' . $restaurant->image_url) }}" class="card-img-top" alt="{{ $restaurant->name }}">
         <div class="restaurant-tags">
@@ -20,26 +20,33 @@
         </div>
         <p class="restaurant-description">{{ $restaurant->description }}</p>
         <div class="review-section">
-            <h3>レビュー</h3>
+            <div class="review-header">
+                <p class="review-title">レビュー</p>
 
-            {{-- 平均評価の表示 --}}
-            @if ($restaurant->reviews->count())
-                <p>平均評価：<strong>{{ $averageRating }}</strong> / 5</p>
-            @else
-                <p>レビューはまだありません。</p>
-            @endif
+                @if ($restaurant->reviews->count())
+                    <p class="review-average">平均評価：<strong>{{ number_format($averageRating, 2) }}</strong> / 5</p>
+                @else
+                    <p class="review-average">レビューはまだありません。</p>
+                @endif
+            </div>
 
             {{-- レビュー一覧 --}}
             @if ($restaurant->reviews->count())
-                <ul class="review-list">
-                    @foreach ($restaurant->reviews as $review)
-                        <li class="review-item">
-                            <div class="review-user"><strong>{{ $review->user->name }}</strong> さん</div>
-                            <div class="review-stars">評価：{{ $review->stars }} / 5</div>
-                            <div class="review-comment">「{{ $review->comment }}」</div>
-                        </li>
-                    @endforeach
-                </ul>
+                <div class="review-list-container">
+                    <ul class="review-list">
+                        @foreach ($restaurant->reviews as $index => $review)
+                            <li class="review-item {{ $index >= 2 ? 'hidden-review' : '' }}">
+                                <div class="review-user"><strong>{{ $review->user->name }}</strong> さん</div>
+                                <div class="review-stars">評価：{{ $review->rating }} / 5</div>
+                                <div class="review-comment">「{{ $review->comment }}」</div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                @if ($restaurant->reviews->count() > 2)
+                    <button id="show-more-button" class="show-more-button">もっと見る</button>
+                @endif
             @endif
         </div>
     </div>
@@ -103,5 +110,16 @@
         selectedTime.textContent = timeInput.value || "未選択";
         selectedPeople.textContent = peopleInput.value || "未選択";
     });
+
+    const showMoreBtn = document.getElementById("show-more-button");
+    if (showMoreBtn) {
+        showMoreBtn.addEventListener("click", function () {
+            document.querySelectorAll(".hidden-review").forEach(el => {
+                el.style.display = "block";
+            });
+            showMoreBtn.style.display = "none";
+        });
+    }
 </script>
 @endsection
+

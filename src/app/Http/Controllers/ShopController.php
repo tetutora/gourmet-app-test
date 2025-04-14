@@ -32,9 +32,10 @@ class ShopController extends Controller
     public function showDetail($id)
     {
         $restaurant = Restaurant::with(['region', 'genres', 'reviews.user'])->findOrFail($id);
-        $averageRating = round($restaurant->reviews->avg('stars'), 1);
+        $averageRating = $restaurant->reviews->avg('rating');
+        $averageRating = $averageRating ? round($averageRating, 2) : null;
 
-        return view('detail', compact('restaurant'));
+        return view('detail', compact('restaurant', 'averageRating'));
     }
 
     /**

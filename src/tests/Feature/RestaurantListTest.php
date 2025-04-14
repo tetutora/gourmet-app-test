@@ -22,11 +22,11 @@ class RestaurantListTest extends TestCase
     protected function seedDatabase()
     {
         $this->seed([
-            \Database\Seeders\RoleSeeder::class,
-            \Database\Seeders\RegionsTableSeeder::class,
-            \Database\Seeders\GenresTableSeeder::class,
-            \Database\Seeders\RestaurantSeeder::class,
-            \Database\Seeders\UsersTableSeeder::class,
+            RoleSeeder::class,
+            RegionsTableSeeder::class,
+            GenresTableSeeder::class,
+            RestaurantSeeder::class,
+            UsersTableSeeder::class,
         ]);
     }
 

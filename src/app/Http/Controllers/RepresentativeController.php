@@ -6,7 +6,6 @@ use App\Http\Requests\StoreRestaurantRequest;
 use App\Models\Genre;
 use App\Models\Region;
 use App\Models\Restaurant;
-use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -22,6 +21,8 @@ class RepresentativeController extends Controller
 
         $restaurantIds = Restaurant::where('user_id', auth()->id())->pluck('id');
 
+        Reservation::updateStatusIfReservationPassed();
+
         $reservations = Reservation::whereIn('restaurant_id', $restaurantIds)
             ->orderBy('reservation_date', 'asc')
             ->orderBy('reservation_time', 'asc')
@@ -29,15 +30,6 @@ class RepresentativeController extends Controller
             ->groupBy(function ($reservation) {
                 return $reservation->restaurant->name;
             });
-
-        foreach ($reservations as $restaurantReservations) {
-            foreach ($restaurantReservations as $reservation) {
-                if (\Carbon\Carbon::parse($reservation->reservation_date . ' ' . $reservation->reservation_time)->isPast()) {
-                    $reservation->status_id = 2;
-                    $reservation->save();
-                }
-            }
-        }
 
         return view('representative.dashboard', ['reservationsByRestaurant' => $reservations]);
     }

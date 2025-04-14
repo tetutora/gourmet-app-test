@@ -41,6 +41,8 @@ body {
     font-size: 0.9rem;
     color: #666;
     padding: 0 20px;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 .badge {

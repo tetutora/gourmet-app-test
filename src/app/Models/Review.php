@@ -23,8 +23,8 @@ class Review extends Model
         return $this->belongsTo(Reservation::class);
     }
 
-    public function getStarsAttribute()
+    public function getRatingsAttribute()
     {
-        return $this->attributes['stars'];
+        return $this->attributes['rating'];
     }
 }
