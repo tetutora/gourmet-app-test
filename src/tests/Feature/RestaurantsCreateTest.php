@@ -4,10 +4,11 @@ namespace Tests\Feature;
 
 use App\Models\Genre;
 use App\Models\Region;
+use App\Models\Restaurant;
 use App\Models\User;
-use Database\Seeders\RoleSeeder;
-use Database\Seeders\RegionsTableSeeder;
 use Database\Seeders\GenresTableSeeder;
+use Database\Seeders\RegionsTableSeeder;
+use Database\Seeders\RoleSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -117,9 +118,9 @@ class RestaurantsCreateTest extends TestCase
         $this->assertDatabaseHas('genres', ['name' => 'カレー']);
         $this->assertDatabaseHas('genres', ['name' => 'バル']);
 
-        $restaurantId = \App\Models\Restaurant::where('name', 'Test Restaurant')->first()->id;
-        $curry = \App\Models\Genre::where('name', 'カレー')->first();
-        $bar = \App\Models\Genre::where('name', 'バル')->first();
+        $restaurantId = Restaurant::where('name', 'Test Restaurant')->first()->id;
+        $curry = Genre::where('name', 'カレー')->first();
+        $bar = Genre::where('name', 'バル')->first();
 
         $this->assertDatabaseHas('genre_restaurant', [
             'restaurant_id' => $restaurantId,

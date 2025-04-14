@@ -51,13 +51,13 @@ class RepresentativeController extends Controller
     {
         $validated = $request->validated();
 
-        DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($validated, $request) {
             $imagePath = Restaurant::uploadImage($request->file('image_url'));
 
             $restaurant = Restaurant::create([
-                'name' => $request->name,
-                'description' => $request->description,
-                'region_id' => $request->region_id,
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'region_id' => $validated['region_id'],
                 'user_id' => auth()->id(),
                 'image_url' => $imagePath,
             ]);

@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use App\Models\Region;
+use App\Models\Genre;
+use App\Models\Review;
 
 class Restaurant extends Model
 {
-    protected $fillable = ['name', 'region_id', 'genre_id', 'description', 'user_id', 'image_url'];
+    protected $fillable = ['name', 'region_id', 'description', 'user_id', 'image_url'];
 
     public function region()
     {
@@ -41,12 +44,12 @@ class Restaurant extends Model
         if (!empty($filters['query'])) {
             $query->where(function ($q) use ($filters) {
                 $q->where('name', 'like', "%{$filters['query']}%")
-                ->orWhereHas('region', function ($q) use ($filters) {
-                    $q->where('name', 'like', "%{$filters['query']}%");
-                })
-                ->orWhereHas('genres', function ($q) use ($filters) {
-                    $q->where('name', 'like', "%{$filters['query']}%");
-                });
+                    ->orWhereHas('region', function ($q) use ($filters) {
+                        $q->where('name', 'like', "%{$filters['query']}%");
+                    })
+                    ->orWhereHas('genres', function ($q) use ($filters) {
+                        $q->where('name', 'like', "%{$filters['query']}%");
+                    });
             });
         }
 

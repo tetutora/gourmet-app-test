@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\RoleType;
 use App\Models\Favorite;
 use App\Models\Genre;
 use App\Models\Region;
@@ -64,5 +65,12 @@ class ShopController extends Controller
     {
         Favorite::removeFavorite(Auth::id(), $restaurantId);
         return response()->json(['success' => true]);
+    }
+
+    public function someFunction()
+    {
+        return view('your-view', [
+            'RoleType' => RoleType::class,
+        ]);
     }
 }

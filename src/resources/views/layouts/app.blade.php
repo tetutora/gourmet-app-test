@@ -20,38 +20,49 @@
             <span>Rese</span>
         </div>
     </header>
+
     <div id="popup" class="popup">
         <div class="popup-content">
             <button id="close-popup" class="close-btn">×</button>
-            @if (Auth::check() && Auth::user()->role && Auth::user()->role->name === '利用者')
-                <p><a href="{{ url('/') }}">Home</a></p>
-                <p><a href="{{ url('/mypage') }}">Mypage</a></p>
-                <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
 
-            @elseif (Auth::check() && Auth::user()->role && Auth::user()->role->name === '店舗代表者')
-                <p><a href="{{ route('representative.dashboard') }}">店舗予約情報</a></p>
-                <p><a href="{{ route('representative.create') }}">店舗情報作成</a></p>
-                <p><a href="{{ route('representative.index') }}">店舗一覧</a></p>
-                <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            @elseif (Auth::check() && Auth::user()->role && Auth::user()->role->name === '管理者')
-                <p><a href="{{ route('administrator.dashboard') }}">管理者ダッシュボード</a></p>
-                <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
+            @auth
+                @php
+                    $role = Auth::user()->role->name ?? null;
+                @endphp
+
+                @if ($role === $RoleType::USER)
+                    <p><a href="{{ url('/') }}">Home</a></p>
+                    <p><a href="{{ url('/mypage') }}">Mypage</a></p>
+                    <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+
+                @elseif ($role === $RoleType::REPRESENTATIVE)
+                    <p><a href="{{ route('representative.dashboard') }}">店舗予約情報</a></p>
+                    <p><a href="{{ route('representative.create') }}">店舗情報作成</a></p>
+                    <p><a href="{{ route('representative.index') }}">店舗一覧</a></p>
+                    <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+
+                @elseif ($role === $RoleType::ADMIN)
+                    <p><a href="{{ route('administrator.dashboard') }}">管理者ダッシュボード</a></p>
+                    <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                @endif
+
             @else
                 <p><a href="{{ url('/') }}">Home</a></p>
                 <p><a href="{{ route('register') }}">Registration</a></p>
                 <p><a href="{{ route('login') }}">Login</a></p>
-            @endif
+            @endauth
         </div>
     </div>
+
     <main>
         @yield('content')
     </main>
