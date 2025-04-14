@@ -67,11 +67,7 @@ class Reservation extends Model
 
         $reservations = self::where('status_id', '!=', 2)
             ->where(function ($query) use ($now) {
-                $query->where('reservation_date', '<', $now->toDateString())
-                    ->orWhere(function ($query) use ($now) {
-                        $query->where('reservation_date', '=', $now->toDateString())
-                            ->where('reservation_time', '<', $now->toTimeString());
-                    });
+                $query->whereRaw('CONCAT(reservation_date, " ", reservation_time) < ?', [$now]);
             })
             ->get();
 

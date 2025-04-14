@@ -8,7 +8,7 @@
     <h1>予約情報</h1>
 
     @foreach($reservationsByRestaurant as $restaurant => $reservations)
-        <h2>{{ $restaurant }}</h2> <!-- 店舗名を表示 -->
+        <h2>{{ $restaurant }}</h2>
 
         <table>
             <thead>

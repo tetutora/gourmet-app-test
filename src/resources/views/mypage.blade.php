@@ -39,8 +39,8 @@
                         </div>
 
                         @if ($reservation->status_id === 2 && !$reservation->review)
-                            <a href="{{ route('reviews.create', ['reservation' => $reservation->id]) }}" class="btn-review">
-                                <button>レビューを投稿</button>
+                            <a href="{{ route('review.create', ['reservation' => $reservation->id]) }}" class="btn-review">
+                                <button class="btn btn-primary">レビューを投稿</button>
                             </a>
                         @else
                             <button class="update-reservation" data-id="{{ $reservation->id }}">更新</button>

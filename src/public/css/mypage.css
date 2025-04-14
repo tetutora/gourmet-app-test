@@ -248,6 +248,25 @@
     transition: box-shadow 0.3s ease-in-out;
 }
 
+.btn-review {
+    text-decoration: none;
+}
+
+.btn-review button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-review button:hover {
+    background-color: #0056b3;
+}
+
 @media (max-width: 767px) {
     .col {
         flex: 1 1 100%;

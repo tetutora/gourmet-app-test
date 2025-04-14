@@ -32,7 +32,7 @@ class RepresentativeController extends Controller
 
         foreach ($reservations as $restaurantReservations) {
             foreach ($restaurantReservations as $reservation) {
-                if (\Carbon\Carbon::parse($reservation->reservation_date)->isPast()) {
+                if (\Carbon\Carbon::parse($reservation->reservation_date . ' ' . $reservation->reservation_time)->isPast()) {
                     $reservation->status_id = 2;
                     $reservation->save();
                 }
