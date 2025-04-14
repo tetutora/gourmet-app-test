@@ -6,9 +6,8 @@ use App\Http\Requests\StoreRestaurantRequest;
 use App\Models\Genre;
 use App\Models\Region;
 use App\Models\Restaurant;
-use Illuminate\Http\Request;
+use App\Models\Reservation;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class RepresentativeController extends Controller
 {
@@ -74,7 +73,7 @@ class RepresentativeController extends Controller
 
     public function index()
     {
-        $restaurants = \App\Models\Restaurant::where('user_id', auth()->id())->get();
+        $restaurants = Restaurant::where('user_id', auth()->id())->get();
         return view('representative.index', compact('restaurants'));
     }
 

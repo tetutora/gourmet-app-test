@@ -22,12 +22,12 @@ class StoreRestaurantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'region_id' => 'required',
-            'genre_ids' => 'nullable|array',
-            'new_genres' => 'nullable|string',
-            'image_url' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'region_id' => ['required'],
+            'genre_ids' => ['nullable', 'array'],
+            'new_genres' => ['nullable', 'string'],
+            'image_url' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
         ];
     }
 
@@ -36,13 +36,13 @@ class StoreRestaurantRequest extends FormRequest
         return [
             'name.required' => '店舗名は必須です。',
             'name.string' => '店舗名は文字列である必要があります。',
-            'name.max' => '店舗名は255文字以内で入力してください。',
+            'name.max' => '店舗名は:max文字以内で入力してください。',
             'description.required' => '店舗説明は必須です。',
             'region_id.required' => '地域を選択してください。',
             'new_genres.string' => '新しいジャンル名は文字列である必要があります。',
             'image_url.image' => '画像ファイルを選択してください。',
             'image_url.mimes' => '画像はjpg、jpeg、png、gifのいずれかである必要があります。',
-            'image_url.max' => '画像の最大サイズは2MBです。',
+            'image_url.max' => '画像の最大サイズは:maxMBです。',
         ];
     }
 }

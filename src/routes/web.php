@@ -59,8 +59,8 @@ Route::middleware(['auth', 'role:店舗代表者'])->group(function () {
  */
 Route::middleware(['auth', 'role:管理者'])->group(function () {
     Route::get('/administrator/dashboard', [AdministratorController::class, 'dashboard'])->name('administrator.dashboard');
-    Route::get('/administrator/users/create', [AdministratorController::class, 'createUser'])->name('administrator.users.create');
-    Route::post('/administrator/users', [AdministratorController::class, 'storeUser'])->name('administrator.users.store');
+    Route::get('/administrator/users/create', [AdministratorController::class, 'createRepresentative'])->name('administrator.create');
+    Route::post('/administrator/users', [AdministratorController::class, 'storeRepresentative'])->name('administrator.store');
 });
 
 /**

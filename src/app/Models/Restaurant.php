@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 
 class Restaurant extends Model
 {
@@ -65,7 +66,7 @@ class Restaurant extends Model
         $this->genres()->sync($genreIds);
     }
 
-    public static function uploadImage(?\Illuminate\Http\UploadedFile $image): ?string
+    public static function uploadImage(?UploadedFile $image): ?string
     {
         return $image ? $image->store('restaurants', 'public') : null;
     }

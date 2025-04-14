@@ -22,8 +22,8 @@ class ReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'required|string|max:500',
+            'rating' => ['required', 'integer', 'min:1', 'max:5'],
+            'comment' => ['required', 'string', 'max:500'],
         ];
     }
 
@@ -35,7 +35,7 @@ class ReviewRequest extends FormRequest
             'rating.min' => '評価は1以上でなければなりません。',
             'rating.max' => '評価は5以下でなければなりません。',
             'comment.required' => 'コメントは必須です。',
-            'comment.max' => 'コメントは500文字以内でなければなりません。',
+            'comment.max' => 'コメントは:max文字以内でなければなりません。',
             'comment.string' => 'コメントは文字列でなければなりません。',
         ];
     }

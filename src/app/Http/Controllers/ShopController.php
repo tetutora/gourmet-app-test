@@ -44,8 +44,6 @@ class ShopController extends Controller
         $upcomingReservations = Reservation::getUpcomingReservationsForUser($userId);
         $completedReservations = Reservation::getCompletedReservationsForUser($userId);
 
-        // dd($completedReservations); 
-
         $reservations = $upcomingReservations->merge($completedReservations);
 
         $favorites = Favorite::favoritesForUser($userId);

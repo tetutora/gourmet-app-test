@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReviewRequest;
 use App\Models\Reservation;
 use App\Models\Review;
-use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
