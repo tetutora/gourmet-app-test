@@ -5,6 +5,7 @@
     width: 100%;
     padding: 10px 0;
     z-index: 999;
+    background-color: gainsboro;
 }
 
 .header__inner {

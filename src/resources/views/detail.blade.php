@@ -19,36 +19,6 @@
             @endforeach
         </div>
         <p class="restaurant-description">{{ $restaurant->description }}</p>
-        <div class="review-section">
-            <div class="review-header">
-                <p class="review-title">レビュー</p>
-
-                @if ($restaurant->reviews->count())
-                    <p class="review-average">平均評価：<strong>{{ number_format($averageRating, 2) }}</strong> / 5</p>
-                @else
-                    <p class="review-average">レビューはまだありません。</p>
-                @endif
-            </div>
-
-            {{-- レビュー一覧 --}}
-            @if ($restaurant->reviews->count())
-                <div class="review-list-container">
-                    <ul class="review-list">
-                        @foreach ($restaurant->reviews as $index => $review)
-                            <li class="review-item {{ $index >= 2 ? 'hidden-review' : '' }}">
-                                <div class="review-user"><strong>{{ $review->user->name }}</strong> さん</div>
-                                <div class="review-stars">評価：{{ $review->rating }} / 5</div>
-                                <div class="review-comment">「{{ $review->comment }}」</div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                @if ($restaurant->reviews->count() > 2)
-                    <button id="show-more-button" class="show-more-button">もっと見る</button>
-                @endif
-            @endif
-        </div>
     </div>
 
     <div class="restaurant-right">
@@ -83,6 +53,55 @@
         </form>
     </div>
 </div>
+
+<div class="review-section">
+    <div class="review-header">
+        <p class="review-title">レビュー</p>
+        @if ($restaurant->reviews->count())
+            <p class="review-average">平均評価：<strong>{{ number_format($averageRating, 2) }}</strong> / 5</p>
+        @else
+            <p class="review-average">レビューはまだありません。</p>
+        @endif
+    </div>
+
+    {{-- 25件のレビューを表示 --}}
+    @if ($reviewsPaginated->count())
+        <div class="review-list-container">
+            <ul class="review-list">
+                @foreach ($reviewsPaginated as $review)
+                    <li class="review-item">
+                        <div class="review-user"><strong>{{ $review->user->name }}</strong> さん</div>
+                        <div class="review-stars">評価：{{ $review->rating }} / 5</div>
+                        <div class="review-comment">「{{ $review->comment }}」</div>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <div class="pagination">
+        @if ($reviewsPaginated->onFirstPage())
+            <span class="page-link">«</span>
+        @else
+            <a href="{{ $reviewsPaginated->previousPageUrl() }}" class="page-link">«</a>
+        @endif
+
+        @foreach ($reviewsPaginated->getUrlRange(1, $reviewsPaginated->lastPage()) as $page => $url)
+            @if ($page == $reviewsPaginated->currentPage())
+                <span class="active"><span class="page-link">{{ $page }}</span></span>
+            @else
+                <a href="{{ $url }}" class="page-link">{{ $page }}</a>
+            @endif
+        @endforeach
+
+        @if ($reviewsPaginated->hasMorePages())
+            <a href="{{ $reviewsPaginated->nextPageUrl() }}" class="page-link">»</a>
+        @else
+            <span class="page-link">»</span>
+        @endif
+    </div>
+</div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -122,4 +141,3 @@
     }
 </script>
 @endsection
-

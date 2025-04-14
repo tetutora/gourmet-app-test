@@ -36,12 +36,16 @@ class Reservation extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function hasReview()
+    {
+        return $this->reviews()->exists();
+    }
+
     public static function getUpcomingReservationsForUser($userId)
     {
         $now = Carbon::now();
 
         return self::where('user_id', $userId)
-            ->where('status_id', '!=', 2)  // 来店済みを除外
             ->where(function ($query) use ($now) {
                 $query->where('reservation_date', '>', $now->toDateString())
                     ->orWhere(function ($query) use ($now) {
@@ -49,15 +53,27 @@ class Reservation extends Model
                             ->where('reservation_time', '>=', $now->toTimeString());
                     });
             })
-            ->orWhere(function ($query) use ($now) {
-                $query->where('reservation_date', '<', $now->toDateString()) // 過去の予約も表示
+            ->whereDoesntHave('reviews')
+            ->orderBy('reservation_date', 'asc')
+            ->orderBy('reservation_time', 'asc')
+            ->get();
+    }
+
+    public static function getCompletedReservationsForUser($userId)
+    {
+        $now = Carbon::now();
+
+        return self::where('user_id', $userId)
+            ->where('status_id', 2)
+            ->where(function ($query) use ($now) {
+                $query->where('reservation_date', '<', $now->toDateString())
                     ->orWhere(function ($query) use ($now) {
                         $query->where('reservation_date', '=', $now->toDateString())
                             ->where('reservation_time', '<', $now->toTimeString());
                     });
             })
-            ->orderBy('reservation_date', 'asc')
-            ->orderBy('reservation_time', 'asc')
+            ->orderBy('reservation_date', 'desc')
+            ->orderBy('reservation_time', 'desc')
             ->get();
     }
 
@@ -72,8 +88,7 @@ class Reservation extends Model
             ->get();
 
         foreach ($reservations as $reservation) {
-            $reservation->status_id = 2;
-            $reservation->save();
+            $reservation->update(['status_id' => 2]);
         }
     }
 

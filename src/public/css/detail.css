@@ -1,6 +1,7 @@
 .restaurant-container {
     display: flex;
     height: 80vh;
+    margin-top: 80px;
 }
 
 .restaurant-left {
@@ -149,8 +150,6 @@
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-height: 400px;
-    overflow-y: auto;
 }
 
 .review-average-rating,
@@ -172,11 +171,6 @@
 
 .review-average {
     margin: 0;
-}
-
-.review-list-container {
-    max-height: 300px;
-    overflow-y: auto;
 }
 
 .review-item {
@@ -208,4 +202,37 @@
 
 .show-more-button:hover {
     background-color: #5a6268;
+}
+
+.pagination {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pagination .page-link {
+    display: inline-block;
+    padding: 8px 14px;
+    background-color: white;
+    color: #274de7;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.pagination .page-link:hover {
+    background-color: #274de7;
+    color: white;
+}
+
+.pagination .active .page-link {
+    background-color: #274de7;
+    color: white;
+    font-weight: bold;
+    pointer-events: none;
+    border: 1px solid #274de7;
 }
