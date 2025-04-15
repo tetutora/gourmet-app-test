@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Restaurant;
 use App\Models\User;
+use App\Models\Reservation;
+use App\Notifications\ReservationReminder;
 use Database\Seeders\GenresTableSeeder;
 use Database\Seeders\RegionsTableSeeder;
 use Database\Seeders\RestaurantSeeder;
@@ -11,6 +13,8 @@ use Database\Seeders\RoleSeeder;
 use Database\Seeders\StatusSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
 use Tests\TestCase;
 
 class ReservationTest extends TestCase
@@ -96,5 +100,33 @@ class ReservationTest extends TestCase
             'reservation_time' => '12:30:00',
             'num_people' => 2,
         ]);
+    }
+
+    /**
+     * 予約当日にリマインダーが送信されるか
+     */
+    public function test_reservation_reminder()
+    {
+        Notification::fake();
+
+        $reservation = Reservation::create([
+            'user_id' => $this->user->id,
+            'restaurant_id' => $this->restaurant->id,
+            'reservation_date' => Carbon::today(),
+            'reservation_time' => '18:00:00',
+            'num_people' => 2,
+            'status_id' => 1,
+        ]);
+
+        $this->user->notify(new ReservationReminder($reservation));
+
+        Notification::assertSentTo(
+        $this->user,
+        ReservationReminder::class,
+        function ($notification, $channels) use ($reservation) {
+            return $notification->reservation->id === $reservation->id &&
+                in_array('mail', $channels);
+        }
+    );
     }
 }
