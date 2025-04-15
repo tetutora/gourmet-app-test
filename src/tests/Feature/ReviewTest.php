@@ -46,6 +46,9 @@ class ReviewTest extends TestCase
         ]);
     }
 
+    /**
+     * ユーザーがレビュー作成ページにアクセスできるか
+     */
     public function test_User_can_access_review_create_page()
     {
         $response = $this->get('/mypage');
@@ -58,6 +61,9 @@ class ReviewTest extends TestCase
         $response->assertSee('レビュー投稿');
     }
 
+    /**
+     * ユーザーが完了した予約に対してレビューを作成できるか
+     */
     public function test_user_can_create_review_for_completed_reservation()
     {
         $response = $this->post(route('review.store', ['reservation' => $this->completedReservation->id]), [
@@ -77,6 +83,9 @@ class ReviewTest extends TestCase
         ]);
     }
 
+    /**
+     * レビューに評価とコメントが必須であるか
+     */
     public function test_review_requires_rating_and_comment()
     {
         $response = $this->post(route('review.store', ['reservation' => $this->completedReservation->id]), [
