@@ -62,7 +62,7 @@ class ReviewTest extends TestCase
     public function test_user_can_create_review_for_completed_reservation()
     {
         $response = $this->post(route('review.store', ['reservation' => $this->completedReservation->id]), [
-            'rating' => 5,
+            'rating' => Constants::REVIEW_MAX_RATING,
             'comment' => '素晴らしい体験でした！'
         ]);
 
@@ -73,7 +73,7 @@ class ReviewTest extends TestCase
             'user_id' => $this->user->id,
             'restaurant_id' => $this->restaurant->id,
             'reservation_id' => $this->completedReservation->id,
-            'rating' => 5,
+            'rating' => Constants::REVIEW_MAX_RATING,
             'comment' => '素晴らしい体験でした！'
         ]);
     }
