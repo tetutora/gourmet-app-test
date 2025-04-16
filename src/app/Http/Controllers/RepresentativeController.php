@@ -16,19 +16,9 @@ class RepresentativeController extends Controller
      */
     public function representativeDashboard()
     {
-        $user = auth()->user();
-
-        $restaurantIds = Restaurant::where('user_id', auth()->id())->pluck('id');
-
         Reservation::updateStatusIfReservationPassed();
 
-        $reservations = Reservation::whereIn('restaurant_id', $restaurantIds)
-            ->orderBy('reservation_date', 'asc')
-            ->orderBy('reservation_time', 'asc')
-            ->get()
-            ->groupBy(function ($reservation) {
-                return $reservation->restaurant->name;
-            });
+        $reservations = Reservation::getGroupedReservationsForUserRestaurants(auth()->id());
 
         return view('representative.dashboard', ['reservationsByRestaurant' => $reservations]);
     }
@@ -91,8 +81,7 @@ class RepresentativeController extends Controller
 
         DB::transaction(function () use ($request, $restaurant) {
             if ($request->hasFile('image_url')) {
-                $imagePath = Restaurant::uploadImage($request->file('image_url'));
-                $restaurant->image_url = $imagePath;
+                $restaurant->image_url = Restaurant::uploadImage($request->file('image_url'));
             }
 
             $restaurant->update([

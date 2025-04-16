@@ -2,9 +2,15 @@
 
 namespace App\Models;
 
+use App\Constants\Constants;
+use App\Models\Favorite;
+use App\Models\Review;
+use App\Models\Role;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Verified;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -72,6 +78,8 @@ class User extends Authenticatable implements MustVerifyEmail
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $user->assignRole($request->role_id ?? Constants::ROLE_USER);
 
         Auth::login($user);
         $user->sendEmailVerificationNotification();

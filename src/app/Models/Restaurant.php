@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Genre;
+use App\Models\Region;
+use App\Models\Review;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
-use App\Models\Region;
-use App\Models\Genre;
-use App\Models\Review;
 
 class Restaurant extends Model
 {

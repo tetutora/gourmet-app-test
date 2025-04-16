@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Constants;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Http\Requests\ReservationRequest;
 use App\Models\Reservation;
@@ -22,7 +23,7 @@ class ReservationController extends Controller
     public function cancel($reservationId)
     {
         $reservation = Reservation::findOrFail($reservationId);
-        $reservation->status_id = 3;
+        $reservation->status_id = Constants::RESERVATION_STATUS_CANCELLED;
         $reservation->save();
 
         return response()->json(['success' => true]);

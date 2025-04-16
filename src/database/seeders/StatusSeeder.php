@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Constants\Constants;
 use App\Models\Status;
 use Illuminate\Database\Seeder;
 
@@ -13,9 +14,9 @@ class StatusSeeder extends Seeder
     public function run(): void
     {
         Status::insert([
-            ['id' => 1, 'name' => '予約済み'],
-            ['id' => 2, 'name' => '来店済み'],
-            ['id' => 3, 'name' => 'キャンセル'],
+            ['id' => Constants::RESERVATION_STATUS_BOOKED, 'name' => '予約済み'],
+            ['id' => Constants::RESERVATION_STATUS_COMPLETED, 'name' => '来店済み'],
+            ['id' => Constants::RESERVATION_STATUS_CANCELLED, 'name' => 'キャンセル'],
         ]);
     }
 }
