@@ -1,6 +1,6 @@
 <?php
 
-use App\Constants\RoleType;
+use App\Constants\Constants;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservationController;
@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
 /**
  * 店舗代表者
  */
-Route::middleware(['auth', "role:" . RoleType::REPRESENTATIVE])->group(function () {
+Route::middleware(['auth', "role:" . Constants::ROLE_REPRESENTATIVE])->group(function () {
     Route::get('/representative/dashboard', [RepresentativeController::class, 'representativeDashboard'])->name('representative.dashboard');
     Route::get('/representative/create', [RepresentativeController::class, 'create'])->name('representative.create');
     Route::post('/restaurants', [RepresentativeController::class, 'store'])->name('restaurants.store');
@@ -58,7 +58,7 @@ Route::middleware(['auth', "role:" . RoleType::REPRESENTATIVE])->group(function 
 /**
  * 管理者
  */
-Route::middleware(['auth', "role:" . RoleType::ADMIN])->group(function () {
+Route::middleware(['auth', "role:" . Constants::ROLE_ADMIN])->group(function () {
     Route::get('/administrator/dashboard', [AdministratorController::class, 'dashboard'])->name('administrator.dashboard');
     Route::get('/administrator/users/create', [AdministratorController::class, 'createRepresentative'])->name('administrator.create');
     Route::post('/administrator/users', [AdministratorController::class, 'storeRepresentative'])->name('administrator.store');
