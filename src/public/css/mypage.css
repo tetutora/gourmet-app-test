@@ -147,6 +147,22 @@
     transform: scale(1.2);
 }
 
+.btn-payment {
+    display: inline-block;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-payment:hover {
+    background-color: #0056b3;
+}
+
 .right-title {
     font-size: 24px;
     font-weight: bold;

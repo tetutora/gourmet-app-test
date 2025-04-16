@@ -3,6 +3,7 @@
 use App\Constants\RoleType;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RepresentativeController;
 use App\Http\Controllers\ReviewController;
@@ -44,6 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/reviews/store/{reservation}', [ReviewController::class, 'store'])->name('review.store');
     Route::post('/generate-qrcode', [ReservationController::class, 'generateQRCode'])->name('generate.qrcode');
     Route::get('/reservations/{reservation}/qrcode', [ReservationController::class, 'showQRCode'])->name('reservations.qrcode');
+    Route::get('payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+    Route::post('payment', [PaymentController::class, 'processPayment'])->name('payment.process');
 });
 
 /**

@@ -14,6 +14,7 @@ class Reservation extends Model
         'reservation_time',
         'num_people',
         'status_id',
+        'payment_method',
     ];
 
     public function user()
@@ -101,6 +102,7 @@ class Reservation extends Model
             'reservation_time' => $request->reservation_time,
             'num_people' => $request->num_people,
             'status_id' => 1,
+            'payment_method' => $request->payment_method,
         ]);
     }
 

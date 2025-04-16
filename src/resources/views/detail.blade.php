@@ -25,10 +25,12 @@
         <p class="reservation-title">予約</p>
         <form action="{{ route('reservation.store') }}" method="POST" class="reservation-form">
             @csrf
+            <label for="reservation_date">予約日</label>
             <input type="date" id="reservation_date" name="reservation_date">
             @error('reservation_date')
                 <p class="error-message">{{ $message }}</p>
             @enderror
+            <label for="reservation_time">予約時間</label>
             <select id="reservation_time" name="reservation_time">
                 @for ($hour = 9; $hour <= 23; $hour++)
                     <option value="{{ sprintf('%02d:00', $hour) }}">{{ sprintf('%02d:00', $hour) }}</option>
@@ -38,8 +40,18 @@
             @error('reservation_time')
                 <p class="error-message">{{ $message }}</p>
             @enderror
-            <input type="number" id="num_people" name="num_people" min="1">
+            <label for="num_people">予約人数</label>
+            <input type="number" id="num_people" name="num_people">
             @error('num_people')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
+            <label for="payment_method">支払い方法</label>
+            <select id="payment_method" name="payment_method">
+                <option value="cash">選択してください</option>
+                <option value="cash">現金</option>
+                <option value="card">カード</option>
+            </select>
+            @error('payment_method')
                 <p class="error-message">{{ $message }}</p>
             @enderror
             <div class="reservation-summary">
@@ -47,6 +59,7 @@
                 <p><strong>Date</strong><span id="selected-date">未選択</span></p>
                 <p><strong>Time</strong><span id="selected-time">未選択</span></p>
                 <p><strong>Number</strong><span id="selected-people">未選択</span></p>
+                <p><strong>Payment</strong><span id="selected-payment">未選択</span></p>
                 <input type="hidden" name="restaurant_id" value="{{ $restaurant->id }}">
             </div>
             <button type="submit" class="reservation-button">予約する</button>
@@ -108,10 +121,12 @@
         const dateInput = document.getElementById("reservation_date");
         const timeInput = document.getElementById("reservation_time");
         const peopleInput = document.getElementById("num_people");
+        const paymentInput = document.getElementById("payment_method");
 
         const selectedDate = document.getElementById("selected-date");
         const selectedTime = document.getElementById("selected-time");
         const selectedPeople = document.getElementById("selected-people");
+        const selectedPayment = document.getElementById("selected-payment");
 
         dateInput.addEventListener("change", function() {
             selectedDate.textContent = dateInput.value || "未選択";
@@ -124,6 +139,13 @@
         peopleInput.addEventListener("change", function() {
             selectedPeople.textContent = peopleInput.value || "未選択";
         });
+
+        if (paymentInput && selectedPayment) {
+            paymentInput.addEventListener("change", function () {
+                selectedPayment.textContent = paymentInput.options[paymentInput.selectedIndex].text || "未選択";
+            });
+            selectedPayment.textContent = paymentInput.options[paymentInput.selectedIndex]?.text || "未選択";
+        }
 
         selectedDate.textContent = dateInput.value || "未選択";
         selectedTime.textContent = timeInput.value || "未選択";

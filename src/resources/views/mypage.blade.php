@@ -7,14 +7,12 @@
 @section('content')
 <div class="mypage-container">
     <div class="mypage-content">
-        <!-- 予約状況 -->
         <div class="mypage-left">
             <p class="left-title">予約状況</p>
             <div class="reservations">
-                <!-- 予約済み（来店前）の予約 -->
                 <h3>予約済み</h3>
                 @foreach ($reservations as $reservation)
-                    @if ($reservation->status_id === 1)  <!-- 予約済み -->
+                    @if ($reservation->status_id === 1)
                         <div class="reservation-item">
                             <div class="reservation-header">
                                 <p><i class="fas fa-clock"></i> 予約{{ $loop->iteration }}</p>
@@ -44,19 +42,20 @@
 
                             <button class="update-reservation" data-id="{{ $reservation->id }}">更新</button>
 
-                            <!-- 予約済みの予約にQRコードリンクを追加 -->
                             <a href="{{ route('reservations.qrcode', ['reservation' => $reservation->id]) }}"
                             class="btn-qr-code">
                                 QRコードを表示
                             </a>
+                            @if ($reservation->payment_method === 'card')
+                                <a href="{{ route('payment.form') }}" class="btn-payment">カードお支払い</a>
+                            @endif
                         </div>
                     @endif
                 @endforeach
 
-                <!-- 来店済みの予約 -->
                 <h3>来店済み</h3>
                 @foreach ($reservations as $reservation)
-                    @if ($reservation->status_id === 2)  <!-- 来店済み -->
+                    @if ($reservation->status_id === 2)
                         <div class="reservation-item">
                             <div class="reservation-header">
                             </div>
@@ -80,12 +79,12 @@
                                     data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}">
                             </div>
 
-                            @if (!$reservation->hasReview())  <!-- レビューがない場合にボタンを表示 -->
+                            @if (!$reservation->hasReview())
                                 <a href="{{ route('review.create', ['reservation' => $reservation->id]) }}" class="btn-review">
                                     <button class="btn btn-primary">レビューを投稿</button>
                                 </a>
                             @else
-                                <p>レビュー投稿済み</p>  <!-- 既に投稿されている場合は非表示 -->
+                                <p>レビュー投稿済み</p>
                             @endif
                         </div>
                     @endif
@@ -146,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const timeInput = timeField.value;
             const numPeopleInput = numField.value;
 
-            // エラーメッセージをリセット
             [dateField, timeField, numField].forEach(field => {
                 const error = field.nextElementSibling;
                 if (error && error.classList.contains('error-message')) {
