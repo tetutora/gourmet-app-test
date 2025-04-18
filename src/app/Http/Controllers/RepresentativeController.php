@@ -77,8 +77,6 @@ class RepresentativeController extends Controller
 
     public function update(StoreRestaurantRequest $request, Restaurant $restaurant)
     {
-        $validated = $request->validated();
-
         DB::transaction(function () use ($request, $restaurant) {
             if ($request->hasFile('image_url')) {
                 $restaurant->image_url = Restaurant::uploadImage($request->file('image_url'));
