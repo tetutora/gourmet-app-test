@@ -9,7 +9,7 @@
     <div class="restaurant-left">
         <div class="restaurant-header">
             <a href="{{ route('index') }}" class="back-button">＜</a>
-            <h2>{{ $restaurant->name }}</h2>
+            <p class="restaurant-name">{{ $restaurant->name }}</p>
         </div>
         <img src="{{ Str::startsWith($restaurant->image_url, ['http://', 'https://']) ? $restaurant->image_url : asset('storage/' . $restaurant->image_url) }}" class="card-img-top" alt="{{ $restaurant->name }}">
         <div class="restaurant-tags">
@@ -54,6 +54,62 @@
     </div>
 </div>
 
+<div class="review-section">
+    <div class="review-header">
+        <p class="review-title">レビュー</p>
+        @if ($restaurant->reviews->count())
+            <p class="review-average">
+                平均評価：
+                <strong>
+                    {{ number_format($averageRating, \App\Constants\Constants::ROUND_PRECISION) }}
+                </strong>/ {{ \App\Constants\Constants::REVIEW_MAX_RATING }}
+            </p>
+        @else
+            <p class="review-average">レビューはまだありません。</p>
+        @endif
+    </div>
+
+    {{-- 25件のレビューを表示 --}}
+    @if ($reviewsPaginated->count())
+        <div class="review-list-container">
+            <ul class="review-list">
+                @foreach ($reviewsPaginated as $review)
+                    <li class="review-item">
+                        <div class="review-user"><strong>{{ $review->user->name }}</strong> さん</div>
+                        <div class="review-stars">
+                            評価：{{ $review->rating }} / {{ \App\Constants\Constants::REVIEW_MAX_RATING }}
+                        </div>
+                        <div class="review-comment">「{{ $review->comment }}」</div>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <div class="pagination">
+        @if ($reviewsPaginated->onFirstPage())
+            <span class="page-link">«</span>
+        @else
+            <a href="{{ $reviewsPaginated->previousPageUrl() }}" class="page-link">«</a>
+        @endif
+
+        @foreach ($reviewsPaginated->getUrlRange(1, $reviewsPaginated->lastPage()) as $page => $url)
+            @if ($page == $reviewsPaginated->currentPage())
+                <span class="active"><span class="page-link">{{ $page }}</span></span>
+            @else
+                <a href="{{ $url }}" class="page-link">{{ $page }}</a>
+            @endif
+        @endforeach
+
+        @if ($reviewsPaginated->hasMorePages())
+            <a href="{{ $reviewsPaginated->nextPageUrl() }}" class="page-link">»</a>
+        @else
+            <span class="page-link">»</span>
+        @endif
+    </div>
+</div>
+
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const dateInput = document.getElementById("reservation_date");
@@ -80,5 +136,15 @@
         selectedTime.textContent = timeInput.value || "未選択";
         selectedPeople.textContent = peopleInput.value || "未選択";
     });
+
+    const showMoreBtn = document.getElementById("show-more-button");
+    if (showMoreBtn) {
+        showMoreBtn.addEventListener("click", function () {
+            document.querySelectorAll(".hidden-review").forEach(el => {
+                el.style.display = "block";
+            });
+            showMoreBtn.style.display = "none";
+        });
+    }
 </script>
 @endsection

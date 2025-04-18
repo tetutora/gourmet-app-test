@@ -1,10 +1,11 @@
 <?php
 
-use App\Constants\RoleType;
+use App\Constants\Constants;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RepresentativeController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
@@ -38,12 +39,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/reservation/complete', [ReservationController::class, 'reservationComplete'])->name('reservation.complete');
     Route::post('/reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('reservations.cancel');
     Route::post('/reservations/{reservation}/update', [ReservationController::class, 'update'])->name('reservations.update');
+    Route::get('/reviews/create/{reservation}', [ReviewController::class, 'create'])->name('review.create');
+    Route::post('/reviews/store/{reservation}', [ReviewController::class, 'store'])->name('review.store');
 });
 
 /**
  * 店舗代表者
  */
-Route::middleware(['auth', "role:" . RoleType::REPRESENTATIVE])->group(function () {
+Route::middleware(['auth', "role:" . Constants::ROLE_REPRESENTATIVE])->group(function () {
     Route::get('/representative/dashboard', [RepresentativeController::class, 'representativeDashboard'])->name('representative.dashboard');
     Route::get('/representative/create', [RepresentativeController::class, 'create'])->name('representative.create');
     Route::post('/restaurants', [RepresentativeController::class, 'store'])->name('restaurants.store');
@@ -55,10 +58,10 @@ Route::middleware(['auth', "role:" . RoleType::REPRESENTATIVE])->group(function 
 /**
  * 管理者
  */
-Route::middleware(['auth', "role:" . RoleType::ADMIN])->group(function () {
+Route::middleware(['auth', "role:" . Constants::ROLE_ADMIN])->group(function () {
     Route::get('/administrator/dashboard', [AdministratorController::class, 'dashboard'])->name('administrator.dashboard');
-    Route::get('/administrator/users/create', [AdministratorController::class, 'createUser'])->name('administrator.users.create');
-    Route::post('/administrator/users', [AdministratorController::class, 'storeUser'])->name('administrator.users.store');
+    Route::get('/administrator/users/create', [AdministratorController::class, 'createRepresentative'])->name('administrator.create');
+    Route::post('/administrator/users', [AdministratorController::class, 'storeRepresentative'])->name('administrator.store');
 });
 
 /**

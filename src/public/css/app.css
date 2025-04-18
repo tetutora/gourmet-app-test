@@ -1,6 +1,11 @@
 .header {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     padding: 10px 0;
+    z-index: 999;
+    background-color: gainsboro;
 }
 
 .header__inner {
@@ -63,7 +68,6 @@
     align-items: center;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
     z-index: 1100;
 }
 
@@ -74,7 +78,11 @@
     text-decoration: none;
 }
 
-body{
+main {
+    padding-top: 80px;
+}
+
+body {
     background-color: gainsboro;
 }
 

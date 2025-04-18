@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Constants;
 use App\Constants\RoleType;
 use App\Models\Favorite;
 use App\Models\Genre;
@@ -14,9 +15,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ShopController extends Controller
 {
-    /**
-     *飲食店一覧画面表示
-     */
     public function index(Request $request)
     {
         $restaurants = Restaurant::searchRestaurants($request->all());
@@ -27,24 +25,27 @@ class ShopController extends Controller
         return view('index', compact('restaurants', 'favorites', 'regions', 'genres'));
     }
 
-    /**
-     *飲食店詳細画面表示
-     */
     public function showDetail($id)
     {
-        $restaurant = Restaurant::with(['region', 'genres'])->findOrFail($id);
-        return view('detail', compact('restaurant'));
+        $restaurant = Restaurant::with(['region', 'genres', 'reviews.user'])->findOrFail($id);
+        $averageRating = $restaurant->reviews->avg('rating');
+        $averageRating = $averageRating ? round($averageRating, Constants::ROUND_PRECISION) : null;
+        $reviewsPaginated = $restaurant->reviews()->paginate(Constants::REVIEW_PER_PAGE);
+
+        return view('detail', compact('restaurant', 'averageRating', 'reviewsPaginated'));
     }
 
-    /**
-     *マイページ画面表示
-     */
     public function showMypage()
     {
         $userId = Auth::id();
         $now = Carbon::now();
 
-        $reservations = Reservation::getUpcomingReservationsForUser($userId);
+        Reservation::updateStatusIfReservationPassed();
+
+        $upcomingReservations = Reservation::getUpcomingReservationsForUser($userId);
+        $completedReservations = Reservation::getCompletedReservationsForUser($userId);
+
+        $reservations = $upcomingReservations->merge($completedReservations);
 
         $favorites = Favorite::favoritesForUser($userId);
         $favoriteIds = $favorites->pluck('restaurant_id')->toArray();
@@ -54,18 +55,12 @@ class ShopController extends Controller
         return view('mypage', compact('reservations', 'favorites', 'favoriteIds', 'restaurants'));
     }
 
-    /**
-     *お気に入り登録
-     */
     public function addFavorite($restaurantId)
     {
         Favorite::addFavorite(Auth::id(), $restaurantId);
         return response()->json(['success' => true]);
     }
 
-    /**
-     *お気に入り解除
-     */
     public function removeFavorite($restaurantId)
     {
         Favorite::removeFavorite(Auth::id(), $restaurantId);

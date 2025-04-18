@@ -1,7 +1,10 @@
 <?php
 
+
 namespace App\Models;
 
+use App\Models\Restaurant;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Favorite extends Model

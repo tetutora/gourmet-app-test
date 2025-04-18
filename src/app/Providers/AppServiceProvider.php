@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Constants\RoleType;
+use App\Constants\Constants;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::share('RoleType', RoleType::class);
+        View::share('RoleType', Constants::class);
         View::composer('*', function ($view) {
             $user = Auth::user();
             $role = $user?->role ?? null;

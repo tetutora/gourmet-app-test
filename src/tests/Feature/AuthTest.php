@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\RoleSeeder;
+use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,8 +19,8 @@ class AuthTest extends TestCase
         parent::setUp();
 
         $this->seed([
-            \Database\Seeders\RoleSeeder::class,
-            \Database\Seeders\UsersTableSeeder::class,
+            RoleSeeder::class,
+            UsersTableSeeder::class,
         ]);
     }
 

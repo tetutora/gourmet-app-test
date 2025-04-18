@@ -35,6 +35,7 @@
 }
 
 .reservation-item {
+    position: relative;
     background-color: #007BFF;
     color: white;
     padding: 20px;
@@ -123,6 +124,7 @@
 }
 
 .cancel-reservation {
+    position: absolute;
     background-color: transparent;
     border: 2px solid white;
     color: white;
@@ -131,8 +133,8 @@
     height: 35px;
     border-radius: 50%;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 10px;
+    right: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -246,6 +248,25 @@
 .shadow-custom {
     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
     transition: box-shadow 0.3s ease-in-out;
+}
+
+.btn-review {
+    text-decoration: none;
+}
+
+.btn-review button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-review button:hover {
+    background-color: #0056b3;
 }
 
 @media (max-width: 767px) {

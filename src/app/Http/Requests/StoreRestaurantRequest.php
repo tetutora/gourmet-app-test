@@ -22,12 +22,12 @@ class StoreRestaurantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'region_id' => 'required',
-            'genre_ids' => 'nullable|array',
-            'new_genres' => 'nullable|string',
-            'image_url' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'region_id' => ['required'],
+            'genre_ids' => ['nullable', 'array'],
+            'new_genres' => ['nullable', 'string'],
+            'image_url' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
         ];
     }
 
@@ -42,7 +42,7 @@ class StoreRestaurantRequest extends FormRequest
             'new_genres.string' => '新しいジャンル名は文字列である必要があります。',
             'image_url.image' => '画像ファイルを選択してください。',
             'image_url.mimes' => '画像はjpg、jpeg、png、gifのいずれかである必要があります。',
-            'image_url.max' => '画像の最大サイズは2MBです。',
+            'image_url.max' => '画像の最大サイズは:maxMBです。',
         ];
     }
 }

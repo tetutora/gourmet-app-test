@@ -12,12 +12,45 @@
             <p class="left-title">予約状況</p>
             <div class="reservations">
                 @foreach ($reservations as $reservation)
+                    @if ($reservation->status_id === \App\Constants\Constants::RESERVATION_STATUS_BOOKED)
+                        <div class="reservation-item">
+                            <div class="reservation-header">
+                                <p><i class="fas fa-clock"></i> 予約{{ $loop->iteration }}</p>
+                                <button class="cancel-reservation" data-id="{{ $reservation->id }}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <p><strong>Shop</strong> {{ $reservation->restaurant->name }}</p>
+
+                            <div class="input-group">
+                                <label for="date-{{ $reservation->id }}">Date</label>
+                                <input type="date" id="date-{{ $reservation->id }}" class="reservation-date"
+                                    data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_date }}">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="time-{{ $reservation->id }}">Time</label>
+                                <input type="time" id="time-{{ $reservation->id }}" class="reservation-time"
+                                    data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_time }}">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="num-{{ $reservation->id }}">Number</label>
+                                <input type="number" id="num-{{ $reservation->id }}" class="reservation-num"
+                                    data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}">
+                            </div>
+
+                            <button class="update-reservation" data-id="{{ $reservation->id }}">更新</button>
+                        </div>
+                    @endif
+                @endforeach
+
+                <h3>来店済み</h3>
+                @foreach ($reservations as $reservation)
+                @if ($reservation->status_id === \App\Constants\Constants::RESERVATION_STATUS_COMPLETED)
                     <div class="reservation-item">
                         <div class="reservation-header">
-                            <p><i class="fas fa-clock"></i> 予約{{ $loop->iteration }}</p>
-                            <button class="cancel-reservation" data-id="{{ $reservation->id }}">
-                                <i class="fas fa-times"></i>
-                            </button>
+                            <!-- 来店済みの予約ではキャンセルボタンを表示しない -->
                         </div>
                         <p><strong>Shop</strong> {{ $reservation->restaurant->name }}</p>
 
@@ -32,14 +65,23 @@
                             <input type="time" id="time-{{ $reservation->id }}" class="reservation-time"
                                 data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_time }}">
                         </div>
+
                         <div class="input-group">
                             <label for="num-{{ $reservation->id }}">Number</label>
                             <input type="number" id="num-{{ $reservation->id }}" class="reservation-num"
                                 data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}">
                         </div>
-                        <button class="update-reservation" data-id="{{ $reservation->id }}">更新</button>
+
+                        @if (!$reservation->hasReview())  <!-- レビューがない場合にボタンを表示 -->
+                            <a href="{{ route('review.create', ['reservation' => $reservation->id]) }}" class="btn-review">
+                                <button class="btn btn-primary">レビューを投稿</button>
+                            </a>
+                        @else
+                            <p>レビュー投稿済み</p>  <!-- 既に投稿されている場合は非表示 -->
+                        @endif
                     </div>
-                @endforeach
+                @endif
+            @endforeach
             </div>
         </div>
 
@@ -50,7 +92,7 @@
                 @foreach ($favorites as $favorite)
                     <div class="col favorite-card" data-restaurant-id="{{ $favorite->restaurant->id }}">
                         <div class="card shadow-custom">
-                            <img src="{{ $favorite->restaurant->image_url }}" class="card-img-top" alt="{{ $favorite->restaurant->name }}">
+                            <img src="{{ Str::startsWith($favorite->restaurant->image_url, ['http://', 'https://']) ? $favorite->restaurant->image_url : asset('storage/' . $favorite->restaurant->image_url) }}" class="card-img-top" alt="{{ $favorite->restaurant->name }}">
                             <div class="card-body">
                                 <p class="card-title">{{ $favorite->restaurant->name }}</p>
                                 <p class="card-text">
@@ -96,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const timeInput = timeField.value;
             const numPeopleInput = numField.value;
 
-            // 既存エラーメッセージ削除
+            // エラーメッセージをリセット
             [dateField, timeField, numField].forEach(field => {
                 const error = field.nextElementSibling;
                 if (error && error.classList.contains('error-message')) {
@@ -117,26 +159,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
             })
             .then(async response => {
-                const responseData = await response.json();
-                if (response.ok && responseData.success) {
+                const data = await response.json();
+                if (response.ok && data.success) {
                     alert('予約を更新しました');
-                } else {
-                    if (responseData.errors) {
-                        const errorMap = {
-                            reservation_date: dateField,
-                            reservation_time: timeField,
-                            num_people: numField
-                        };
-                        for (let field in responseData.errors) {
-                            const targetInput = errorMap[field];
-                            const errorElement = document.createElement('p');
-                            errorElement.classList.add('error-message');
-                            errorElement.textContent = responseData.errors[field][0];
-                            targetInput.parentNode.insertBefore(errorElement, targetInput.nextSibling);
-                        }
-                    } else {
-                        alert('更新に失敗しました');
+                } else if (data.errors) {
+                    const errorMap = {
+                        reservation_date: dateField,
+                        reservation_time: timeField,
+                        num_people: numField
+                    };
+                    for (let field in data.errors) {
+                        const input = errorMap[field];
+                        const error = document.createElement('p');
+                        error.classList.add('error-message');
+                        error.textContent = data.errors[field][0];
+                        input.parentNode.insertBefore(error, input.nextSibling);
                     }
+                } else {
+                    alert('更新に失敗しました');
                 }
             })
             .catch(error => {
@@ -146,12 +186,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // お気に入り更新
+    // お気に入り削除
     document.querySelectorAll('.btn-favorite').forEach(button => {
         button.addEventListener('click', function() {
             const restaurantId = this.getAttribute('data-restaurant-id');
             const icon = this.querySelector('.favorite-icon');
-            const isFavorite = icon.classList.contains('fas');
             const card = this.closest('.favorite-card');
 
             fetch(`/favorites/remove/${restaurantId}`, {
@@ -164,19 +203,12 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    if (isFavorite) {
-                        icon.classList.remove('fas', 'text-danger');
-                        icon.classList.add('far');
-                        if (card) card.remove();
-                    } else {
-                        icon.classList.remove('far');
-                        icon.classList.add('fas', 'text-danger');
-                    }
+                    card.remove();
                 } else {
                     alert('処理に失敗しました');
                 }
             })
-            .catch(error => alert('エラーが発生しました'));
+            .catch(() => alert('エラーが発生しました'));
         });
     });
 
@@ -197,13 +229,12 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('予約をキャンセルしました');
-                    this.closest('.reservation-item').remove();
+                    location.reload();
                 } else {
                     alert('キャンセルに失敗しました');
                 }
             })
-            .catch(error => alert('エラーが発生しました'));
+            .catch(() => alert('エラーが発生しました'));
         });
     });
 });

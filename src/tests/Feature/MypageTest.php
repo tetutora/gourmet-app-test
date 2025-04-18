@@ -5,6 +5,12 @@ namespace Tests\Feature;
 use App\Models\Reservation;
 use App\Models\Restaurant;
 use App\Models\User;
+use Database\Seeders\GenresTableSeeder;
+use Database\Seeders\RegionsTableSeeder;
+use Database\Seeders\RestaurantSeeder;
+use Database\Seeders\RoleSeeder;
+use Database\Seeders\StatusSeeder;
+use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,11 +23,12 @@ class MypageTest extends TestCase
         parent::setUp();
 
         $this->seed([
-            \Database\Seeders\RoleSeeder::class,
-            \Database\Seeders\RegionsTableSeeder::class,
-            \Database\Seeders\GenresTableSeeder::class,
-            \Database\Seeders\RestaurantSeeder::class,
-            \Database\Seeders\UsersTableSeeder::class,
+            RoleSeeder::class,
+            RegionsTableSeeder::class,
+            GenresTableSeeder::class,
+            RestaurantSeeder::class,
+            UsersTableSeeder::class,
+            StatusSeeder::class
         ]);
 
         $this->user = User::first();

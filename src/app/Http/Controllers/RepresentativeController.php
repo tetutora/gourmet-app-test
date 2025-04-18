@@ -16,13 +16,11 @@ class RepresentativeController extends Controller
      */
     public function representativeDashboard()
     {
-        $user = auth()->user();
+        Reservation::updateStatusIfReservationPassed();
 
-        $reservations = Reservation::where('restaurant_id', $user->restaurant_id)
-            ->orderBy('reservation_date', 'asc')
-            ->get();
+        $reservations = Reservation::getGroupedReservationsForUserRestaurants(auth()->id());
 
-        return view('representative.dashboard', ['reservations' => $reservations]);
+        return view('representative.dashboard', ['reservationsByRestaurant' => $reservations]);
     }
 
     /**
@@ -75,5 +73,30 @@ class RepresentativeController extends Controller
         $genres = Genre::all();
 
         return view('representative.edit', compact('restaurant', 'regions', 'genres'));
+    }
+
+    public function update(StoreRestaurantRequest $request, Restaurant $restaurant)
+    {
+        $validated = $request->validated();
+
+        DB::transaction(function () use ($request, $restaurant) {
+            if ($request->hasFile('image_url')) {
+                $restaurant->image_url = Restaurant::uploadImage($request->file('image_url'));
+            }
+
+            $restaurant->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'region_id' => $request->region_id,
+            ]);
+
+            $restaurant->genres()->sync($request->input('genre_ids', []));
+            $restaurant->attachGenres(
+                $request->input('genre_ids', []),
+                $request->input('new_genres')
+            );
+        });
+
+        return redirect()->route('representative.index');
     }
 }
