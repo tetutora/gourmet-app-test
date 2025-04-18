@@ -12,7 +12,7 @@
             <div class="reservations">
                 <h3>予約済み</h3>
                 @foreach ($reservations as $reservation)
-                    @if ($reservation->status_id === 1)
+                    @if ($reservation->status_id === \App\Constants\Constants::RESERVATION_STATUS_BOOKED)
                         <div class="reservation-item">
                             <div class="reservation-header">
                                 <p><i class="fas fa-clock"></i> 予約{{ $loop->iteration }}</p>
@@ -55,11 +55,12 @@
 
                 <h3>来店済み</h3>
                 @foreach ($reservations as $reservation)
-                    @if ($reservation->status_id === 2)
-                        <div class="reservation-item">
-                            <div class="reservation-header">
-                            </div>
-                            <p><strong>Shop</strong> {{ $reservation->restaurant->name }}</p>
+                @if ($reservation->status_id === \App\Constants\Constants::RESERVATION_STATUS_COMPLETED)
+                    <div class="reservation-item">
+                        <div class="reservation-header">
+                            <!-- 来店済みの予約ではキャンセルボタンを表示しない -->
+                        </div>
+                        <p><strong>Shop</strong> {{ $reservation->restaurant->name }}</p>
 
                             <div class="input-group">
                                 <label for="date-{{ $reservation->id }}">Date</label>

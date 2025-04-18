@@ -71,7 +71,12 @@
     <div class="review-header">
         <p class="review-title">レビュー</p>
         @if ($restaurant->reviews->count())
-            <p class="review-average">平均評価：<strong>{{ number_format($averageRating, 2) }}</strong> / 5</p>
+            <p class="review-average">
+                平均評価：
+                <strong>
+                    {{ number_format($averageRating, \App\Constants\Constants::ROUND_PRECISION) }}
+                </strong>/ {{ \App\Constants\Constants::REVIEW_MAX_RATING }}
+            </p>
         @else
             <p class="review-average">レビューはまだありません。</p>
         @endif
@@ -84,7 +89,9 @@
                 @foreach ($reviewsPaginated as $review)
                     <li class="review-item">
                         <div class="review-user"><strong>{{ $review->user->name }}</strong> さん</div>
-                        <div class="review-stars">評価：{{ $review->rating }} / 5</div>
+                        <div class="review-stars">
+                            評価：{{ $review->rating }} / {{ \App\Constants\Constants::REVIEW_MAX_RATING }}
+                        </div>
                         <div class="review-comment">「{{ $review->comment }}」</div>
                     </li>
                 @endforeach

@@ -2,8 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Constants\Constants;
+use App\Models\User;
+use App\Models\Restaurant;
+use App\Models\Status;
+use App\Models\Review;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
@@ -65,7 +70,7 @@ class Reservation extends Model
         $now = Carbon::now();
 
         return self::where('user_id', $userId)
-            ->where('status_id', 2)
+            ->where('status_id', Constants::RESERVATION_STATUS_COMPLETED)
             ->where(function ($query) use ($now) {
                 $query->where('reservation_date', '<', $now->toDateString())
                     ->orWhere(function ($query) use ($now) {
@@ -82,14 +87,14 @@ class Reservation extends Model
     {
         $now = Carbon::now();
 
-        $reservations = self::where('status_id', '!=', 2)
+        $reservations = self::where('status_id', '!=', Constants::RESERVATION_STATUS_COMPLETED)
             ->where(function ($query) use ($now) {
                 $query->whereRaw('CONCAT(reservation_date, " ", reservation_time) < ?', [$now]);
             })
             ->get();
 
         foreach ($reservations as $reservation) {
-            $reservation->update(['status_id' => 2]);
+            $reservation->update(['status_id' => Constants::RESERVATION_STATUS_COMPLETED]);
         }
     }
 
@@ -101,8 +106,7 @@ class Reservation extends Model
             'reservation_date' => $request->reservation_date,
             'reservation_time' => $request->reservation_time,
             'num_people' => $request->num_people,
-            'status_id' => 1,
-            'payment_method' => $request->payment_method,
+            'status_id' => Constants::RESERVATION_STATUS_BOOKED,
         ]);
     }
 
@@ -116,7 +120,20 @@ class Reservation extends Model
     {
         $reservation = self::findOrFail($reservationId);
         $reservation->update([
-            'status_id' => 3,
+            'status_id' => Constants::RESERVATION_STATUS_CANCELLED,
         ]);
+    }
+
+    public static function getGroupedReservationsForUserRestaurants($userId)
+    {
+        $restaurantIds = Restaurant::where('user_id', $userId)->pluck('id');
+
+        return self::whereIn('restaurant_id', $restaurantIds)
+            ->orderBy('reservation_date', 'asc')
+            ->orderBy('reservation_time', 'asc')
+            ->get()
+            ->groupBy(function ($reservation) {
+                return $reservation->restaurant->name;
+            });
     }
 }

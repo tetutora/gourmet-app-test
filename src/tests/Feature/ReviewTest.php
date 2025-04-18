@@ -13,6 +13,7 @@ use Database\Seeders\StatusSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Constants\Constants;
 
 class ReviewTest extends TestCase
 {
@@ -31,7 +32,7 @@ class ReviewTest extends TestCase
             StatusSeeder::class
         ]);
 
-        $this->user = User::where('role_id', 3)->first();
+        $this->user = User::where('role_id', Constants::ROLE_USER)->first();
         $this->restaurant = Restaurant::first();
 
         $this->actingAs($this->user);
@@ -42,7 +43,7 @@ class ReviewTest extends TestCase
             'reservation_date' => now()->toDateString(),
             'reservation_time' => now()->format('H:i'),
             'num_people' => 2,
-            'status_id' => 2,
+            'status_id' => Constants::RESERVATION_STATUS_COMPLETED,
         ]);
     }
 
@@ -67,7 +68,7 @@ class ReviewTest extends TestCase
     public function test_user_can_create_review_for_completed_reservation()
     {
         $response = $this->post(route('review.store', ['reservation' => $this->completedReservation->id]), [
-            'rating' => 5,
+            'rating' => Constants::REVIEW_MAX_RATING,
             'comment' => '素晴らしい体験でした！'
         ]);
 
@@ -78,7 +79,7 @@ class ReviewTest extends TestCase
             'user_id' => $this->user->id,
             'restaurant_id' => $this->restaurant->id,
             'reservation_id' => $this->completedReservation->id,
-            'rating' => 5,
+            'rating' => Constants::REVIEW_MAX_RATING,
             'comment' => '素晴らしい体験でした！'
         ]);
     }

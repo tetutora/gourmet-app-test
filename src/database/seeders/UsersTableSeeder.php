@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Constants\Constants;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,7 +18,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Admin User1',
             'email' => 'admin1@example.com',
             'password' => bcrypt('adminpass1'),
-            'role_id' => 1,
+            'role_id' => Constants::ROLE_ADMIN,
         ]);
 
         // 店舗代表者
@@ -25,14 +26,14 @@ class UsersTableSeeder extends Seeder
             'name' => 'Admin User2',
             'email' => 'admin2@example.com',
             'password' => bcrypt('adminpass2'),
-            'role_id' => 2,
+            'role_id' => Constants::ROLE_REPRESENTATIVE,
         ]);
 
         User::create([
             'name' => 'Admin User3',
             'email' => 'admin3@example.com',
             'password' => bcrypt('adminpass3'),
-            'role_id' => 2,
+            'role_id' => Constants::ROLE_REPRESENTATIVE,
         ]);
 
         // 利用者
@@ -40,7 +41,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Test User1',
             'email' => 'test1@example.com',
             'password' => bcrypt('password1'),
-            'role_id' => 3,
+            'role_id' => Constants::ROLE_USER,
         ]);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\RoleType;
+use App\Constants\Constants;
 use App\Models\Favorite;
 use App\Models\Genre;
 use App\Models\Region;
@@ -28,9 +28,8 @@ class ShopController extends Controller
     {
         $restaurant = Restaurant::with(['region', 'genres', 'reviews.user'])->findOrFail($id);
         $averageRating = $restaurant->reviews->avg('rating');
-        $averageRating = $averageRating ? round($averageRating, 2) : null;
-
-        $reviewsPaginated = $restaurant->reviews()->paginate(25);
+        $averageRating = $averageRating ? round($averageRating, Constants::ROUND_PRECISION) : null;
+        $reviewsPaginated = $restaurant->reviews()->paginate(Constants::REVIEW_PER_PAGE);
 
         return view('detail', compact('restaurant', 'averageRating', 'reviewsPaginated'));
     }
@@ -65,12 +64,5 @@ class ShopController extends Controller
     {
         Favorite::removeFavorite(Auth::id(), $restaurantId);
         return response()->json(['success' => true]);
-    }
-
-    public function someFunction()
-    {
-        return view('your-view', [
-            'RoleType' => RoleType::class,
-        ]);
     }
 }
