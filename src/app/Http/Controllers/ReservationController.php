@@ -18,8 +18,8 @@ class ReservationController extends Controller
      */
     public function store(ReservationRequest $request)
     {
-        $reservation = Reservation::createReservation($request);
-        return view('review.create', compact('reservation'));
+        Reservation::createReservation($request);
+        return redirect()->route('reservation.complete');
     }
 
     /**

@@ -95,7 +95,7 @@ class ReservationTest extends TestCase
             'payment_method' => 'card',
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(302);
 
         $this->assertDatabaseHas('reservations', [
             'user_id' => $this->user->id,
