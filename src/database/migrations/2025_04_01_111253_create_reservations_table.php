@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('reservation_date');
             $table->time('reservation_time');
             $table->integer('num_people');
-            $table->string('payment_method');
+            $table->string('payment_method')->default('card');
             $table->unsignedBigInteger('status_id')->default(1);
             $table->foreign('status_id')->references('id')->on('statuses');
             $table->timestamps();

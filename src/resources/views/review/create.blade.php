@@ -7,7 +7,7 @@
 @section('content')
 <h1>レビュー投稿</h1>
 
-<form action="{{ route('review.store', $reservation) }}" method="POST">
+<form action="{{ route('review.store', ['reservation' => $reservation->id]) }}" method="POST">
     @csrf
     <div>
         <label>評価（1〜5）:</label>

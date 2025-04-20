@@ -17,4 +17,3 @@ class Constants
     const ROLE_REPRESENTATIVE = 2;
     const ROLE_USER = 3;
 }
-

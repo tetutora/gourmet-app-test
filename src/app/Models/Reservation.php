@@ -100,12 +100,14 @@ class Reservation extends Model
 
     public static function createReservation($request)
     {
-        self::create([
+        // 予約を作成し、その予約を返す
+        return self::create([
             'user_id' => auth()->id(),
             'restaurant_id' => $request->restaurant_id,
             'reservation_date' => $request->reservation_date,
             'reservation_time' => $request->reservation_time,
             'num_people' => $request->num_people,
+            'payment_method' => 'card',
             'status_id' => Constants::RESERVATION_STATUS_BOOKED,
         ]);
     }

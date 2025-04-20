@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Constants\Constants;
 use App\Models\Restaurant;
 use App\Models\User;
 use App\Models\Reservation;
@@ -40,9 +41,8 @@ class ReservationTest extends TestCase
             StatusSeeder::class,
         ]);
 
-        $this->user = User::where('role_id', 3)->first();
+        $this->user = User::where('role_id', Constants::ROLE_USER)->first();
         $this->actingAs($this->user);
-
         $this->restaurant = Restaurant::first();
     }
 
@@ -92,9 +92,10 @@ class ReservationTest extends TestCase
             'reservation_date' => '2026-10-10',
             'reservation_time' => '12:30:00',
             'num_people' => 2,
+            'payment_method' => 'card',
         ]);
 
-        $response->assertRedirect(route('reservation.complete'));
+        $response->assertStatus(200);
 
         $this->assertDatabaseHas('reservations', [
             'user_id' => $this->user->id,
@@ -118,7 +119,7 @@ class ReservationTest extends TestCase
             'reservation_date' => Carbon::today(),
             'reservation_time' => '18:00:00',
             'num_people' => 2,
-            'status_id' => 1,
+            'status_id' => Constants::RESERVATION_STATUS_BOOKED,
         ]);
 
         $this->user->notify(new ReservationReminder($reservation));
@@ -144,7 +145,7 @@ class ReservationTest extends TestCase
             'reservation_date' => Carbon::today(),
             'reservation_time' => '18:00:00',
             'num_people' => 2,
-            'status_id' => 1,
+            'status_id' => Constants::RESERVATION_STATUS_BOOKED,
         ]);
 
         $qrCode = new QrCode("reservation/{$reservation->id}");
@@ -167,7 +168,7 @@ class ReservationTest extends TestCase
             'reservation_date' => Carbon::today(),
             'reservation_time' => '18:00:00',
             'num_people' => 2,
-            'status_id' => 1,
+            'status_id' => Constants::RESERVATION_STATUS_BOOKED,
         ]);
 
         $expectedText = "reservation/{$reservation->id}";

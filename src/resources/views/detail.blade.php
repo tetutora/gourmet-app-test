@@ -47,7 +47,6 @@
             @enderror
             <label for="payment_method">支払い方法</label>
             <select id="payment_method" name="payment_method">
-                <option value="cash">選択してください</option>
                 <option value="cash">現金</option>
                 <option value="card">カード</option>
             </select>

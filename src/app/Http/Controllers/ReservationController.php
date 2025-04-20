@@ -18,8 +18,8 @@ class ReservationController extends Controller
      */
     public function store(ReservationRequest $request)
     {
-        Reservation::createReservation($request);
-        return redirect()->route('reservation.complete');
+        $reservation = Reservation::createReservation($request);
+        return view('review.create', compact('reservation'));
     }
 
     /**
@@ -92,7 +92,7 @@ class ReservationController extends Controller
             return response()->json(['message' => '無効なQRコードです。'], 400);
         }
 
-        if ($reservation->status_id === 2) {
+        if ($reservation->status_id === Constants::RESERVATION_STATUS_COMPLETED) {
             return response()->json(['message' => '来店済みの予約です。'], 200);
         }
 
@@ -110,7 +110,8 @@ class ReservationController extends Controller
             'reservation_date' => Carbon::today(),
             'reservation_time' => '18:00:00',
             'num_people' => 2,
-            'status_id' => 1,
+            'payment_method' => 'card',
+            'status_id' => Constants::RESERVATION_STATUS_BOOKED,
         ]);
 
         $url = route('show.qrcode', ['reservation' => $reservation->id]);

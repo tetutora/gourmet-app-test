@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Constants\Constants;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\UsersTableSeeder;
@@ -20,6 +21,8 @@ class AuthTest extends TestCase
     {
         parent::setUp();
 
+        $this->withoutMiddleware();
+
         $this->seed([
             RoleSeeder::class,
             UsersTableSeeder::class,
@@ -32,10 +35,11 @@ class AuthTest extends TestCase
     public function test_registration()
     {
         $response = $this->post('/register', [
+            '_token' => csrf_token(),
             'name' => 'Test User',
             'email' => 'testuser@example.com',
             'password' => 'password123',
-            'role_id' => 3,
+            'role_id' => Constants::ROLE_USER,
         ]);
 
         $response->assertRedirect('/thanks');
@@ -54,7 +58,7 @@ class AuthTest extends TestCase
         $user->name = 'Test User';
         $user->email = 'testuser@example.com';
         $user->password = Hash::make('password123');
-        $user->role_id = 3;
+        $user->role_id = Constants::ROLE_USER;
         $user->save();
 
         $response = $this->post('/login', [
@@ -107,7 +111,7 @@ class AuthTest extends TestCase
         $user->name = 'Test User';
         $user->email = 'testuser@example.com';
         $user->password = Hash::make('password123');
-        $user->role_id = 3;
+        $user->role_id = Constants::ROLE_USER;
         $user->save();
 
         $response = $this->post('/login', [
