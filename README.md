@@ -49,6 +49,110 @@ https://docs.stripe.com/payments/checkout?locale=ja-JP
 | created_at | timestamp       |             |            |          |             |
 | updated_at | timestamp       |             |            |          |             |
 
+### usersテーブル
+| カラム名              | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY |
+|-------------------|-----------------|-------------|------------|----------|-------------|
+| id                | unsigned bigint | ○           |            | ○        |             |
+| role_id           | unsigned bigint |             |            | ○        | roles(id)   |
+| name              | string          |             |            | ○        |             |
+| user_id           | unsigned bigint |             |            |          | users(id)   |
+| email             | string          |             | ○          | ○        |             |
+| email_verified_at | timestamp       |             |            |          |             |
+| password          | string          |             |            | ○        |             |
+| remember_token    | string          |             |            |          |             |
+| created_at        | timestamp       |             |            |          |             |
+| updated_at        | timestamp       |             |            |          |             |
+
+
+### restaurantsテーブル
+| カラム名        | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY |
+|-------------|-----------------|-------------|------------|----------|-------------|
+| id          | unsigned bigint | ○           |            | ○        |             |
+| name        | string          |             |            | ○        |             |
+| user_id     | unsigned bigint |             |            |          | users(id)   |
+| region_id   | unsigned bigint |             |            | ○        | regions(id) |
+| description | text            |             |            | ○        |             |
+| image_url   | string          |             |            |          |             |
+| created_at  | timestamp       |             |            |          |             |
+| updated_at  | timestamp       |             |            |          |             |
+
+### favoritesテーブル
+| カラム名          | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY     |
+|---------------|-----------------|-------------|------------|----------|-----------------|
+| id            | unsigned bigint | ○           |            | ○        |                 |
+| user_id       | unsigned bigint |             |            | ○        | users(id)       |
+| restaurant_id | unsigned bigint |             |            | ○        | restaurants(id) |
+| created_at    | timestamp       |             |            |          |                 |
+| updated_at    | timestamp       |             |            |          |                 |
+
+### reservationsテーブル
+| カラム名             | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY     |
+|------------------|-----------------|-------------|------------|----------|-----------------|
+| id               | unsigned bigint | ○           |            | ○        |                 |
+| user_id          | unsigned bigint |             |            | ○        | users(id)       |
+| restaurant_id    | unsigned bigint |             |            | ○        | restaurants(id) |
+| reservation_date | date            |             |            | ○        |                 |
+| reservation_time | time            |             |            | ○        |                 |
+| num_people       | integer         |             |            | ○        |                 |
+| payment_method   | string          |             |            | ○        |                 |
+| status_id        | unsigned bigint |             |            | ○        | statuses(id)    |
+| created_at       | timestamp       |             |            |          |                 |
+| updated_at       | timestamp       |             |            |          |                 |
+
+
+### genresテーブル
+| カラム名       | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY |
+|------------|-----------------|-------------|------------|----------|-------------|
+| id         | unsigned bigint | ○           |            | ○        |             |
+| name       | string          |             |            | ○        |             |
+| created_at | timestamp       |             |            |          |             |
+| updated_at | timestamp       |             |            |          |             |
+
+### regionsテーブル
+| カラム名       | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY |
+|------------|-----------------|-------------|------------|----------|-------------|
+| id         | unsigned bigint | ○           |            | ○        |             |
+| name       | string          |             |            | ○        |             |
+| created_at | timestamp       |             |            |          |             |
+| updated_at | timestamp       |             |            |          |             |
+
+### statusesテーブル
+| カラム名       | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY |
+|------------|-----------------|-------------|------------|----------|-------------|
+| id         | unsigned bigint | ○           |            | ○        |             |
+| name       | string          |             |            | ○        |             |
+| created_at | timestamp       |             |            |          |             |
+| updated_at | timestamp       |             |            |          |             |
+
+### role_userテーブル
+| カラム名       | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY |
+|------------|-----------------|-------------|------------|----------|-------------|
+| id         | unsigned bigint | ○           |            | ○        |             |
+| user_id    | unsigned bigint |             |            | ○        | users(id)   |
+| role_id    | unsigned bigint |             |            | ○        | roles(id)   |
+| created_at | timestamp       |             |            |          |             |
+| updated_at | timestamp       |             |            |          |             |
+
+### genre_userテーブル
+| カラム名          | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY     |
+|---------------|-----------------|-------------|------------|----------|-----------------|
+| id            | unsigned bigint | ○           |            | ○        |                 |
+| restaurant_id | unsigned bigint |             |            | ○        | restaurants(id) |
+| genre_id      | unsigned bigint |             |            | ○        | genres(id)      |
+| created_at    | timestamp       |             |            |          |                 |
+| updated_at    | timestamp       |             |            |          |                 |
+
+### reviewsテーブル
+| カラム名           | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY      |
+|----------------|-----------------|-------------|------------|----------|------------------|
+| id             | unsigned bigint | ○           |            | ○        |                  |
+| user_id        | unsigned bigint |             |            | ○        | users(id)        |
+| restaurant_id  | unsigned bigint |             |            | ○        | restaurants(id)  |
+| reservation_id | unsigned bigint |             |            | ○        | reservations(id) |
+| rating         | tinyInteger     |             |            | ○        |                  |
+| comment        | text            |             |            |          |                  |
+| created_at     | timestamp       |             |            |          |                  |
+| updated_at     | timestamp       |             |            |          |                  |
 
 
 ## ER図
