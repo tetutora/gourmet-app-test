@@ -70,6 +70,9 @@ Route::middleware(['auth', "role:" . Constants::ROLE_ADMIN])->group(function () 
     Route::get('/administrator/dashboard', [AdministratorController::class, 'dashboard'])->name('administrator.dashboard');
     Route::get('/administrator/users/create', [AdministratorController::class, 'createRepresentative'])->name('administrator.create');
     Route::post('/administrator/users', [AdministratorController::class, 'storeRepresentative'])->name('administrator.store');
+    Route::get('/admin/mail', [AdministratorController::class, 'notifyForm'])->name('administrator.mail');
+    Route::post('/administrator/notify/send', [AdministratorController::class, 'sendNotification'])->name('administrator.notify.send');
+
 });
 
 /**

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\RoleType;
+use App\Constants\Constants;
+use App\Http\Requests\SendNotificationRequest;
+use App\Http\Requests\StoreRepresentativeRequest;
+use App\Mail\NotificationMail;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AdministratorController extends Controller
 {
@@ -14,7 +17,7 @@ class AdministratorController extends Controller
      */
     public function dashboard()
     {
-        $representatives = User::where('role_id', 2)->latest()->get();
+        $representatives = User::where('role_id', Constants::ROLE_REPRESENTATIVE)->latest()->get();
 
         return view('administrator.dashboard', compact('representatives'));
     }
@@ -26,22 +29,41 @@ class AdministratorController extends Controller
         return view('administrator.create');
     }
 
-    public function storeRepresentative(Request $request)
+    /**
+     * 店舗代表者作成処理
+     */
+    public function storeRepresentative(StoreRepresentativeRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => 2,
+            'role_id' => Constants::ROLE_REPRESENTATIVE,
             'email_verified_at' => now(),
         ]);
 
         return redirect()->route('administrator.dashboard')->with('success', '店舗代表者を作成しました');
+    }
+
+    /**
+     * お知らせメール作成画面
+     */
+    public function notifyForm()
+    {
+        return view('administrator.notify');
+    }
+
+    /**
+     * お知らせメール送信処理
+     */
+    public function sendNotification(SendNotificationRequest $request)
+    {
+        $users = User::where('role_id', Constants::ROLE_USER)->get();
+
+        foreach ($users as $user) {
+            Mail::to($user->email)->send(new NotificationMail($request->message));
+        }
+
+        return redirect()->route('administrator.mail')->with('success', 'お知らせメールを送信しました');
     }
 }
