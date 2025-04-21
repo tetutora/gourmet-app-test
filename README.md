@@ -39,7 +39,7 @@ https://docs.stripe.com/payments/checkout?locale=ja-JP
 - PHP 8.2.28 (PHP 実行環境)
 - Docker (開発環境のコンテナ管理)
 
-## テーブル仕様
+## テーブル設計
 ### roleテーブル
 | カラム名       | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY |
 |------------|-----------------|-------------|------------|----------|-------------|
