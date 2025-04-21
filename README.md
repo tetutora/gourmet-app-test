@@ -40,28 +40,15 @@ https://docs.stripe.com/payments/checkout?locale=ja-JP
 - Docker (開発環境のコンテナ管理)
 
 ## テーブル仕様
-### usersテーブル
-| rolesテーブル         |                 |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|-------------------|-----------------|-------------|------------|----------|-------------|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| カラム名              | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| id                | unsigned bigint | ○           |            | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| name              | sring           |             |            | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| guard_name        | string          |             |            | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| created_at        | timestamp       |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| updated_at        | timestamp       |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|                   |                 |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| usersテーブル         |                 |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| カラム名              | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| id                | unsigned bigint | ○           |            | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| role_id           | unsigned bigint |             |            | ○        | roles(id)   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| name              | string          |             |            | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| user_id           | unsigned bigint |             |            |          | users(id)   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| email             | string          |             | ○          | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| email_verified_at | timestamp       |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| password          | string          |             |            | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| remember_token    | string          |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| created_at        | timestamp       |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| updated_at        | timestamp       |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+### roleテーブル
+| カラム名       | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY |
+|------------|-----------------|-------------|------------|----------|-------------|
+| id         | unsigned bigint | ○           |            | ○        |             |
+| name       | sring           |             |            | ○        |             |
+| guard_name | string          |             |            | ○        |             |
+| created_at | timestamp       |             |            |          |             |
+| updated_at | timestamp       |             |            |          |             |
+
 
 
 ## ER図
