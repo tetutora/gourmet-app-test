@@ -5,12 +5,12 @@
 @endsection
 
 @section('content')
-    <h1>予約情報</h1>
+    <h1 class="page-title">予約情報</h1>
 
     @foreach($reservationsByRestaurant as $restaurant => $reservations)
-        <h2>{{ $restaurant }}</h2>
+        <h2 class="sub-title">{{ $restaurant }}</h2>
 
-        <table>
+        <table class="reservation-table">
             <thead>
                 <tr>
                     <th>予約者</th>

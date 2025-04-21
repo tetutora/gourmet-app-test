@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Constants\Constants;
 use App\Models\Reservation;
 use App\Models\Restaurant;
 use App\Models\User;
@@ -13,7 +14,6 @@ use Database\Seeders\StatusSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Constants\Constants;
 
 class ReviewTest extends TestCase
 {

@@ -6,19 +6,19 @@
 
 @section('content')
 <div class="container">
-    <h2>決済フォーム</h2>
+    <h2 class="page-title">決済フォーム</h2>
 
     <form action="{{ route('payment.process') }}" method="POST" id="payment-form">
         @csrf
         <input type="hidden" name="amount" value="1000">
+
         <div class="form-group">
             <label for="card-element">カード情報</label>
-            <div id="card-element">
-                <!-- Stripeのカード入力フィールドがここに表示される -->
+            <div id="card-element" class="card-element">
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">支払う</button>
+        <button type="submit" class="btn-primary">支払う</button>
     </form>
 
     @if(session('success'))
@@ -32,7 +32,7 @@
 <script>
     var stripe = Stripe('{{ env('STRIPE_KEY') }}');
     var elements = stripe.elements();
-    
+
     var card = elements.create('card');
     card.mount('#card-element');
 
@@ -42,10 +42,8 @@
 
         stripe.createToken(card).then(function(result) {
             if (result.error) {
-                // エラーが発生した場合はメッセージを表示
                 alert(result.error.message);
             } else {
-                // トークンをフォームに追加して送信
                 var tokenInput = document.createElement('input');
                 tokenInput.setAttribute('type', 'hidden');
                 tokenInput.setAttribute('name', 'stripeToken');

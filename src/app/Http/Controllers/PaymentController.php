@@ -20,7 +20,7 @@ class PaymentController extends Controller
         try {
             $amount = $request->input('amount');
 
-            $charge = Charge::create([
+            Charge::create([
                 'amount' => $amount,
                 'currency' => 'jpy',
                 'source' => $request->stripeToken,

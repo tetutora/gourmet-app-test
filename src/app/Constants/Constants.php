@@ -16,4 +16,7 @@ class Constants
     const ROLE_ADMIN = 1;
     const ROLE_REPRESENTATIVE = 2;
     const ROLE_USER = 3;
+
+    public const PAYMENT_METHOD_CARD = 'card';
+    public const PAYMENT_METHOD_CASH = 'cash';
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\RoleType;
+use App\Constants\Constants;
+use App\Http\Requests\StoreRepresentativeRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AdministratorController extends Controller
@@ -14,7 +14,7 @@ class AdministratorController extends Controller
      */
     public function dashboard()
     {
-        $representatives = User::where('role_id', 2)->latest()->get();
+        $representatives = User::where('role_id', Constants::ROLE_REPRESENTATIVE)->latest()->get();
 
         return view('administrator.dashboard', compact('representatives'));
     }
@@ -26,19 +26,13 @@ class AdministratorController extends Controller
         return view('administrator.create');
     }
 
-    public function storeRepresentative(Request $request)
+    public function storeRepresentative(StoreRepresentativeRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => 2,
+            'role_id' => Constants::ROLE_REPRESENTATIVE,
             'email_verified_at' => now(),
         ]);
 

@@ -6,7 +6,6 @@ use App\Http\Requests\ReviewRequest;
 use App\Models\Reservation;
 use App\Models\Review;
 
-
 class ReviewController extends Controller
 {
     public function create(Reservation $reservation)

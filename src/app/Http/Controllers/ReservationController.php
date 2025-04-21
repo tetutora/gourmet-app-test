@@ -8,7 +8,6 @@ use App\Http\Requests\ReservationRequest;
 use App\Models\Reservation;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
@@ -75,7 +74,7 @@ class ReservationController extends Controller
 
         $qrCodePath = $this->generateQrCode($reservation);
 
-        $qrCodeUrl = asset('storage/qrcodes/qr_' . $reservation->id . '.png');
+        $qrCodeUrl = asset('storage/' . $qrCodePath);
 
         return view('qrcode', ['qrCodeUrl' => $qrCodeUrl]);
     }
@@ -92,32 +91,15 @@ class ReservationController extends Controller
             return response()->json(['message' => '無効なQRコードです。'], 400);
         }
 
-        if ($reservation->status_id === Constants::RESERVATION_STATUS_COMPLETED) {
-            return response()->json(['message' => '来店済みの予約です。'], 200);
+        switch ($reservation->status_id) {
+            case Constants::RESERVATION_STATUS_COMPLETED:
+                return response()->json(['message' => '来店済みの予約です。'], 200);
+            case Constants::RESERVATION_STATUS_RESERVED:
+                return response()->json(['message' => '予約確認済みです。'], 200);
+            case Constants::RESERVATION_STATUS_CANCELLED:
+                return response()->json(['message' => 'キャンセルされた予約です。'], 403);
+            default:
+                return response()->json(['message' => '予約情報が確認できません。'], 404);
         }
-
-        return response()->json(['message' => '予約情報が確認できません。'], 404);
-    }
-
-    /**
-     * 予約に対するQRコードを表示するためのURLを生成して表示できるか
-     */
-    public function test_qr_code_url_is_generated_for_reservation()
-    {
-        $reservation = Reservation::create([
-            'user_id' => $this->user->id,
-            'restaurant_id' => $this->restaurant->id,
-            'reservation_date' => Carbon::today(),
-            'reservation_time' => '18:00:00',
-            'num_people' => 2,
-            'payment_method' => 'card',
-            'status_id' => Constants::RESERVATION_STATUS_BOOKED,
-        ]);
-
-        $url = route('show.qrcode', ['reservation' => $reservation->id]);
-
-        $response = $this->get($url);
-        $response->assertStatus(200);
-        $response->assertHeader('Content-Type', 'image/png');
     }
 }
