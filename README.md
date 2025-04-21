@@ -1,5 +1,8 @@
 # gourmet-app-test
 
+## 作成した目的
+外部の飲食店予約サービスは手数料を取られるので自社で予約サービスを持ちたいため。
+
 ## 環境構築
 1. Dockerを起動する
 2. プロジェクト直下で以下のコマンドを実行する
@@ -30,15 +33,40 @@ https://docs.stripe.com/payments/checkout?locale=ja-JP
 
 
 ## 使用技術（実行環境）
-- ・Laravel 11.44.2
-- ・MySQL 10.11.11 (データベース)
-- ・Nginx 1.27.3(Web サーバー)
-- ・PHP 8.2.28 (PHP 実行環境)
-- ・Docker (開発環境のコンテナ管理)
+- Laravel 11.44.2
+- MySQL 10.11.11 (データベース)
+- Nginx 1.27.3(Web サーバー)
+- PHP 8.2.28 (PHP 実行環境)
+- Docker (開発環境のコンテナ管理)
+
+## テーブル仕様
+### usersテーブル
+| rolesテーブル         |                 |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|-------------------|-----------------|-------------|------------|----------|-------------|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| カラム名              | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| id                | unsigned bigint | ○           |            | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| name              | sring           |             |            | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| guard_name        | string          |             |            | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| created_at        | timestamp       |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| updated_at        | timestamp       |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|                   |                 |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| usersテーブル         |                 |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| カラム名              | 型               | PRIMARY KEY | UNIQUE KEY | NOT NULL | FOREIGN KEY |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| id                | unsigned bigint | ○           |            | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| role_id           | unsigned bigint |             |            | ○        | roles(id)   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| name              | string          |             |            | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| user_id           | unsigned bigint |             |            |          | users(id)   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| email             | string          |             | ○          | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| email_verified_at | timestamp       |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| password          | string          |             |            | ○        |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| remember_token    | string          |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| created_at        | timestamp       |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| updated_at        | timestamp       |             |            |          |             |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
 
 ## ER図
 
-![表示](./test.drawio.svg)
+![表示](./test.drawio)
 
 ## URL
 - 開発環境: http://localhost

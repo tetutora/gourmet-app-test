@@ -59,7 +59,6 @@ Route::middleware(['auth', "role:" . Constants::ROLE_REPRESENTATIVE])->group(fun
     Route::get('/representative/restaurants', [RepresentativeController::class, 'index'])->name('representative.index');
     Route::get('/restaurants/{restaurant}/edit', [RepresentativeController::class, 'edit'])->name('restaurants.edit');
     Route::put('/restaurants/{restaurant}', [RepresentativeController::class, 'update'])->name('restaurants.update');
-    Route::get('/show-qrcode/{reservation}', [ReservationController::class, 'showQRCode'])->name('show.qrcode');
     Route::post('/verify-qrcode', [ReservationController::class, 'verifyQRCode'])->name('verify.qrcode');
 });
 
