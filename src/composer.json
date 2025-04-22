@@ -11,6 +11,7 @@
         "laravel/fortify": "^1.25",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
+        "league/flysystem-aws-s3-v3": "^3.12",
         "spatie/laravel-permission": "^6.16",
         "stripe/stripe-php": "^17.1"
     },
