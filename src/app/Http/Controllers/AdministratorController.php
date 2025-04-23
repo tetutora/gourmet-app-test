@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\Constants;
-use App\Http\Requests\SendNotificationRequest;
 use App\Http\Requests\StoreRepresentativeRequest;
-use App\Mail\NotificationMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -29,9 +27,6 @@ class AdministratorController extends Controller
         return view('administrator.create');
     }
 
-    /**
-     * 店舗代表者作成処理
-     */
     public function storeRepresentative(StoreRepresentativeRequest $request)
     {
         User::create([

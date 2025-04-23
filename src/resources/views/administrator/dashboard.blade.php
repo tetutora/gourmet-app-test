@@ -6,15 +6,15 @@
 
 @section('content')
 <div class="container">
-    <h1>店舗代表者一覧</h1>
+    <h1 class="page-title">店舗代表者一覧</h1>
 
-    <a href="{{ route('administrator.create') }}" class="btn btn-primary">新規作成</a>
+    <a href="{{ route('administrator.create') }}" class="create-btn">新規作成</a>
 
     @if ($representatives->isEmpty())
         <p>店舗代表者が登録されていません。</p>
     @else
         <table class="table table-striped">
-            <thead>
+            <thead class="table-header">
                 <tr>
                     <th>名前</th>
                     <th>メールアドレス</th>
@@ -23,7 +23,7 @@
             </thead>
             <tbody>
                 @foreach ($representatives as $representative)
-                    <tr>
+                    <tr class="table-row">
                         <td>{{ $representative->name }}</td>
                         <td>{{ $representative->email }}</td>
                         <td>{{ $representative->created_at->format('Y/m/d') }}</td>

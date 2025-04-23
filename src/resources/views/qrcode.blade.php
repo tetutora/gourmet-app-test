@@ -6,10 +6,10 @@
 
 @section('content')
 <div class="container">
-    <h2>QRコード</h2>
+    <h2 class="page-title">QRコード</h2>
     <div class="qr-code-container">
-        <img src="{{ $qrCodeUrl }}" alt="QR Code">
+        <img src="{{ $qrCodeUrl }}" alt="QR Code" class="qr-code-image">
     </div>
-    <p>このQRコードを店舗側に提示してください。</p>
+    <p class="description-text">このQRコードを店舗側に提示してください。</p>
 </div>
 @endsection

@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container">
-    <h1>登録店舗一覧</h1>
+    <h1 class="title">登録店舗一覧</h1>
 
     @if($restaurants->isEmpty())
         <p>店舗が登録されていません。</p>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReviewRequest;
 use App\Models\Reservation;
 use App\Models\Review;
-
+use Illuminate\Support\Facades\Log;
 
 class ReviewController extends Controller
 {
@@ -16,15 +16,18 @@ class ReviewController extends Controller
 
     public function store(ReviewRequest $request, Reservation $reservation)
     {
+        $validated = $request->validated();
+
+        $reservation->load('restaurant');
+
         Review::create([
             'user_id' => auth()->id(),
-            'restaurant_id' => $reservation->restaurant_id,
+            'restaurant_id' => $reservation->restaurant->id,
             'reservation_id' => $reservation->id,
-            'rating' => $request->rating,
-            'comment' => $request->comment,
+            'rating' => $validated['rating'],
+            'comment' => $validated['comment'],
         ]);
 
-        return redirect()->route('mypage', ['restaurant' => $reservation->restaurant_id])
-                        ->with('success', 'レビューを投稿しました。');
+        return redirect()->route('mypage')->with('success', 'レビューを投稿しました。');
     }
 }

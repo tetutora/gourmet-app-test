@@ -25,25 +25,25 @@
                             <div class="input-group">
                                 <label for="date-{{ $reservation->id }}">Date</label>
                                 <input type="date" id="date-{{ $reservation->id }}" class="reservation-date"
-                                    data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_date }}">
+                                       data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_date }}">
                             </div>
 
                             <div class="input-group">
                                 <label for="time-{{ $reservation->id }}">Time</label>
                                 <input type="time" id="time-{{ $reservation->id }}" class="reservation-time"
-                                    data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_time }}">
+                                       data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_time }}">
                             </div>
 
                             <div class="input-group">
                                 <label for="num-{{ $reservation->id }}">Number</label>
                                 <input type="number" id="num-{{ $reservation->id }}" class="reservation-num"
-                                    data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}">
+                                       data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}">
                             </div>
 
                             <button class="update-reservation" data-id="{{ $reservation->id }}">更新</button>
 
                             <a href="{{ route('reservations.qrcode', ['reservation' => $reservation->id]) }}"
-                            class="btn-qr-code">
+                               class="btn-qr-code">
                                 QRコードを表示
                             </a>
                             @if ($reservation->payment_method === 'card')
@@ -55,29 +55,29 @@
 
                 <h3>来店済み</h3>
                 @foreach ($reservations as $reservation)
-                @if ($reservation->status_id === \App\Constants\Constants::RESERVATION_STATUS_COMPLETED)
-                    <div class="reservation-item">
-                        <div class="reservation-header">
-                            <!-- 来店済みの予約ではキャンセルボタンを表示しない -->
-                        </div>
-                        <p><strong>Shop</strong> {{ $reservation->restaurant->name }}</p>
+                    @if ($reservation->status_id === \App\Constants\Constants::RESERVATION_STATUS_COMPLETED)
+                        <div class="reservation-item">
+                            <div class="reservation-header">
+                                <!-- 来店済みの予約ではキャンセルボタンを表示しない -->
+                            </div>
+                            <p><strong>Shop</strong> {{ $reservation->restaurant->name }}</p>
 
                             <div class="input-group">
                                 <label for="date-{{ $reservation->id }}">Date</label>
                                 <input type="date" id="date-{{ $reservation->id }}" class="reservation-date"
-                                    data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_date }}">
+                                       data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_date }}">
                             </div>
 
                             <div class="input-group">
                                 <label for="time-{{ $reservation->id }}">Time</label>
                                 <input type="time" id="time-{{ $reservation->id }}" class="reservation-time"
-                                    data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_time }}">
+                                       data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_time }}">
                             </div>
 
                             <div class="input-group">
                                 <label for="num-{{ $reservation->id }}">Number</label>
                                 <input type="number" id="num-{{ $reservation->id }}" class="reservation-num"
-                                    data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}">
+                                       data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}">
                             </div>
 
                             @if (!$reservation->hasReview())

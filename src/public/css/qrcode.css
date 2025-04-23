@@ -5,7 +5,7 @@
     font-family: Arial, sans-serif;
 }
 
-h2 {
+.page-title {
     text-align: center;
     font-size: 24px;
     margin-bottom: 20px;
@@ -19,7 +19,7 @@ h2 {
     margin-bottom: 20px;
 }
 
-.qr-code-container img {
+.qr-code-image {
     width: 300px;
     height: 300px;
     border: 1px solid #ccc;
@@ -27,7 +27,7 @@ h2 {
     object-fit: cover;
 }
 
-p {
+.description-text {
     text-align: center;
     font-size: 16px;
     color: #555;

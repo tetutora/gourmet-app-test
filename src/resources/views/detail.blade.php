@@ -5,6 +5,9 @@
 @endsection
 
 @section('content')
+@php
+    use App\Constants\Constants;
+@endphp
 <div class="restaurant-container">
     <div class="restaurant-left">
         <div class="restaurant-header">
@@ -47,8 +50,8 @@
             @enderror
             <label for="payment_method">支払い方法</label>
             <select id="payment_method" name="payment_method">
-                <option value="cash">現金</option>
-                <option value="card">カード</option>
+                <option value="{{ Constants::PAYMENT_METHOD_CARD }}">カード</option>
+                <option value="{{ Constants::PAYMENT_METHOD_CASH }}">現金</option>
             </select>
             @error('payment_method')
                 <p class="error-message">{{ $message }}</p>
