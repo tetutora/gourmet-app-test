@@ -24,7 +24,7 @@ class ReviewController extends Controller
             'comment' => $request->comment,
         ]);
 
-        return redirect()->route('restaurants.detail', ['restaurant' => $reservation->restaurant_id])
+        return redirect()->route('mypage', ['restaurant' => $reservation->restaurant_id])
                         ->with('success', 'レビューを投稿しました。');
     }
 }
