@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Constants\Constants;
 use App\Http\Requests\StoreRepresentativeRequest;
+use App\Http\Requests\SendNotificationRequest;
+use App\Mail\NotificationMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
