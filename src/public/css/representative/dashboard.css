@@ -1,18 +1,17 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f7fc;
     margin: 0;
     padding: 0;
 }
 
-h1 {
+.page-title {
     font-size: 2rem;
     color: #333;
     text-align: center;
     margin-top: 30px;
 }
 
-table {
+.reservation-table {
     width: 80%;
     margin: 20px auto;
     border-collapse: collapse;
@@ -22,28 +21,28 @@ table {
     overflow: hidden;
 }
 
-thead {
+.reservation-table thead {
     background-color: #4a90e2;
     color: white;
 }
 
-th,
-td {
+.reservation-table th,
+.reservation-table td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
-th {
+.reservation-table th {
     font-weight: bold;
 }
 
-td {
+.reservation-table td {
     font-size: 1rem;
     color: #555;
 }
 
-h2 {
+.sub-title {
     font-size: 1.5rem;
     color: #333;
     margin-top: 30px;
@@ -51,21 +50,21 @@ h2 {
 }
 
 @media (max-width: 768px) {
-    table {
+    .reservation-table {
         width: 95%;
     }
 
-    th,
-    td {
+    .reservation-table th,
+    .reservation-table td {
         font-size: 0.9rem;
         padding: 10px;
     }
 
-    h1 {
+    .page-title {
         font-size: 1.5rem;
     }
 
-    h2 {
+    .sub-title {
         font-size: 1.25rem;
     }
 }

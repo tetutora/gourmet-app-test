@@ -25,6 +25,7 @@ class ReservationRequest extends FormRequest
             'reservation_date' => ['required', 'after_or_equal:today'],
             'reservation_time' => ['required'],
             'num_people' => ['required', 'integer', 'min:1'],
+            'payment_method' => ['required', 'in:cash,card'],
         ];
     }
 
@@ -37,6 +38,8 @@ class ReservationRequest extends FormRequest
             'num_people.required' => '予約人数を入力してください。',
             'num_people.integer' => '予約人数は整数で指定してください。',
             'num_people.min' => '最低 :min 人以上で予約してください。',
+            'payment_method.required' => '支払い方法を選択してください。',
+            'payment_method.in' => '支払い方法は「現金」または「カード」を選択してください。',
         ];
     }
 }

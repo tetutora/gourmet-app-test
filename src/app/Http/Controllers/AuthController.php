@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -23,7 +24,15 @@ class AuthController extends Controller
     */
     public function register(RegisterRequest $request)
     {
-        $user = User::createAndLogin($request);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => Constants::ROLE_USER,
+            'email_verified_at' => now(),
+        ]);
+
+        Auth::login($user);
 
         return redirect()->route('thanks');
     }

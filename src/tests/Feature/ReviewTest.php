@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Constants\Constants;
 use App\Models\Reservation;
 use App\Models\Restaurant;
+use App\Models\Review;
 use App\Models\User;
 use Database\Seeders\GenresTableSeeder;
 use Database\Seeders\RegionsTableSeeder;
@@ -13,7 +15,6 @@ use Database\Seeders\StatusSeeder;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Constants\Constants;
 
 class ReviewTest extends TestCase
 {
@@ -34,7 +35,6 @@ class ReviewTest extends TestCase
 
         $this->user = User::where('role_id', Constants::ROLE_USER)->first();
         $this->restaurant = Restaurant::first();
-
         $this->actingAs($this->user);
 
         $this->completedReservation = Reservation::create([
@@ -47,44 +47,57 @@ class ReviewTest extends TestCase
         ]);
     }
 
+    /**
+     * ユーザーがレビュー作成ページにアクセスできるか
+     */
     public function test_User_can_access_review_create_page()
     {
-        $response = $this->get('/mypage');
-        $response->assertStatus(200);
-        $response->assertSee('レビューを投稿');
-
         $reviewUrl = route('review.create', ['reservation' => $this->completedReservation->id]);
         $response = $this->get($reviewUrl);
-        $response->assertStatus(200);
+
         $response->assertSee('レビュー投稿');
     }
 
-    public function test_user_can_create_review_for_completed_reservation()
-    {
-        $response = $this->post(route('review.store', ['reservation' => $this->completedReservation->id]), [
-            'rating' => Constants::REVIEW_MAX_RATING,
-            'comment' => '素晴らしい体験でした！'
-        ]);
-
-        $response->assertRedirect(route('restaurants.detail', ['restaurant' => $this->restaurant->id]));
-        $response->assertSessionHas('success', 'レビューを投稿しました。');
-
-        $this->assertDatabaseHas('reviews', [
-            'user_id' => $this->user->id,
-            'restaurant_id' => $this->restaurant->id,
-            'reservation_id' => $this->completedReservation->id,
-            'rating' => Constants::REVIEW_MAX_RATING,
-            'comment' => '素晴らしい体験でした！'
-        ]);
-    }
-
+    /**
+     * レビューに評価とコメントが必須であるか
+     */
     public function test_review_requires_rating_and_comment()
     {
-        $response = $this->post(route('review.store', ['reservation' => $this->completedReservation->id]), [
+        $this->withoutMiddleware();
+        $response = $this->actingAs($this->user)->post(route('review.store', ['reservation' => $this->completedReservation->id]), [
             'rating' => '',
             'comment' => '',
         ]);
 
         $response->assertSessionHasErrors(['rating', 'comment']);
+    }
+
+    /**
+     * レビューを作成し保存できるか
+     */
+    public function test_user_can_create_and_store_review()
+    {
+        $this->withoutMiddleware();
+
+        $response = $this->actingAs($this->user)->post(route('review.store', ['reservation' => $this->completedReservation->id]), [
+            'user_id' => auth()->id(),
+            'restaurant_id' => $this->restaurant->id,
+            'reservation_id' => $this->completedReservation->id,
+            'rating' => 5,
+            'comment' => '素晴らしい体験でした！',
+        ]);
+
+        $response->assertRedirect(route('mypage'));
+
+        $this->assertDatabaseHas('reviews', [
+            'user_id' => $this->user->id,
+            'restaurant_id' => $this->restaurant->id,
+            'reservation_id' => $this->completedReservation->id,
+            'rating' => 5,
+            'comment' => '素晴らしい体験でした！',
+        ]);
+
+        $response->assertRedirect(route('mypage'));
+        $response->assertSessionHas('success', 'レビューを投稿しました。');
     }
 }

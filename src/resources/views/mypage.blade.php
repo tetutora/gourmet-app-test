@@ -7,10 +7,10 @@
 @section('content')
 <div class="mypage-container">
     <div class="mypage-content">
-        <!-- 予約状況 -->
         <div class="mypage-left">
             <p class="left-title">予約状況</p>
             <div class="reservations">
+                <h3>予約済み</h3>
                 @foreach ($reservations as $reservation)
                     @if ($reservation->status_id === \App\Constants\Constants::RESERVATION_STATUS_BOOKED)
                         <div class="reservation-item">
@@ -25,63 +25,71 @@
                             <div class="input-group">
                                 <label for="date-{{ $reservation->id }}">Date</label>
                                 <input type="date" id="date-{{ $reservation->id }}" class="reservation-date"
-                                    data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_date }}">
+                                       data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_date }}">
                             </div>
 
                             <div class="input-group">
                                 <label for="time-{{ $reservation->id }}">Time</label>
                                 <input type="time" id="time-{{ $reservation->id }}" class="reservation-time"
-                                    data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_time }}">
+                                       data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_time }}">
                             </div>
 
                             <div class="input-group">
                                 <label for="num-{{ $reservation->id }}">Number</label>
                                 <input type="number" id="num-{{ $reservation->id }}" class="reservation-num"
-                                    data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}">
+                                       data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}">
                             </div>
 
                             <button class="update-reservation" data-id="{{ $reservation->id }}">更新</button>
+
+                            <a href="{{ route('reservations.qrcode', ['reservation' => $reservation->id]) }}"
+                               class="btn-qr-code">
+                                QRコードを表示
+                            </a>
+                            @if ($reservation->payment_method === 'card')
+                                <a href="{{ route('payment.form') }}" class="btn-payment">カードお支払い</a>
+                            @endif
                         </div>
                     @endif
                 @endforeach
 
                 <h3>来店済み</h3>
                 @foreach ($reservations as $reservation)
-                @if ($reservation->status_id === \App\Constants\Constants::RESERVATION_STATUS_COMPLETED)
-                    <div class="reservation-item">
-                        <div class="reservation-header">
-                            <!-- 来店済みの予約ではキャンセルボタンを表示しない -->
-                        </div>
-                        <p><strong>Shop</strong> {{ $reservation->restaurant->name }}</p>
+                    @if ($reservation->status_id === \App\Constants\Constants::RESERVATION_STATUS_COMPLETED)
+                        <div class="reservation-item">
+                            <div class="reservation-header">
+                                <!-- 来店済みの予約ではキャンセルボタンを表示しない -->
+                            </div>
+                            <p><strong>Shop</strong> {{ $reservation->restaurant->name }}</p>
 
-                        <div class="input-group">
-                            <label for="date-{{ $reservation->id }}">Date</label>
-                            <input type="date" id="date-{{ $reservation->id }}" class="reservation-date"
-                                data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_date }}">
-                        </div>
+                            <div class="input-group">
+                                <label for="date-{{ $reservation->id }}">Date</label>
+                                <input type="date" id="date-{{ $reservation->id }}" class="reservation-date"
+                                       data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_date }}">
+                            </div>
 
-                        <div class="input-group">
-                            <label for="time-{{ $reservation->id }}">Time</label>
-                            <input type="time" id="time-{{ $reservation->id }}" class="reservation-time"
-                                data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_time }}">
-                        </div>
+                            <div class="input-group">
+                                <label for="time-{{ $reservation->id }}">Time</label>
+                                <input type="time" id="time-{{ $reservation->id }}" class="reservation-time"
+                                       data-id="{{ $reservation->id }}" value="{{ $reservation->reservation_time }}">
+                            </div>
 
-                        <div class="input-group">
-                            <label for="num-{{ $reservation->id }}">Number</label>
-                            <input type="number" id="num-{{ $reservation->id }}" class="reservation-num"
-                                data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}">
-                        </div>
+                            <div class="input-group">
+                                <label for="num-{{ $reservation->id }}">Number</label>
+                                <input type="number" id="num-{{ $reservation->id }}" class="reservation-num"
+                                       data-id="{{ $reservation->id }}" value="{{ $reservation->num_people }}">
+                            </div>
 
-                        @if (!$reservation->hasReview())  <!-- レビューがない場合にボタンを表示 -->
-                            <a href="{{ route('review.create', ['reservation' => $reservation->id]) }}" class="btn-review">
-                                <button class="btn btn-primary">レビューを投稿</button>
-                            </a>
-                        @else
-                            <p>レビュー投稿済み</p>  <!-- 既に投稿されている場合は非表示 -->
-                        @endif
-                    </div>
-                @endif
-            @endforeach
+                            @if (!$reservation->hasReview())
+                                <a href="{{ route('review.create', ['reservation' => $reservation->id]) }}" class="btn-review">
+                                    <button class="btn btn-primary">レビューを投稿</button>
+                                </a>
+                            @else
+                                <p>レビュー投稿済み</p>
+                            @endif
+                        </div>
+                    @endif
+                @endforeach
             </div>
         </div>
 
@@ -138,7 +146,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const timeInput = timeField.value;
             const numPeopleInput = numField.value;
 
-            // エラーメッセージをリセット
             [dateField, timeField, numField].forEach(field => {
                 const error = field.nextElementSibling;
                 if (error && error.classList.contains('error-message')) {

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Constants\RoleType;
-use App\Models\Role;
 use Illuminate\Database\Seeder;
+use App\Constants\Constants;
+use App\Models\Role;
 
 class RoleSeeder extends Seeder
 {
@@ -13,9 +13,20 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['id' => 1, 'name' => RoleType::ADMIN, 'guard_name' => 'web']);
-        Role::create(['id' => 2, 'name' => RoleType::REPRESENTATIVE, 'guard_name' => 'web']);
-        Role::create(['id' => 3, 'name' => RoleType::USER, 'guard_name' => 'web']);
-
+        Role::create([
+            'id' => Constants::ROLE_ADMIN,
+            'name' => 'admin',
+            'guard_name' => 'web'
+        ]);
+        Role::create([
+            'id' => Constants::ROLE_REPRESENTATIVE,
+            'name' => 'representative',
+            'guard_name' => 'web'
+        ]);
+        Role::create([
+            'id' => Constants::ROLE_USER,
+            'name' => 'user',
+            'guard_name' => 'web'
+        ]);
     }
 }

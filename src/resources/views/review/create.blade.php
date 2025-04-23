@@ -5,13 +5,13 @@
 @endsection
 
 @section('content')
-<h1>レビュー投稿</h1>
+<h1 class="page-title">レビュー投稿</h1>
 
-<form action="{{ route('review.store', $reservation) }}" method="POST">
+<form action="{{ route('review.store', ['reservation' => $reservation->id]) }}" method="POST" class="review-form">
     @csrf
     <div>
-        <label>評価（1〜5）:</label>
-        <select name="rating" required>
+        <label class="form-label">評価（1〜5）:</label>
+        <select name="rating" class="form-select" required>
             @for($i = 1; $i <= 5; $i++)
                 <option value="{{ $i }}" {{ old('rating') == $i ? 'selected' : '' }}>{{ $i }}</option>
             @endfor
@@ -22,13 +22,13 @@
     </div>
 
     <div>
-        <label>コメント（任意）:</label>
-        <textarea name="comment" rows="5" cols="40">{{ old('comment') }}</textarea>
+        <label class="form-label">コメント:</label>
+        <textarea name="comment" rows="5" cols="40" class="form-textarea">{{ old('comment') }}</textarea>
         @error('comment')
             <p class="error-message">{{ $message }}</p>
         @enderror
     </div>
 
-    <button type="submit">送信</button>
+    <button type="submit" class="submit-button">送信</button>
 </form>
 @endsection

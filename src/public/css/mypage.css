@@ -147,6 +147,22 @@
     transform: scale(1.2);
 }
 
+.btn-payment {
+    display: inline-block;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-payment:hover {
+    background-color: #0056b3;
+}
+
 .right-title {
     font-size: 24px;
     font-weight: bold;
@@ -267,6 +283,32 @@
 
 .btn-review button:hover {
     background-color: #0056b3;
+}
+
+.btn-qr-code {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btn-qr-code:hover {
+    background-color: #0056b3;
+}
+
+.btn-qr-code:active {
+    background-color: #004085;
+}
+
+.btn-qr-code i {
+    margin-right: 8px;
 }
 
 @media (max-width: 767px) {

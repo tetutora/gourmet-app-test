@@ -33,6 +33,7 @@ class MypageTest extends TestCase
 
         $this->user = User::first();
         $this->actingAs($this->user);
+        $this->withoutMiddleware();
 
         $this->restaurant = Restaurant::first();
     }
@@ -48,6 +49,7 @@ class MypageTest extends TestCase
             'reservation_date' => now()->addDays(1)->toDateString(),
             'reservation_time' => '18:00',
             'num_people' => 4,
+            'payment_method' => 'credit_card',
         ]);
 
         $response = $this->get(route('mypage'));
@@ -69,6 +71,7 @@ class MypageTest extends TestCase
             'reservation_date' => now()->addDays(1)->toDateString(),
             'reservation_time' => '18:00',
             'num_people' => 4,
+            'payment_method' => 'credit_card',
         ]);
 
         $updatedDate = now()->addDays(2)->toDateString();
@@ -79,6 +82,7 @@ class MypageTest extends TestCase
             'reservation_date' => $updatedDate,
             'reservation_time' => $updatedTime,
             'num_people' => $updatedNumPeople,
+            'payment_method' => 'credit_card',
         ]);
 
         $response->assertStatus(200);
@@ -87,6 +91,7 @@ class MypageTest extends TestCase
             'reservation_date' => $updatedDate,
             'reservation_time' => date('H:i:s', strtotime($updatedTime)),
             'num_people' => $updatedNumPeople,
+            'payment_method' => 'credit_card',
         ]);
     }
 

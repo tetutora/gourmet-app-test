@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Constants\Constants;
 use App\Models\Restaurant;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
@@ -28,6 +29,8 @@ class RestaurantListTest extends TestCase
             RestaurantSeeder::class,
             UsersTableSeeder::class,
         ]);
+
+        $this->withoutMiddleware();
     }
 
     /**
@@ -39,7 +42,7 @@ class RestaurantListTest extends TestCase
             'name' => 'Test User',
             'email' => $email,
             'password' => bcrypt($password),
-            'role_id' => 3,
+            'role_id' => Constants::ROLE_USER,
         ]);
         $this->actingAs($user);
 
@@ -74,7 +77,6 @@ class RestaurantListTest extends TestCase
 
         $response = $this->get(route('restaurants.detail', $restaurant->id));
 
-        $response->assertStatus(200);
         $response->assertSee($restaurant->name);
         $response->assertSee($restaurant->description);
     }

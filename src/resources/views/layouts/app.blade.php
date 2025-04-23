@@ -48,7 +48,8 @@
                     </form>
 
                 @elseif ($roleId === $RoleType::ROLE_ADMIN)
-                    <p><a href="{{ route('administrator.dashboard') }}">管理者ダッシュボード</a></p>
+                    <p><a href="{{ route('administrator.dashboard') }}">店舗代表者一覧</a></p>
+                    <p><a href="{{ route('administrator.create') }}">店舗代表者作成</a></p>
                     <p><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf

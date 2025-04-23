@@ -3,10 +3,12 @@
 use App\Constants\Constants;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RepresentativeController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +43,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/reservations/{reservation}/update', [ReservationController::class, 'update'])->name('reservations.update');
     Route::get('/reviews/create/{reservation}', [ReviewController::class, 'create'])->name('review.create');
     Route::post('/reviews/store/{reservation}', [ReviewController::class, 'store'])->name('review.store');
+    Route::post('/generate-qrcode', [ReservationController::class, 'generateQRCode'])->name('generate.qrcode');
+    Route::get('/reservations/{reservation}/qrcode', [ReservationController::class, 'showQRCode'])->name('reservations.qrcode');
+    Route::get('payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+    Route::post('payment', [PaymentController::class, 'processPayment'])->name('payment.process');
 });
 
 /**
@@ -53,6 +59,8 @@ Route::middleware(['auth', "role:" . Constants::ROLE_REPRESENTATIVE])->group(fun
     Route::get('/representative/restaurants', [RepresentativeController::class, 'index'])->name('representative.index');
     Route::get('/restaurants/{restaurant}/edit', [RepresentativeController::class, 'edit'])->name('restaurants.edit');
     Route::put('/restaurants/{restaurant}', [RepresentativeController::class, 'update'])->name('restaurants.update');
+    Route::get('/show-qrcode/{reservation}', [ReservationController::class, 'showQRCode'])->name('show.qrcode');
+    Route::post('/verify-qrcode', [ReservationController::class, 'verifyQRCode'])->name('verify.qrcode');
 });
 
 /**

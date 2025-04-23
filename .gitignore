@@ -2,3 +2,7 @@
 /docker/mysql/data/*.ibd
 /docker/mysql/data/demo_test/*.ibd
 /docker/mysql/data/laravel_db/*.ibd
+docker/mysql/data/
+docker/mysql/data/
+docker/mysql/data/demo_test/*.ibd
+docker/mysql/data/laravel_db/*.ibd

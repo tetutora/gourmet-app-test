@@ -19,6 +19,7 @@ class Reservation extends Model
         'reservation_time',
         'num_people',
         'status_id',
+        'payment_method',
     ];
 
     public function user()
@@ -99,12 +100,13 @@ class Reservation extends Model
 
     public static function createReservation($request)
     {
-        self::create([
+        return self::create([
             'user_id' => auth()->id(),
             'restaurant_id' => $request->restaurant_id,
             'reservation_date' => $request->reservation_date,
             'reservation_time' => $request->reservation_time,
             'num_people' => $request->num_people,
+            'payment_method' => $request->payment_method,
             'status_id' => Constants::RESERVATION_STATUS_BOOKED,
         ]);
     }
