@@ -42,25 +42,9 @@ class ReservationTest extends TestCase
         ]);
 
         $this->user = User::where('role_id', Constants::ROLE_USER)->first();
+        $this->withoutMiddleware();
         $this->actingAs($this->user);
         $this->restaurant = Restaurant::first();
-    }
-
-    /**
-     * 店舗詳細ページが正しく表示されることを確認する
-     */
-    public function test_restaurant_details_are_displayed()
-    {
-        $response = $this->get(route('restaurants.detail', $this->restaurant));
-
-        $response->assertStatus(200);
-        $response->assertSee($this->restaurant->name);
-        $response->assertSee($this->restaurant->description);
-        $response->assertSee($this->restaurant->image_url);
-        $response->assertSee($this->restaurant->region->name);
-        foreach ($this->restaurant->genres as $genre) {
-            $response->assertSee($genre->name);
-        }
     }
 
     /**

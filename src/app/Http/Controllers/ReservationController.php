@@ -94,7 +94,7 @@ class ReservationController extends Controller
         switch ($reservation->status_id) {
             case Constants::RESERVATION_STATUS_COMPLETED:
                 return response()->json(['message' => '来店済みの予約です。'], 200);
-            case Constants::RESERVATION_STATUS_RESERVED:
+            case Constants::RESERVATION_STATUS_BOOKED:
                 return response()->json(['message' => '予約確認済みです。'], 200);
             case Constants::RESERVATION_STATUS_CANCELLED:
                 return response()->json(['message' => 'キャンセルされた予約です。'], 403);
