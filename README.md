@@ -157,7 +157,7 @@ https://docs.stripe.com/payments/checkout?locale=ja-JP
 
 ## ER図
 
-![表示](./test.drawio)
+![表示](ER図.png)
 
 ## URL
 - 開発環境: http://localhost
