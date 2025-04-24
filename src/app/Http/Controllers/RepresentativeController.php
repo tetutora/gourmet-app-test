@@ -61,6 +61,16 @@ class RepresentativeController extends Controller
         return redirect()->route('representative.index');
     }
 
+    public function destroy(Restaurant $restaurant)
+    {
+        DB::transaction(function () use ($restaurant) {
+            $restaurant->genres()->detach();
+            $restaurant->delete();
+        });
+
+        return redirect()->route('representative.index')->with('success', '店舗を削除しました');
+    }
+
     public function index()
     {
         $restaurants = Restaurant::where('user_id', auth()->id())->get();
