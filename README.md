@@ -160,7 +160,7 @@ https://docs.stripe.com/payments/checkout?locale=ja-JP
 ![表示](ER図.png)
 
 ## URL
-- 開発環境: http://localhost
+- 開発環境: http://localhost:81
 
 ## AWS
 - URL: https://github.com/tetutora/gourmet-app-AWS/tree/feature/AWS
