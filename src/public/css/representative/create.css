@@ -1,0 +1,120 @@
+.page-title {
+    text-align: center;
+    margin: 30px 0 20px;
+    font-size: 32px;
+    color: #333;
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-container div {
+    margin-bottom: 20px;
+}
+
+.label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #444;
+}
+
+.input-field,
+.select-field,
+.file-input,
+.custom-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-field:focus,
+.select-field:focus,
+.file-input:focus,
+.custom-textarea:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    outline: none;
+}
+
+.custom-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.selected-genre {
+    background-color: #4CAF50;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+#genre_ids option:checked {
+    background-color: #d4f7ff;
+    color: #007bff;
+    padding-left: 20px;
+    position: relative;
+}
+
+#genre_ids option:checked::before {
+    content: "✔️";
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.selected-option {
+    list-style-type: none;
+}
+
+.selected-option.selected::before {
+    content: "✔️ ";
+    margin-right: 5px;
+}
+
+#preview-container {
+    margin-top: 10px;
+}
+
+#image-preview {
+    max-width: 100%;
+    max-height: 200px;
+    display: none;
+    border-radius: 8px;
+    margin: auto;
+}
+
+.submit-button {
+    background-color: #4a90e2;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.submit-button:hover {
+    background-color: #357ab8;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}

@@ -1,0 +1,236 @@
+.restaurant-container {
+    display: flex;
+    height: 100vh;
+    margin-top: 80px;
+}
+
+.restaurant-left {
+    width: 50%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+.restaurant-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.restaurant-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.restaurant-image {
+    width: 100%;
+    aspect-ratio: 16 / 12;
+    object-fit: cover;
+    display: block;
+}
+
+.restaurant-tags {
+    margin-top: 10px;
+}
+
+.restaurant-description {
+    margin-top: 15px;
+    color: #555;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    color: #333;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ddd;
+}
+
+.back-button:hover {
+    background-color: #f0f0f0;
+}
+
+.restaurant-right {
+    width: 50%;
+    height: 900px;
+    background-color: #274de7;
+    border-radius: 10px;
+    margin-right: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.reservation-form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.reservation-title {
+    padding: 0 20px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.reservation-form label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.reservation-form input,
+.reservation-form select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+}
+
+.reservation-button {
+    background-color: white;
+    color: blue;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-top: auto;
+}
+
+.reservation-summary {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: royalblue;
+}
+
+.reservation-summary p {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.reservation-summary p strong {
+    width: 20%;
+    text-align: left;
+}
+
+.reservation-summary p span {
+    width: 70%;
+    text-align: left;
+}
+
+.error-message {
+    color: yellow;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.review-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.review-average-rating,
+.review-header {
+    position: sticky;
+    top: 0;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.review-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 0 5px;
+}
+
+.review-average {
+    margin: 0;
+}
+
+.review-item {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hidden-review {
+    display: none;
+}
+
+.review-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.show-more-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.show-more-button:hover {
+    background-color: #5a6268;
+}
+
+.pagination {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pagination .page-link {
+    display: inline-block;
+    padding: 8px 14px;
+    background-color: white;
+    color: #274de7;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.pagination .page-link:hover {
+    background-color: #274de7;
+    color: white;
+}
+
+.pagination .active .page-link {
+    background-color: #274de7;
+    color: white;
+    font-weight: bold;
+    pointer-events: none;
+    border: 1px solid #274de7;
+}
