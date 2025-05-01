@@ -7,7 +7,6 @@
 @section('content')
     <h1 class="page-title">店舗情報編集</h1>
 
-    <!-- 新しい<div>タグを作成して、その中に両方のフォームを配置 -->
     <div class="form-wrapper">
         <form class="form-container" action="{{ route('restaurants.update', $restaurant->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
