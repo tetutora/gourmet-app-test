@@ -164,6 +164,7 @@ https://docs.stripe.com/payments/checkout?locale=ja-JP
 
 ## AWS
 - http://57.181.31.123/ 開発環境
+- http://13.114.26.60/  本番環境
 
 ## テスト実行
 - phpコンテナに入りphp artisan testを実行
