@@ -163,7 +163,7 @@ https://docs.stripe.com/payments/checkout?locale=ja-JP
 - 開発環境: http://localhost
 
 ## AWS
-- http://3.113.22.215/ 開発環境
+- http://57.181.31.123/ 開発環境
 
 ## テスト実行
 - phpコンテナに入りphp artisan testを実行
